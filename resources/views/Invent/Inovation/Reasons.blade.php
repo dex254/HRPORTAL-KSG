@@ -1,58 +1,46 @@
 @include('Invent.Dashboard.header')
 
 <div class="page-content">
+    <div class="page-container">
 
-            <div class="page-container">
+        <div class="container mt-4">
 
-
-                <div class="container mt-4">
-    <div class="card">
-        <div class="card-header border-bottom border-dashed d-flex align-items-center justify-content-between">
-            <h4 class="header-title">State the Problem You’re Trying to Solve</h4>
-        </div>
-
-        <div class="card-body">
-            <form id="problemForm" method="POST" action="">
-                @csrf
-                 <input type="hidden" name="securitykey" value="{{ Auth::guard('invent')->user()->securitykey }}">
-
-                <div class="mb-3">
-                    <label for="title" class="form-label fw-bold">Title</label>
-                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter title here" required>
+            <div class="card">
+                <div class="card-header border-bottom border-dashed">
+                    <h4 class="header-title">Innovation Submission Process</h4>
                 </div>
 
-                <p class="text-muted mb-2">Describe your problem below:</p>
+                <div class="card-body">
 
-                <div id="snow-editor" style="height: 300px; border: 1px solid #ddd; border-radius: 5px;"></div>
-                <input type="hidden" name="content" id="hidden-content">
+                    <!-- Instructions -->
+                    <div class="alert alert-info">
+                        <h5 class="fw-bold">Instructions</h5>
+                        <p>
+                            You are about to begin the <strong>Innovation Submission Process</strong>.
+                            This process contains <strong>3 steps</strong>:
+                        </p>
+                        <ol>
+                            <li><strong>Step 1:</strong> State the problem you’re solving</li>
+                            <li><strong>Step 2:</strong> Provide innovation details & upload an attachment</li>
+                            <li><strong>Step 3:</strong> Upload supporting evidence</li>
+                        </ol>
+                        <p class="mt-2">
+                            Click the button below to start Step 1.
+                        </p>
+                    </div>
 
-                <div class="mt-3 text-end">
-                    <button type="submit" class="btn btn-primary">Save Record</button>
+                    <!-- Start Button -->
+                    <div class="text-center mt-3">
+                        <a href="{{ route('innovation.step1') }}" class="btn btn-primary btn-lg">
+                            Start Innovation Submission
+                        </a>
+                    </div>
+
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
-</div>
-
-<!-- Include Quill -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const quill = new Quill('#snow-editor', {
-            theme: 'snow'
-        });
-
-        // On submit, copy HTML to hidden field
-        document.getElementById('problemForm').onsubmit = function () {
-            document.getElementById('hidden-content').value = quill.root.innerHTML;
-        };
-    });
-</script>
-
-
-            </div>
 </div>
 
 @include('Invent.Dashboard.footer')

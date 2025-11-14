@@ -72,16 +72,51 @@ Route::get('/confirmation', [InventController::class, 'confirmation'])->name('co
 Route::get('/report', [InventController::class, 'report'])->name('report');
 Route::get('/my-innovations', [InventController::class, 'myInnovations'])->name('my.innovations');
 Route::put('/invent/profile/update', [ProfileController::class, 'updateProfile'])->name('invent.profile.update');
- Route::get('/invent/problem', [ReasonsController::class, 'problem'])->name('innovation.problem');
 
-    // Store Step 1, 2, 3
-    Route::post('/invent/innovation/step', [ReasonsController::class, 'storeStep'])->name('innovation.step.store');
+Route::get('/invent/innovation/problem', [ReasonsController::class, 'problem'])
+    ->name('innovation.problem');
 
-    // Final submit (Step 4)
-    Route::post('/invent/innovation/submit', [ReasonsController::class, 'submitAll'])->name('innovation.final.submit');
+ Route::get('/invent/innovation/step1', [ReasonsController::class, 'step1'])
+        ->name('innovation.step1');
 
-    // List all innovations
-    Route::get('/invent/innovation/list', [ReasonsController::class, 'index'])->name('innovation.list');
+    // STEP 2 - Innovation Details
+    Route::get('/invent/innovation/step2', [ReasonsController::class, 'step2'])
+        ->name('innovation.step2');
+
+    // STEP 3 - Evidence Upload
+    Route::get('/invent/innovation/step3', [ReasonsController::class, 'step3'])
+        ->name('innovation.step3');
+
+    // STEP 4 - Review / Final Submit
+    Route::get('/invent/innovation/step4', [ReasonsController::class, 'step4'])
+        ->name('innovation.step4');
+
+    // STEP POST handler for all steps
+    Route::post('/invent/innovation/step', [ReasonsController::class, 'storeStep'])
+        ->name('innovation.step.store');
+
+    // Final submit (save all)
+    Route::post('/invent/innovation/submit', [ReasonsController::class, 'submitAll'])
+        ->name('innovation.final.submit');
+
+    // List innovations
+    Route::get('/My_Innovations', [ReasonsController::class, 'myInnovations'])
+    ->name('innovation.my');
+    
+// Show edit form
+Route::get('/invent/innovation/{id}/edit', [ReasonsController::class, 'edit'])
+    ->name('innovation.edit')
+    ->middleware('auth:invent');
+
+// Update innovation
+Route::put('/invent/innovation/{id}', [ReasonsController::class, 'update'])
+    ->name('innovation.update')
+    ->middleware('auth:invent');
+
+// Delete innovation
+Route::delete('/invent/innovation/{id}', [ReasonsController::class, 'destroy'])
+    ->name('innovation.delete')
+    ->middleware('auth:invent');
 
 
 Route::post('/invent/logout', [SessionController::class, 'logout'])->name('invent.logout');

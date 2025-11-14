@@ -9,8 +9,9 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="problemForm" method="POST" action="{{ route('innovation.step1.store') }}">
+                    <form id="problemForm" method="POST" action="{{ route('innovation.step.store') }}">
                         @csrf
+                         <input type="hidden" name="step" value="step1">
                         <input type="hidden" name="securitykey" value="{{ Auth::guard('invent')->user()->securitykey }}">
 
                         <div class="mb-3">

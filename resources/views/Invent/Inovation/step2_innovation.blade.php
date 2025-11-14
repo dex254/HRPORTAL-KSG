@@ -9,9 +9,9 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('innovation.step2.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('innovation.step.store') }}" enctype="multipart/form-data">
                         @csrf
-
+                           <input type="hidden" name="step" value="step2">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Type of Innovation</label>
                             <input type="text" name="innovation_type" class="form-control" placeholder="Enter innovation type" required>

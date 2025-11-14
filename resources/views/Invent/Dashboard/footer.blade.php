@@ -70,6 +70,21 @@ $(document).ready(function() {
         .appendTo('#agentsTable_wrapper .col-md-6:eq(0)');
 });
 </script>
+<script>
+$(document).ready(function() {
+    var table = $('#innovationsTable').DataTable({
+        responsive: true,
+        lengthChange: true,
+        autoWidth: false,
+        pageLength: 10,
+        buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+    });
+
+    // Place buttons on top
+    table.buttons().container()
+        .appendTo('#innovationsTable_wrapper .col-md-6:eq(0)');
+});
+</script>
    
 
 </body>

@@ -422,3 +422,151 @@ $(document).ready(function () {
   transition: all 0.3s ease-in-out;
 }
 </style>
+
+
+
+
+        <!-- Search Modal -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-transparent">
+                    <div class="card mb-0 shadow-none">
+                        <div class="px-3 py-2 d-flex flex-row align-items-center" id="top-search">
+                            <i class="ti ti-search fs-22"></i>
+                            <input type="search" class="form-control border-0" id="search-modal-input" placeholder="Search for actions, people,">
+                            <button type="button" class="btn p-0" data-bs-dismiss="modal" aria-label="Close">[esc]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="page-content">
+            {{-- resources/views/components/horizontal-tabs.blade.php --}}
+@php
+    use Illuminate\Support\Facades\Route;
+    $currentRoute = Route::currentRouteName();
+@endphp
+
+<style>
+/* Circular Step Tabs with Labels */
+.step-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.step-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-tab .step {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #8B4513; /* brown border */
+    background-color: #fff; /* white inside */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8B4513;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.step-tab .step.active {
+    box-shadow: 0 0 12px 4px rgba(57, 255, 20, 0.3); /* translucent neon green glow */
+    border-color: #4CAF50; /* optional brighter border for active */
+}
+
+.step-tab span.label {
+    margin-top: 6px;
+    font-size: 0.875rem;
+    text-align: center;
+    color: #333;
+    font-weight: 500;
+}
+
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.step-navigation .btn {
+    min-width: 120px;
+}
+</style>
+
+<div class="step-tabs">
+
+    <div class="step-tab">
+        <a href="{{ route('Invent.Dashboard') }}" class="step {{ $currentRoute === 'Invent.Dashboard' ? 'active' : '' }}">
+            <span>🏠</span>
+        </a>
+        <span class="label">Home</span>
+    </div>
+
+    <div class="step-tab">
+        <a href="{{ route('innovation.step1') }}" class="step {{ $currentRoute === 'innovation.step1' ? 'active' : '' }}">
+            <span>1</span>
+        </a>
+        <span class="label">Problem</span>
+    </div>
+
+    <div class="step-tab">
+        <a href="{{ route('innovation.step2') }}" class="step {{ $currentRoute === 'innovation.step2' ? 'active' : '' }}">
+            <span>2</span>
+        </a>
+        <span class="label">Innovation</span>
+    </div>
+
+    <div class="step-tab">
+        <a href="{{ route('innovation.step3') }}" class="step {{ $currentRoute === 'innovation.step3' ? 'active' : '' }}">
+            <span>3</span>
+        </a>
+        <span class="label">Evidence</span>
+    </div>
+
+    <div class="step-tab">
+        <a href="{{ route('innovation.step4') }}" class="step {{ $currentRoute === 'innovation.step4' ? 'active' : '' }}">
+            <span>4</span>
+        </a>
+        <span class="label">Review</span>
+    </div>
+
+    <div class="step-tab">
+        <a href="{{ route('innovation.my') }}" class="step {{ $currentRoute === 'innovation.my' ? 'active' : '' }}">
+            <span>📋</span>
+        </a>
+        <span class="label">My Innovations</span>
+    </div>
+
+</div>
+
+{{-- Navigation buttons --}}
+<div class="step-navigation">
+    @php
+        $prevRoute = '';
+        $nextRoute = '';
+        switch($currentRoute) {
+            case 'innovation.step1': $prevRoute = 'Invent.Dashboard'; $nextRoute = 'innovation.step2'; break;
+            case 'innovation.step2': $prevRoute = 'innovation.step1'; $nextRoute = 'innovation.step3'; break;
+            case 'innovation.step3': $prevRoute = 'innovation.step2'; $nextRoute = 'innovation.step4'; break;
+            case 'innovation.step4': $prevRoute = 'innovation.step3'; $nextRoute = 'innovation.my'; break;
+            default: $prevRoute = 'Invent.Dashboard'; $nextRoute = 'innovation.step1';
+        }
+    @endphp
+
+    <a href="{{ route($prevRoute) }}" class="btn btn-outline-secondary">⬅ Back</a>
+    <a href="{{ route($nextRoute) }}" class="btn btn-success">Next ➡</a>
+</div>
