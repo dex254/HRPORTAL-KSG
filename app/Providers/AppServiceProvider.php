@@ -21,5 +21,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
           $this->app['router']->aliasMiddleware('Invent.auth', \App\Http\Middleware\InventMiddleware::class);
+          $this->app['router']->aliasMiddleware('Admin.auth', \App\Http\Middleware\AdminMiddleware::class);
     }
 }

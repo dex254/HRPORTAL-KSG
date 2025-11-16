@@ -35,6 +35,7 @@ return new class extends Migration
 
             // PDF report
             $table->string('report_pdf')->nullable();
+             $table->string('status')->nullable();
 
             $table->timestamps();
 

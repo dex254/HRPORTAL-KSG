@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'invent',
         ],
+          'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
     ],
 
     /*
@@ -71,6 +75,10 @@ return [
         'invent' => [
             'driver' => 'eloquent',
             'model' => App\Models\Invent::class,
+        ],
+         'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [

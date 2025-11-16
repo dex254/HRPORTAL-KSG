@@ -193,11 +193,9 @@
                                                 </span>
                                             </div>
                                             <h3 class="mb-0 fw-bold">Innovations</h3>
+                                             <h3 class="mb-0 fw-bold">{{ $innovationCount }}</h3>
                                         </div>
-                                        <p class="mb-0 text-muted">
-                                            <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 9.19%</span>
-                                            <span class="text-nowrap">This month</span>
-                                        </p>
+                                       
                                     </div>
                                 </div>
     
@@ -207,65 +205,7 @@
                 </div> <!-- end row -->
                 
 
-                        <div class="card-header border-bottom border-dashed d-flex align-items-center">
-    <h4 class="header-title">Registered Agents</h4>
-</div>
-<div class="card-body">
-    <p class="text-muted">
-        Below is a list of all agents currently registered in the system.
-    </p>
-    <div class="table-responsive-sm">
-        <table id="agentsTable" class="table table-striped mb-0">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Profile</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Campus</th>
-                    <th>Role</th>
-                    <th>Last Login</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($invents as $index => $a)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            @if($a->profile)
-                                <img src="{{ asset('storage/' . $a->profile) }}" alt="profile"
-                                    class="me-2 avatar-sm rounded-circle" />
-                            @else
-                                <img src="{{ asset('assets/images/users/default-avatar.png') }}"
-                                    alt="default" class="me-2 avatar-sm rounded-circle" />
-                            @endif
-                        </td>
-                        <td>{{ $a->name }}</td>
-                        <td>{{ $a->email }}</td>
-                        <td>{{ $a->phone }}</td>
-                        <td>
-                            <span class="badge {{ $a->status === 'Active' ? 'bg-success' : 'bg-danger' }}">
-                                {{ $a->status }}
-                            </span>
-                        </td>
-                        <td>{{ $a->campus ?? 'N/A' }}</td>
-                        <td>{{ ucfirst($a->role ?? 'N/A') }}</td>
-                        <td>{{ $a->login_time ? $a->login_time->format('d M Y, h:i A') : 'Never' }}</td>
-                        
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="10" class="text-center text-muted">No agents found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div> <!-- end table-responsive-->
-</div>
-
+                       
 
                     </div> <!-- end col-->
 

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Invent extends Authenticatable
+class Admin extends Authenticatable
 {
 
       use HasFactory, Notifiable;
 
-     protected $table = 'invent';
+     protected $table = 'admin';
 
     protected $fillable = [
         'name',
@@ -27,12 +27,16 @@ class Invent extends Authenticatable
         'is_online',
         'profile',
         'activity',
-        'securitykey',
+        'digitalsignature',
         'otp',
         'temp_password',
         'temp_password_expiry',
         'reset_token',
         'otp_expires_at',
+        'role',
+        'dash',
+        'approvals',
+        'created_by',
     ];
 
     protected $hidden = [
@@ -48,10 +52,4 @@ class Invent extends Authenticatable
         'temp_password_expiry' => 'datetime',
         'is_online' => 'boolean',
     ];
-    public function innovations()
-{
-    // Only fetch innovations that match the user's securitykey
-    return $this->hasMany(\App\Models\Innovation::class, 'securitykey', 'securitykey')
-                ->orderBy('created_at', 'desc');
-}
 }

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReasonsController;
@@ -39,6 +42,8 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
            Route::get('/signin', [InventController::class, 'Inventlogin'])->name('invent');
                 Route::post('/signin', [InventController::class, 'login']);
+  Route::get('/Admin', [AdminController::class, 'adminlogin'])->name('admin');
+    Route::post('/loginsignin', [AdminController::class, 'loginAdmin'])->name('Admin.login');
 });
 
 Route::middleware('auth')->group(function () {
@@ -67,10 +72,7 @@ Route::middleware('Invent.auth')->group(function () {
      Route::get('/home', [InventController::class, 'Dashboard'])->name('Invent.Dashboard');
      //logout post
      Route::get('/problem', [ReasonsController::class, 'problem'])->name('problem.solve');
-Route::get('/innovation', [InventController::class, 'innovation'])->name('innovation');
-Route::get('/confirmation', [InventController::class, 'confirmation'])->name('confirmation');
-Route::get('/report', [InventController::class, 'report'])->name('report');
-Route::get('/my-innovations', [InventController::class, 'myInnovations'])->name('my.innovations');
+
 Route::put('/invent/profile/update', [ProfileController::class, 'updateProfile'])->name('invent.profile.update');
 
 Route::get('/invent/innovation/problem', [ReasonsController::class, 'problem'])
@@ -121,6 +123,38 @@ Route::delete('/invent/innovation/{id}', [ReasonsController::class, 'destroy'])
 
 Route::post('/invent/logout', [SessionController::class, 'logout'])->name('invent.logout');
 Route::post('/invent/update-password', [ProfileController::class, 'updatePassword'])->name('invent.updatePassword');
+
+
+
+
+
+
+});
+
+Route::middleware('Admin.auth')->group(function () {
+     Route::get('/Dashboard', [AdminController::class, 'Dashboard'])->name('Admin.Dashboard');
+     //logout post
+     Route::post('/Admin/logout', [SessionController::class, 'adminlogout'])->name('Admin.logout');
+      Route::get('/Admin_data', [DataController::class, 'adminsdata'])->name('admin.all');
+    // routes/web.php
+Route::post('/admin/update', [AdminController::class, 'update'])->name('admin.update');
+//admin  register
+Route::get('/Admin_register', [AdminController::class, 'adminsignup'])->name('AdminRegistration');
+    Route::post('/Admin_register', [AdminController::class, 'admincreate'])->name('Admin.Create');
+    Route::get('/Ctdrt', [DataController::class, 'datactdrt'])->name('CTDRT');
+    Route::get('/Innovations', [DataController::class, 'innovationsdata'])->name('Innovationsdata');
+    Route::get('/admin_inventions', [DataController::class, 'innovations'])
+    ->name('inventions.list');
+
+Route::get('/admin_/{id}', [DataController::class, 'innovationsDetails'])
+    ->name('inventions.details');
+//test  dexa
+Route::post('/user/{id}/update-email', [UserController::class, 'updateEmail'])->name('update.invent.email');
+Route::post('/user/{id}/update-status', [UserController::class, 'updateStatus'])->name('update.invent.status');
+
+
+    // STEP 4 - Review / Final Submit
+  
 
 
 

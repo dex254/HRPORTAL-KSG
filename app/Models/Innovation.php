@@ -25,6 +25,6 @@ class Innovation extends Model
     // Relationship to the Invent model
     public function invent()
     {
-        return $this->belongsTo(Invent::class, 'invent_id');
+        return $this->belongsTo(Invent::class, 'securitykey');
     }
 }

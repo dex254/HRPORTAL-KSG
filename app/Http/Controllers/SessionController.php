@@ -30,4 +30,25 @@ class SessionController extends Controller
 
         return redirect()->route('invent')->with('success', 'You have been logged out successfully.');
     }
+    public function adminlogout(Request $request)
+    {
+        $user = Auth::guard('admin')->user();
+
+        if ($user) {
+            // Update logout info
+            $user->update([
+                'logout_time' => now(),
+                'is_online' => false,
+            ]);
+        }
+
+        // Properly log out
+        Auth::guard('admin')->logout();
+
+        // Destroy session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin')->with('success', 'You have been logged out successfully.');
+    }
 }

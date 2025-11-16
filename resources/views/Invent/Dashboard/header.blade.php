@@ -244,14 +244,14 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 
                                 <a href="javascript:void(0);" class="dropdown-item">
-                                    <i class="ti ti-user-hexagon me-1 fs-17 align-middle"></i>
+                                    <iconify-icon icon="solar:backspace-line-duotone" class="fs-2"></iconify-icon>
                                     <span class="align-middle">My Account</span>
                                 </a>
 
                                 
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-  <i class="ti ti-settings me-1 fs-17 align-middle"></i>
+   <iconify-icon icon="solar:accessibility-bold-duotone" class="fs-2"></iconify-icon>     
   <span class="align-middle">Change Password</span>
 </a>
 

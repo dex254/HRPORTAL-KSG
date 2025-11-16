@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Reset Password | KSG AI Innovations</title>
+    <title>Admin Reset Password | KSG AI Innovations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Innovation management system" name="description" />
     <meta content="KSG AI" name="author" />
@@ -27,21 +27,24 @@
         <div class="row g-0 justify-content-center w-100 m-3 m-xxl-5 px-xxl-4">
             <div class="col-xl-4 col-lg-5 col-md-6">
                 <div class="card overflow-hidden text-center h-100 p-3 p-xxl-4 mb-0 shadow-sm">
-                    <a href="{{ route('Invent.Dashboard') }}" class="auth-brand mb-3">
+
+                    <a href="{{ route('Admin.Dashboard') }}" class="auth-brand mb-3">
                         <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" height="24" class="logo-dark">
                         <img src="{{ asset('assets/images/logo.png') }}" alt="logo light" height="24" class="logo-light">
                     </a>
 
-                    <h4 class="fw-semibold mb-2">Reset Your Password</h4>
-                    <p class="text-muted mb-4">Enter your email to receive a password reset link for your innovation account.</p>
+                    <h4 class="fw-semibold mb-2">Admin Password Reset</h4>
+                    <p class="text-muted mb-4">Enter your admin email to receive a password reset link.</p>
 
-                    <form action="{{ route('invent.password.email') }}" method="POST" class="text-start mb-3">
+                    <!-- ADMIN PASSWORD RESET FORM -->
+                    <form action="{{ route('admin.password.email') }}" method="POST" class="text-start mb-3">
                         @csrf
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            <label for="email" class="form-label">Admin Email Address</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your admin email" required>
                         </div>
+
                         @error('email')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -52,11 +55,9 @@
                     </form>
 
                     <p class="text-muted fs-14 mb-4">
-                        Already have an account? 
-                        <a href="{{ route('invent') }}" class="fw-semibold text-dark ms-1">Login here</a>
+                        Remember your password?
+                        <a href="{{ route('admin') }}" class="fw-semibold text-dark ms-1">Login here</a>
                     </p>
-
-                    <p class="fs-13 fw-semibold mb-3">Or Sign Up with Social</p>
 
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -85,9 +86,10 @@
                     @endif
 
                     <p class="mt-auto mb-0 text-muted">
-                        <script>document.write(new Date().getFullYear())</script> © Dexa - By 
+                        <script>document.write(new Date().getFullYear())</script> © Dexa - By
                         <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Dexasolutions.ltd</span>
                     </p>
+
                 </div>
             </div>
         </div>

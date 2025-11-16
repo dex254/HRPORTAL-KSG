@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invent;
 use App\Mail\WelcomeMail;
+use App\Models\Innovation;
 use App\Mail\InventOtpMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -195,9 +196,10 @@ public function Dashboard(Request $request)
             return redirect()->route('invent')->with('error', 'Please log in first.');
         }
           $invents = Invent::orderBy('created_at', 'desc')->get();
+            $innovationCount = Innovation::where('securitykey', $invent->securitykey)->count();
 
         // ✅ Pass authenticated agent to the dashboard view
-        return view('Invent.Dashboard', compact('invent','invents'));
+        return view('Invent.Dashboard', compact('invent','invents','innovationCount'));
     }
     public function showOtp(Request $request)
 {
