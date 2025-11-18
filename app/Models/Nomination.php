@@ -29,5 +29,7 @@ class Nomination extends Model
         'lessons',
         'attachment_path',
         'ip_address',
+        'phone',
+        'status'
     ];
 }

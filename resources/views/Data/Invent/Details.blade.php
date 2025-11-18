@@ -59,6 +59,8 @@
                                 <th>Report PDF</th>
                                 <th>Link</th>
                                 <th>Date</th>
+                                <th>Comments</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -72,42 +74,39 @@
 
                                     <!-- Attachment -->
                                     <td>
-                                        @if($innovation->attachment)
-                                            <a href="{{ asset('storage/'.$innovation->attachment) }}" 
-                                               class="btn btn-info btn-sm"
-                                               target="_blank">
-                                                Open
-                                            </a>
-                                        @else
-                                            —
-                                        @endif
-                                    </td>
+    @if($innovation->attachment)
+        <a href="{{ asset($innovation->attachment) }}" 
+           target="_blank" class="btn btn-sm btn-info">
+           View / Download
+        </a>
+    @else
+        N/A
+    @endif
+</td>
 
                                     <!-- Evidence -->
                                     <td>
-                                        @if($innovation->evidence)
-                                            <a href="{{ asset('storage/'.$innovation->evidence) }}" 
-                                               class="btn btn-success btn-sm"
-                                               target="_blank">
-                                                Open
-                                            </a>
-                                        @else
-                                            —
-                                        @endif
-                                    </td>
+    @if($innovation->evidence)
+        <a href="{{ asset($innovation->evidence) }}" 
+           target="_blank" class="btn btn-sm btn-success">
+           View / Download
+        </a>
+    @else
+        N/A
+    @endif
+</td>
 
                                     <!-- Report PDF -->
-                                    <td>
-                                        @if($innovation->report_pdf)
-                                            <a href="{{ asset('storage/'.$innovation->report_pdf) }}" 
-                                               class="btn btn-warning btn-sm"
-                                               target="_blank">
-                                                PDF
-                                            </a>
-                                        @else
-                                            —
-                                        @endif
-                                    </td>
+                                                              <td>
+    @if($innovation->report_pdf)
+        <a href="{{ asset($innovation->report_pdf) }}" 
+           target="_blank" class="btn btn-sm btn-warning">
+           View / Download Report
+        </a>
+    @else
+        N/A
+    @endif
+</td>
 
                                     <!-- Link -->
                                     <td>
@@ -122,6 +121,8 @@
                                     </td>
 
                                     <td>{{ $innovation->created_at->format('d M Y') }}</td>
+                                    <td>{{ $innovation->comments ?? 'N/A' }}</td>
+                                    <td>{{ $innovation->status}}</td>
 
                                 </tr>
                             @empty

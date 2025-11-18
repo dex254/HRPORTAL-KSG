@@ -17,6 +17,7 @@
                                 <th>Country</th>
                                 <th>County</th>
                                 <th>Subcounty</th>
+                                <th>Apllicatnt Phone</th>
                                 <th>Nominee Name</th>
                                 <th>Work Station</th>
                                 <th>Designation</th>
@@ -26,7 +27,8 @@
                                 <th>Lessons</th>
                                 <th>Attachment</th>
                                 <th>IP Address</th>
-                                <th>Created At</th>
+                                <th>Nomination  date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,6 +38,7 @@
                                     <td>{{ $nomination->country }}</td>
                                     <td>{{ $nomination->county }}</td>
                                     <td>{{ $nomination->subcounty }}</td>
+                                     <td>{{ $nomination->phone }}</td>
                                     <td>{{ $nomination->nominee_name }}</td>
                                     <td>{{ $nomination->work_station }}</td>
                                     <td>{{ $nomination->designation }}</td>
@@ -43,15 +46,28 @@
                                     <td>{{ \Illuminate\Support\Str::limit($nomination->outstanding_behavior, 50) }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($nomination->justification, 50) }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($nomination->lessons, 50) }}</td>
+                                   
                                     <td>
-                                        @if($nomination->attachment_path)
-                                            <a href="{{ asset('storage/' . $nomination->attachment_path) }}" target="_blank">View</a>
-                                        @else
-                                            —
-                                        @endif
-                                    </td>
+    @if($nomination->attachment_path)
+        <a href="{{ asset($nomination->attachment_path) }}" 
+           target="_blank" class="btn btn-sm btn-warning">
+           View / Download Report
+        </a>
+    @else
+        N/A
+    @endif
+</td>
+                                    
                                     <td>{{ $nomination->ip_address ?? '—' }}</td>
                                     <td>{{ $nomination->created_at->format('d M Y, h:i A') }}</td>
+                                    <td>
+    @if ($nomination->status === 'Nominated')
+        <span class="badge bg-success">Nominated</span>
+    @else
+        <span class="badge bg-secondary">{{ $nomination->status ?? '—' }}</span>
+    @endif
+</td>
+
                                 </tr>
                             @empty
                                 <tr>

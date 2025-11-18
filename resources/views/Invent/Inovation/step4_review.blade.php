@@ -22,6 +22,7 @@
                         <div class="card-header bg-light fw-bold">Step 1: Problem Description</div>
                         <div class="card-body">
                             <p><strong>Title:</strong> {{ $data['step1']['title'] ?? 'N/A' }}</p>
+                            <p><strong>Industry:</strong> {!! $data['step1']['industry'] ?? 'N/A' !!}</p>
                             <p><strong>Content:</strong> {!! $data['step1']['content'] ?? 'N/A' !!}</p>
                             <p><strong>Security Key:</strong> {{ $data['step1']['securitykey'] ?? 'N/A' }}</p>
                         </div>

@@ -15,6 +15,8 @@ use App\Models\Admin;
 // });
 Route::get('/',[CTDRTController::class, 'ctdrt'])->name('CTDRT.Form');
 Route::get('/ctdrt/subcounties', [CTDRTController::class, 'getSubCounties'])->name('ctdrt.subcounties');
+Route::get('/autocomplete-nominee', [CTDRTController::class, 'autocompleteNominee'])->name('autocomplete.nominee');
+
 Route::post('/post',[NominationController::class, 'submitstore'])->name('nomination.store');
 //the   login
 Route::get('/Sign_up', [InventController::class, 'Inventsignup'])->name('invent.signup');

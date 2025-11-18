@@ -21,6 +21,7 @@ return new class extends Migration
             // Step 1
             $table->string('title');
             $table->longText('content');
+             $table->string('industry');
 
             // Generated number
             $table->string('innovation_number')->unique();
@@ -35,6 +36,7 @@ return new class extends Migration
 
             // PDF report
             $table->string('report_pdf')->nullable();
+             $table->longText('comment')->nullable();
              $table->string('status')->nullable();
 
             $table->timestamps();

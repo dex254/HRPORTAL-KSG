@@ -172,7 +172,7 @@
                 <label for="profile" class="form-label fw-semibold">Profile Picture</label>
                 <input type="file" name="profile" id="profile" class="form-control">
                 @if(Auth::guard('invent')->user()->profile)
-                    <img src="{{ asset('storage/' . Auth::guard('invent')->user()->profile) }}" alt="Profile Image" class="mt-2 rounded-circle" width="80" height="80">
+                    <img src="{{ Auth::guard('invent')->user()->profile ? asset(Auth::guard('invent')->user()->profile) : asset('assets/images/default-profile.png') }}" alt="Profile Image" class="mt-2 rounded-circle" width="80" height="80">
                 @endif
                 @error('profile')
                     <span class="text-danger">{{ $message }}</span>

@@ -146,8 +146,8 @@
                                 </select>
                             </div>
                              <div class="mb-3 col-md-6">
-                                    <label class="form-label">Your Signature</label>
-                                    <input type="text" name="created_by" value="developer" class="form-control" placeholder="Enter phone number" required>
+                                   
+                                    <input type="hidden" name="created_by" value="{{ Auth::guard('admin')->user()->digitalsignature}}" class="form-control" placeholder="Enter phone number" required>
                                 </div>
 
                             <button type="submit" class="btn btn-primary">Register Admin</button>

@@ -117,6 +117,7 @@
     <div class="section">
         <h2>Innovation Details</h2>
         <p><strong>Title:</strong> {{ $innovation->title }}</p>
+        <p><strong>Industry:</strong> {{ $innovation->industry }}</p>
         <p><strong>Content:</strong> {!! $innovation->content !!}</p>
         <p><strong>Type:</strong> {{ $innovation->innovation_type ?? 'N/A' }}</p>
         <p><strong>Link:</strong> 

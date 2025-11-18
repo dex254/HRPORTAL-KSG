@@ -134,6 +134,7 @@ Route::post('/invent/update-password', [ProfileController::class, 'updatePasswor
 Route::middleware('Admin.auth')->group(function () {
      Route::get('/Dashboard', [AdminController::class, 'Dashboard'])->name('Admin.Dashboard');
      //logout post
+     Route::put('/admin/profile', [ProfileController::class, 'adminProfile'])->name('admin.profile.update');
      Route::post('/Admin/logout', [SessionController::class, 'adminlogout'])->name('Admin.logout');
       Route::get('/Admin_data', [DataController::class, 'adminsdata'])->name('admin.all');
     // routes/web.php

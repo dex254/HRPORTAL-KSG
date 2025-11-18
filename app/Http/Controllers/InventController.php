@@ -214,7 +214,7 @@ public function resendOtp(Request $request)
     // ✅ Find the user
     $invent = Invent::where('email', $email)->first();
     if (!$invent) {
-        return redirect()->route('Invent')->with('error', 'Email not found.');
+        return redirect()->route('invent')->with('error', 'Email not found.');
     }
 
     // ✅ Generate new OTP

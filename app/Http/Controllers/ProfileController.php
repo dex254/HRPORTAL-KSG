@@ -140,4 +140,41 @@ public function updatePassword(Request $request)
     return redirect()->route('invent')
         ->with('success', 'Password updated successfully. Please log in again.');
 }
+
+ public function adminProfile(Request $request)
+{
+    // Get the logged-in user
+    $user = Auth::guard('admin')->user();
+
+    // Validate input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:20',
+        'profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    // Check securitykey for extra verification (optional)
+    $securityKey = $request->input('securitykey');
+    if ($securityKey !== $user->securitykey) {
+        return redirect()->back()->with('error', 'Security verification failed.');
+    }
+
+    // Handle profile image upload
+    if ($request->hasFile('profile')) {
+        $profileImage = $request->file('profile');
+        $filename = time().'_'.$profileImage->getClientOriginalName();
+        $profileImage->move(public_path('Profile'), $filename);
+        $user->profile = 'Profile/'.$filename;
+    }
+
+    // Update user info (name, phone) while keeping securitykey
+    $user->update([
+        'name' => $request->name,
+        'phone' => $request->phone,
+        // securitykey stays the same
+        'updated_at' => Carbon::now(),
+    ]);
+
+    return redirect()->back()->with('success', 'Profile updated successfully.');
+}
 }

@@ -134,14 +134,18 @@ Swal.fire({
           <div class="intro">
             <h3>#Catch Them Doing the Right Thing</h3>
             <p>
-              The Kenya School of Government is celebrating public officers in Kenya doing the right thing,
-              but who often go unnoticed. This initiative seeks to recognize and motivate them —
-              encouraging others to stand out for the right reasons.
-              Please take a moment to nominate someone who has been doing the right thing
-              and help us appreciate them.
-              Kindly send your filled-in forms to
-              <a href="mailto:ipslei@ksg.ac.ke">ipslei@ksg.ac.ke</a>.
-            </p>
+    The National Government, in collaboration with the Kenya School of Government (KSG), 
+    is celebrating hardworking and dedicated citizens who consistently do the right thing, 
+    yet often go unnoticed.
+    <br><br>
+    This initiative aims to recognize, appreciate, and motivate individuals whose positive 
+    actions make a meaningful difference in their workplaces and communities. By highlighting 
+    such exemplary behaviour, we seek to inspire others across the country to uphold integrity, 
+    commitment, and excellence.
+    <br><br>
+    Kindly take a moment to nominate someone who deserves recognition by filling in the form below.
+</p>
+
           </div>
 
           <form  class="text-start mb-3" id="nominationForm"  action="{{ route('nomination.store') }}" enctype="multipart/form-data"  method="POST" >
@@ -170,12 +174,75 @@ Swal.fire({
             <!-- Nomination Fields -->
             <div id="nominationFields" style="display:none;">
               <hr>
+              <div class="mb-3">
+  <label class="form-label">Enter your phone number</label>
+  <input type="text" name="phone" id="phone" class="form-control" placeholder="Enter phone number" required>
+</div>
+
               <h5 class="fw-semibold mt-4">1. Nominee Details</h5>
 
-              <div class="mb-3">
-                <label class="form-label">a) Name of Nominee</label>
-                <input type="text" name="nominee_name" class="form-control" placeholder="Enter full name" required>
-              </div>
+              <div class="mb-3" style="position: relative;">
+  <label class="form-label">a) Name of Nominee</label>
+  <input type="text" name="nominee_name" id="nominee_name" class="form-control" placeholder="Enter full name" autocomplete="off" required>
+
+  <!-- Suggestions Box -->
+  <div id="nameSuggestions" class="list-group" 
+       style="position:absolute; width:100%; z-index:999; max-height:200px; overflow-y:auto;">
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const nameInput = document.getElementById("nominee_name");
+    const suggestionsBox = document.getElementById("nameSuggestions");
+    const countySelect = document.getElementById("county");
+    const subcountySelect = document.getElementById("subcounty");
+
+    nameInput.addEventListener("keyup", function () {
+        let query = this.value;
+        let county = countySelect.value;
+        let subcounty = subcountySelect.value;
+
+        // Only search when minimum 2 chars and location chosen
+        if (query.length < 2 || !county || !subcounty) {
+            suggestionsBox.innerHTML = "";
+            return;
+        }
+
+        fetch(`/autocomplete-nominee?q=${encodeURIComponent(query)}&county=${encodeURIComponent(county)}&subcounty=${encodeURIComponent(subcounty)}`)
+            .then(res => res.json())
+            .then(data => {
+                suggestionsBox.innerHTML = "";
+
+                if (data.length === 0) {
+                    return;
+                }
+
+                data.forEach(name => {
+                    let item = document.createElement("a");
+                    item.classList.add("list-group-item", "list-group-item-action");
+                    item.textContent = name;
+
+                    item.onclick = function () {
+                        nameInput.value = name;
+                        suggestionsBox.innerHTML = "";
+                    };
+
+                    suggestionsBox.appendChild(item);
+                });
+            });
+    });
+
+    // Hide suggestions when clicking elsewhere
+    document.addEventListener("click", function (e) {
+        if (e.target !== nameInput) {
+            suggestionsBox.innerHTML = "";
+        }
+    });
+
+});
+</script>
+
 
               <div class="mb-3">
                 <label class="form-label">b) Work Station</label>

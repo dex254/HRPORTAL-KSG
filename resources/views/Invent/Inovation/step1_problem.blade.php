@@ -15,9 +15,14 @@
                         <input type="hidden" name="securitykey" value="{{ Auth::guard('invent')->user()->securitykey }}">
 
                         <div class="mb-3">
-                            <label for="title" class="form-label fw-bold">Title</label>
+                            <label for="title" class="form-label fw-bold"> Innovation Title</label>
                             <input type="text" name="title" id="title" class="form-control" placeholder="Enter title here" required>
                         </div>
+                         <div class="mb-3">
+        <label for="industry" class="form-label fw-bold">Ministry, Industry, Agency, or State Department</label>
+        <input type="text" name="industry" id="industry" class="form-control" placeholder="Enter the sector this innovation addresses" required>
+        <small class="text-muted">Specify which ministry, agency, department, or industry your innovation helps.</small>
+    </div>
 
                         <p class="text-muted mb-2">Describe your problem below:</p>
                         <div id="snow-editor" style="height: 300px; border: 1px solid #ddd; border-radius: 5px;"></div>

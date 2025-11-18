@@ -2,14 +2,10 @@
                 <div class="page-container">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start">
-                            <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+                            <script>document.write(new Date().getFullYear())</script> © Dexa - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Dexasolutions.ltd</span>
                         </div>
                         <div class="col-md-6">
-                            <div class="text-md-end footer-links d-none d-md-block">
-                                <a href="javascript: void(0);">About</a>
-                                <a href="javascript: void(0);">Support</a>
-                                <a href="javascript: void(0);">Contact Us</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -221,7 +217,7 @@
                                 </span>
                             </label>
                         </div>
-                        <h5 class="fs-14 text-center text-muted mt-2">Hover View</h5>
+                        <h5 class="fs-14 text-center text-muted mt-2">Denis View</h5>
                     </div>
 
                     <div class="col-4">
@@ -294,7 +290,7 @@
 
         <div class="d-flex align-items-center gap-2 px-3 py-2 offcanvas-header border-top border-dashed">
             <button type="button" class="btn w-50 btn-soft-danger" id="reset-layout">Reset</button>
-            <button type="button" class="btn w-50 btn-soft-info">Buy Now</button>
+            
         </div>
 
     </div>

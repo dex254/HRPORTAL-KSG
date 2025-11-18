@@ -14,12 +14,15 @@ class Innovation extends Model
         'securitykey',
         'title',
         'content',
+        'industry',
         'innovation_number',
         'innovation_type',
         'attachment',
         'link',
         'evidence',
         'report_pdf',
+        'comment',
+        'status'
     ];
 
     // Relationship to the Invent model

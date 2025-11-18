@@ -41,11 +41,12 @@ class ReasonsController extends Controller
         case 'step1':
             $request->validate([
                 'title' => 'required|string|max:255',
+                 'industry' => 'required|string',
                 'content' => 'required|string',
                 'securitykey' => 'required|string',
             ]);
 
-            $data['step1'] = $request->only(['title', 'content', 'securitykey']);
+            $data['step1'] = $request->only(['title', 'content', 'industry','securitykey']);
             Session::put('innovation_data', $data);
 
             return redirect()->route('innovation.step2')
@@ -118,12 +119,14 @@ public function submitAll()
     $innovation = Innovation::create([
         'securitykey'      => $data['step1']['securitykey'],
         'title'            => $data['step1']['title'],
+        'industry'         => $data['step1']['industry'],
         'content'          => $data['step1']['content'],
         'innovation_number'=> $innovationNumber,
         'innovation_type'  => $data['step2']['innovation_type'] ?? null,
         'attachment'       => $data['step2']['attachment'] ?? null,
         'link'             => $data['step2']['link'] ?? null,
         'evidence'         => $data['step3']['evidence'] ?? null,
+         'status'           => 'Applied', 
     ]);
 
     // Generate PDF report directly in public/reports

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\County;
+use App\Models\Nomination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,5 +38,23 @@ class CTDRTController extends Controller
 
         return response()->json($subCounties);
     }
-     
+     public function autocompleteNominee(Request $request)
+{
+    $county = $request->get('county');
+    $subcounty = $request->get('subcounty');
+    $query = $request->get('q');
+
+    if (!$county || !$subcounty || !$query) {
+        return response()->json([]);
+    }
+
+    $suggestions = Nomination::where('county', $county)
+        ->where('subcounty', $subcounty)
+        ->where('nominee_name', 'LIKE', "%{$query}%")
+        ->limit(10)
+        ->pluck('nominee_name');
+
+    return response()->json($suggestions);
+}
+
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Invent;
 use App\Mail\AdminOtpMail;
+use App\Models\Innovation;
+use App\Models\Nomination;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\AdminWelcomeMail;
@@ -205,9 +208,16 @@ class AdminController extends Controller
         if (!$admin) {
             return redirect()->route('admin')->with('error', 'Please log in first.');
         }
+         $ctdrtCount = Nomination::count();       // Catch Them Doing the Right Thing
+        $innovationCount = Innovation::count();  // Innovations
+        $adminCount = Admin::count();
+        $inventorCount = Invent::count();
         $admins = Admin::orderBy('created_at', 'desc')->get();
 
-        return view('Admin.Dashboard', compact('admin','admins'));
+        return view('Admin.Dashboard', compact('admin','admins','ctdrtCount',
+            'innovationCount',
+            'adminCount',
+            'inventorCount'));
     }
     public function update(Request $request)
 {
@@ -225,6 +235,8 @@ class AdminController extends Controller
 
     return response()->json(['message' => 'Admin updated successfully']);
 }
+
+//profile update 
 
     
 }

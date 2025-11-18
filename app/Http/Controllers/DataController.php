@@ -41,9 +41,9 @@ class DataController extends Controller
     {
         // Use only necessary columns to speed up query
         $columns = [
-            'id', 'country', 'county', 'subcounty', 'nominee_name',
+            'id', 'country', 'county', 'subcounty', 'nominee_name','phone',
             'work_station', 'designation', 'duties', 'outstanding_behavior',
-            'justification', 'lessons', 'attachment_path', 'ip_address', 'created_at'
+            'justification', 'lessons', 'attachment_path', 'ip_address', 'created_at','status'
         ];
 
         // Pagination (load only 25 rows per page)

@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('county');
         $table->string('subcounty');
         $table->string('nominee_name');
+        $table->string('phone');
         $table->string('work_station');
         $table->string('designation');
         $table->text('duties');
@@ -25,6 +26,7 @@ return new class extends Migration
         $table->text('lessons');
         $table->string('attachment_path')->nullable();
         $table->string('ip_address')->nullable();
+        $table->string('status')->nullable();
         $table->timestamps();
     });
 }

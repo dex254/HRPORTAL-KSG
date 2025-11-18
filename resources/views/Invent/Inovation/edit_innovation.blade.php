@@ -25,6 +25,11 @@
                             <label class="form-label fw-bold">Title</label>
                             <input type="text" name="title" class="form-control" value="{{ old('title', $innovation->title) }}" required>
                         </div>
+                         <div class="mb-3">
+        <label for="industry" class="form-label fw-bold">Ministry, Industry, Agency, or State Department</label>
+        <input type="text" name="industry" id="industry" class="form-control"   value="{{ old('industry', $innovation->industry) }}" required>
+        <small class="text-muted">Specify which ministry, agency, department, or industry your innovation helps.</small>
+    </div>
 
                         <!-- Content -->
                         <div class="mb-3">

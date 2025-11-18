@@ -75,78 +75,92 @@
 
                     <li class="side-nav-title mt-2">Data</li>
 
-                    <li class="side-nav-item">
-                        <a href="/Ctdrt" class="side-nav-link">
-                            <span class="menu-icon"><iconify-icon icon="solar:checklist-broken" class="fs-2"></iconify-icon> </span>
-                            <span class="menu-text"> Catch Them Doing the Right Thing</span>
-                        </a>
-                    </li>
+                    @php
+$user = Auth::guard('admin')->user();
+@endphp
+
+@if(
+    in_array($user->role, ['dex','Sadmin','admin','admin_assistant','user']) &&
+    in_array($user->dash, ['CTDRT','dual'])
+)
+<li class="side-nav-item">
+    <a href="/Ctdrt" class="side-nav-link">
+        <span class="menu-icon"><iconify-icon icon="solar:checklist-broken" class="fs-2"></iconify-icon></span>
+        <span class="menu-text">Catch Them Doing the Right Thing</span>
+    </a>
+</li>
+@endif
+
 
                    
-                     <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="layouts-hover.html#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
-                            <span class="menu-icon"><iconify-icon icon="solar:crop-bold-duotone" class="fs-2"></iconify-icon>    </span>
-                            <span class="menu-text"> Innovations</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarInvoice">
-                            <ul class="sub-menu">
-                                <li class="side-nav-item">
-                                    <a href="/Innovations" class="side-nav-link">
-                                         <span class="menu-icon">    <iconify-icon icon="solar:chart-2-bold" class="fs-2"></iconify-icon> </span>
-                                        <span class="menu-text">All Innovations</span>
-                                    </a>
-                                </li>
-                                <li class="side-nav-item">
-                                    <a href="/admin_inventions" class="side-nav-link">
-                                         <span class="menu-icon">    <iconify-icon icon="solar:backpack-broken" class="fs-2"></iconify-icon>   </span>
-                                        <span class="menu-text">Innovaters</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="side-nav-item">
-                                    <a href="apps-invoice-create.html" class="side-nav-link">
-                                        <span class="menu-text">Deactivate  Users</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @php
+   $user = Auth::guard('admin')->user();
+@endphp
+
+@if(
+    in_array($user->role, ['dex', 'sadmin', 'admin', 'admin_assistant']) 
+    && in_array($user->dash, ['innovation', 'dual'])
+)
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="layouts-hover.html#sidebarInnovations" aria-expanded="false" aria-controls="sidebarInnovations" class="side-nav-link">
+        <span class="menu-icon"><iconify-icon icon="solar:crop-bold-duotone" class="fs-2"></iconify-icon></span>
+        <span class="menu-text">Innovations</span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="sidebarInnovations">
+        <ul class="sub-menu">
+            <li class="side-nav-item">
+                <a href="/Innovations" class="side-nav-link">
+                    <span class="menu-icon"><iconify-icon icon="solar:chart-2-bold" class="fs-2"></iconify-icon></span>
+                    <span class="menu-text">All Innovations</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/admin_inventions" class="side-nav-link">
+                    <span class="menu-icon"><iconify-icon icon="solar:backpack-broken" class="fs-2"></iconify-icon></span>
+                    <span class="menu-text">Innovators</span>
+                </a>
+            </li>
+           
+        </ul>
+    </div>
+</li>
+@endif
 
                    
 
                     
 
                    
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="layouts-hover.html#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
-                            <span class="menu-icon"><iconify-icon icon="solar:bill-check-line-duotone" class="fs-2"></iconify-icon>    </span>
-                            <span class="menu-text"> Admins</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarInvoice">
-                            <ul class="sub-menu">
-                                <li class="side-nav-item">
-                                    <a href="/Admin_register" class="side-nav-link">
-                                         <span class="menu-icon">  <iconify-icon icon="solar:add-circle-line-duotone" class="fs-2"></iconify-icon> </span>
-                                        <span class="menu-text">Add Admins</span>
-                                    </a>
-                                </li>
-                                <li class="side-nav-item">
-                                    <a href="/Admin_data" class="side-nav-link">
-                                         <span class="menu-icon">  <iconify-icon icon="solar:chair-2-linear" class="fs-2"></iconify-icon> </span>
-                                        <span class="menu-text">All  Users</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="side-nav-item">
-                                    <a href="apps-invoice-create.html" class="side-nav-link">
-                                        <span class="menu-text">Deactivate  Users</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                   @php
+$user = Auth::guard('admin')->user();
+@endphp
+
+@if(in_array($user->role, ['dex', 'sadmin']))
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="layouts-hover.html#sidebarInvoice" aria-expanded="false" aria-controls="sidebarInvoice" class="side-nav-link">
+        <span class="menu-icon"><iconify-icon icon="solar:bill-check-line-duotone" class="fs-2"></iconify-icon></span>
+        <span class="menu-text">Admins</span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="sidebarInvoice">
+        <ul class="sub-menu">
+            <li class="side-nav-item">
+                <a href="/Admin_register" class="side-nav-link">
+                    <span class="menu-icon"><iconify-icon icon="solar:add-circle-line-duotone" class="fs-2"></iconify-icon></span>
+                    <span class="menu-text">Add Admins</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/Admin_data" class="side-nav-link">
+                    <span class="menu-icon"><iconify-icon icon="solar:chair-2-linear" class="fs-2"></iconify-icon></span>
+                    <span class="menu-text">All Users</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+@endif
 
                     
 
@@ -154,7 +168,7 @@
 
                     
 
-                    <li class="side-nav-title mt-2">Components</li>
+                   
 
                    
 
