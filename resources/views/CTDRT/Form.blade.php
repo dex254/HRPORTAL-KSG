@@ -14,58 +14,209 @@
   <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
   <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
-  <style>
-    /* === Floating Progress Bar === */
+<style>
+
+/* =========================================
+   GLOBAL BRAND COLORS
+========================================= */
+:root {
+    --brand-primary: rgb(127, 98, 44);     /* Brown-Gold */
+    --brand-secondary: rgb(203, 211, 0);   /* Yellow-Green */
+    --brand-accent: rgba(203, 211, 0, 0.35);
+    --glass-bg: rgba(255, 255, 255, 0.22);
+    --glass-border: rgba(255, 255, 255, 0.45);
+}
+
+/* =========================================
+   BACKGROUND + OVERLAY
+========================================= */
+body {
+    background: url('{{ asset("assets/images/users/avatar-10.jpg") }}')
+                no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
+
+/* Soft gold overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(127, 98, 44, 0.45);
+    backdrop-filter: blur(7px);
+    z-index: -1;
+}
+
+/* =========================================
+   FLOATING CORPORATE PROGRESS BAR
+========================================= */
 #progress-container {
-  position: fixed;        /* makes it float */
-  top: 0;                 /* sticks to top */
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   height: 8px;
-  background: #222;
-  border-radius: 0;       /* flat top edge for full-width bar */
+  background: rgba(0,0,0,0.4);
   overflow: hidden;
-  z-index: 1000;          /* ensures it stays above everything */
+  z-index: 1000;
 }
 
 #progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, red, orange, yellow, limegreen);
-  transition: width 0.4s ease, background 0.4s ease;
+  background: linear-gradient(90deg, var(--brand-secondary), var(--brand-primary));
+  transition: width 0.4s ease;
 }
 
+/* =========================================
+   GLASSMORPHIC FORM CONTAINER (PREMIUM)
+========================================= */
+.form-wrapper {
+    max-width: 580px;
+    margin: auto;
+    margin-top: 40px;
+    padding: 30px 32px;
+    background: var(--glass-bg);
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px);
+    box-shadow: 
+        0 12px 28px rgba(0,0,0,0.25),
+        0 6px 12px rgba(127, 98, 44, 0.32);
+    position: relative;
+    overflow: hidden;
+}
 
-    /* === Description Section === */
-    /* ✨ Page content intro (improved visibility) */
+/* Narrow glowing gold strip around the form */
+.form-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 20px;
+    border: 3px solid transparent;
+    background: linear-gradient(120deg,
+        var(--brand-primary),
+        var(--brand-secondary)
+    );
+    z-index: -1;
+    filter: blur(8px);
+}
+
+/* =========================================
+   SECTION HEADER / INTRO TEXT
+========================================= */
 .intro {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    padding: 12px 18px;
+    background: linear-gradient(to right,
+        rgba(255,255,255,0.22),
+        rgba(203,211,0,0.30)
+    );
+    border-left: 7px solid var(--brand-primary);
+    border-radius: 10px;
 }
 
 .intro h3 {
-    font-weight: 700;
-    color: #000; /* Black heading */
-    text-shadow: none; /* Remove glow */
-    font-size: 1.8rem;
+    color: var(--brand-primary);
+    font-weight: 900;
+    font-size: 2rem;
 }
 
 .intro p {
-    color: #000; /* Black paragraph text */
-    font-size: 16px;
-    line-height: 1.6;
+    color: #000;
+    font-size: 15px;
     font-weight: 500;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
-.intro a {
-    color: #198754; /* Bootstrap success green for contrast */
-    font-weight: 600;
-    text-decoration: underline;
+/* =========================================
+   FORM ELEMENTS + INPUT WRAPPERS
+========================================= */
+.input-wrapper {
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.28);
+    border-radius: 12px;
+    border: 1px solid rgba(203,211,0,0.35);
+    margin-bottom: 14px;
+    transition: 0.25s ease-in-out;
 }
 
-  </style>
+.input-wrapper:hover {
+    background: rgba(255,255,255,0.42);
+    transform: translateY(-2px);
+}
+
+/* Labels */
+label.form-label {
+    color: var(--brand-primary);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs */
+.form-control {
+    border: 2px solid var(--brand-primary);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.82);
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--brand-secondary);
+    background: #fff;
+    box-shadow: 0 0 10px rgba(203,211,0,0.8);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+.btn-success {
+    background: linear-gradient(90deg,
+        var(--brand-primary),
+        var(--brand-secondary)
+    );
+    border: none;
+    font-weight: 900;
+    padding: 12px;
+    color: #fff;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(127, 98, 44, 0.4);
+    transition: 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 22px rgba(203,211,0,0.55);
+    background: linear-gradient(90deg,
+        var(--brand-secondary),
+        var(--brand-primary)
+    );
+}
+
+/* =========================================
+   AUTOCOMPLETE LIST STYLING
+========================================= */
+.list-group-item {
+    border-left: 4px solid var(--brand-primary);
+}
+
+.list-group-item:hover {
+    background: var(--brand-secondary);
+    font-weight: 700;
+}
+
+/* =========================================
+   HEADINGS
+========================================= */
+h4, h5, h6 {
+    color: var(--brand-primary);
+    font-weight: 700;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -130,23 +281,35 @@ Swal.fire({
             <img src="assets/images/logo-dark.png" alt="KSG logo" height="40" class="logo-dark">
           </a>
 
-          <!-- 🌟 Intro Section -->
-          <div class="intro">
-            <h3>#Catch Them Doing the Right Thing</h3>
-            <p>
-    The National Government, in collaboration with the Kenya School of Government (KSG), 
-    is celebrating hardworking and dedicated citizens who consistently do the right thing, 
-    yet often go unnoticed.
-    <br><br>
-    This initiative aims to recognize, appreciate, and motivate individuals whose positive 
-    actions make a meaningful difference in their workplaces and communities. By highlighting 
-    such exemplary behaviour, we seek to inspire others across the country to uphold integrity, 
-    commitment, and excellence.
-    <br><br>
-    Kindly take a moment to nominate someone who deserves recognition by filling in the form below.
-</p>
+          <div class="intro text-center mb-3">
 
-          </div>
+    <!-- MAIN TITLE -->
+    <h3 style="font-weight: 800; color: #000;">Doing The Right Thing</h3>
+
+    <!-- KISWAHILI MESSAGE (ITALICISED) -->
+    <p style="font-style: italic; color: #222; margin-top: 8px;">
+        The National Government, in collaboration with the Kenya School of Government (KSG), 
+        is celebrating hardworking and dedicated citizens who consistently do the right thing, 
+        yet often go unnoticed. 
+        <br><br>
+        This initiative aims to recognize, appreciate, and motivate individuals whose positive actions 
+        make a meaningful difference in their workplaces and communities. By highlighting such exemplary 
+        behaviour, we seek to inspire others across the country to uphold integrity, commitment, 
+        and excellence.
+        <br><br>
+        Kindly take a moment to nominate someone who deserves recognition by filling in the form below.
+        <br><br>
+        <span style="font-style: italic; font-size: 15px;">
+            Tafadhali jaza fomu ifuatayo kumteua mtu unayemuona akifanya mambo kwa njia bora.
+        </span>
+    </p>
+
+    <!-- HASHTAG LINK AT BOTTOM -->
+    <a href="#" 
+       style="display: inline-block; margin-top: 10px; font-weight: 700; color: #0056b3; text-decoration: underline;">
+        #Catch Them Doing the Right Thing
+    </a>
+</div>
 
           <form  class="text-start mb-3" id="nominationForm"  action="{{ route('nomination.store') }}" enctype="multipart/form-data"  method="POST" >
             @csrf
@@ -165,7 +328,7 @@ Swal.fire({
 
             <!-- Subcounty Dropdown -->
             <div class="mb-3" id="subcounty-div" style="display:none;">
-              <label for="subcounty" class="form-label fw-semibold">Select Subcounty</label>
+              <label for="subcounty" class="form-label fw-semibold"> Select Subcounty (Chagua Tarafa)</label>
               <select name="subcounty" id="subcounty" class="form-control" required>
                 <option value="">-- Choose Subcounty --</option>
               </select>
@@ -175,14 +338,14 @@ Swal.fire({
             <div id="nominationFields" style="display:none;">
               <hr>
               <div class="mb-3">
-  <label class="form-label">Enter your phone number</label>
+  <label class="form-label">Enter your phone number (Weka Nambari yako Simu)</label>
   <input type="text" name="phone" id="phone" class="form-control" placeholder="Enter phone number" required>
 </div>
 
               <h5 class="fw-semibold mt-4">1. Nominee Details</h5>
 
               <div class="mb-3" style="position: relative;">
-  <label class="form-label">a) Name of Nominee</label>
+  <label class="form-label">a) Name of Nominee (Jina la Mteuliwa)</label>
   <input type="text" name="nominee_name" id="nominee_name" class="form-control" placeholder="Enter full name" autocomplete="off" required>
 
   <!-- Suggestions Box -->
@@ -245,33 +408,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
               <div class="mb-3">
-                <label class="form-label">b) Work Station</label>
+                <label class="form-label">  b) Work Station (Kituo cha Kazi)</label>
                 <input type="text" name="work_station" class="form-control" placeholder="Enter work station" required>
               </div>
 
               <div class="mb-3">
-                <label class="form-label">c) Designation</label>
+                <label class="form-label">c) Designation (Cheo cha Kazi)</label>
                 <input type="text" name="designation" class="form-control" placeholder="Enter designation" required>
               </div>
 
-              <h5 class="fw-semibold mt-4">2. Duties carried out by nominee</h5>
+              <h5 class="fw-semibold mt-4">2. Duties carried out by nominee (Majukumu ya Mteuliwa)</h5>
               <textarea name="duties" class="form-control" rows="3" placeholder="Describe duties performed"
                 required></textarea>
 
-              <h5 class="fw-semibold mt-4">3. Outstanding behavior/activities noted</h5>
+              <h5 class="fw-semibold mt-4">  3. Outstanding behavior/activities noted (Tabia Bora Ilizoonekana)</h5>
               <textarea name="outstanding_behavior" class="form-control" rows="3"
                 placeholder="What amazing action did you catch them doing?" required></textarea>
 
-              <h5 class="fw-semibold mt-4">4. Justification for nomination</h5>
+              <h5 class="fw-semibold mt-4"> 4. Justification for nomination (Sababu za Kuteua Mtu Huyu)</h5>
               <textarea name="justification" class="form-control" rows="3"
                 placeholder="Why does this action deserve recognition?" required></textarea>
 
-              <h5 class="fw-semibold mt-4">5. Lessons Learnt</h5>
+              <h5 class="fw-semibold mt-4">  5. Lessons Learnt (Masomo Tuliyojifunza)</h5>
               <textarea name="lessons" class="form-control" rows="3"
                 placeholder="What inspiring lesson can others learn from their example?" required></textarea>
 
               <div class="mb-3">
-                <label class="form-label">Optional: Upload supporting evidence</label>
+                <label class="form-label">Optional: Upload supporting evidence(Hiari: Pakia Ushahidi)</label>
                 <input type="file" name="attachment" class="form-control"
                   accept="audio/*,video/*,image/*,application/*">
                 <small class="text-muted">You may upload a photo, video, audio, or any other file type (optional).</small>
@@ -281,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <input type="checkbox" name="confirmation" id="confirmation" class="form-check-input" required>
                 <label class="form-check-label" for="confirmation">
                   I confirm that the information I have provided is accurate and correct.
+                   (Nathibitisha kuwa taarifa nilizotoa ni sahihi)
                 </label>
               </div>
 

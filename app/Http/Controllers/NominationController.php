@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Nomination;
 use Illuminate\Http\Request;
+use Intervention\Image\Laravel\Facades\Image;
 
 class NominationController extends Controller
 {
@@ -22,7 +23,8 @@ class NominationController extends Controller
             'outstanding_behavior' => 'required|string',
             'justification' => 'required|string',
             'lessons' => 'required|string',
-            'attachment' => 'nullable|file|max:5120', // up to 5MB
+           'attachment' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+ // up to 5MB
             'confirmation' => 'accepted',
             'phone' => 'required|string',
         ]);
@@ -38,23 +40,39 @@ if ($exists) {
     ])->withInput();
 }
 
-        // ✅ Handle file upload (if any)
-        if ($request->hasFile('attachment')) {
-    $file = $request->file('attachment');
-    $fileName = time() . '_' . $file->getClientOriginalName();
+      $filePath = null;
 
-    // Ensure folder exists
-    $destination = public_path('CTDRH');
-    if (!file_exists($destination)) {
-        mkdir($destination, 0777, true);
+    // Handle file upload with compression
+    if ($request->hasFile('attachment')) {
+
+        $file = $request->file('attachment');
+        $originalSize = $file->getSize(); // in bytes
+        $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+        $destination = public_path('CTDRH');
+
+        if (!file_exists($destination)) {
+            mkdir($destination, 0777, true);
+        }
+
+        // Image larger than 2MB → compress
+        if ($originalSize > 2 * 1024 * 1024) {
+
+            $image = Image::read($file);
+
+            // Encode with quality 80 for excellent compression
+            $image->encode('jpg', 80);
+
+            $compressedPath = $destination . '/' . $fileName;
+            $image->save($compressedPath);
+
+            $filePath = 'CTDRH/' . $fileName;
+
+        } else {
+            // Normal save if image small
+            $file->move($destination, $fileName);
+            $filePath = 'CTDRH/' . $fileName;
+        }
     }
-
-    // Move file to public/CTDRH
-    $file->move($destination, $fileName);
-
-    // Save relative path to DB
-    $filePath = 'CTDRH/' . $fileName;
-}
 
         // ✅ Get client IP address
         $ipAddress = $request->ip();
