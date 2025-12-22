@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Admin OTP Verification - KSG AI</title>
+    <title>Admin OTP Verification - KSG HR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="KSG Admin OTP Verification Page" name="description" />
     <meta content="KSG" name="author" />
 
-    <link rel="shortcut icon" href="{{ asset('') }}assets/images/logo-dark.png">
+    <link rel="shortcut icon" href="{{ asset('') }}DEXA/assets/images/logo-dark.png">
 
     <!-- Theme Config Js -->
-    <script src="{{ asset('') }}assets/js/config.js"></script>
+    <script src="{{ asset('') }}DEXA/assets/js/config.js"></script>
 
     <!-- Vendor css -->
-    <link href="{{ asset('') }}assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('') }}DEXA/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
-    <link href="{{ asset('') }}assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset('') }}DEXA/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
-    <link href="{{ asset('') }}assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('') }}DEXA/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -29,8 +29,8 @@
         <div class="col-xl-4 col-lg-5 col-md-6">
             <div class="card overflow-hidden text-center h-100 p-xxl-4 p-3 mb-0">
                 <a href="#" class="auth-brand mb-3">
-                    <img src="{{ asset('') }}assets/images/logo-dark.png" alt="dark logo" height="35" class="logo-dark">
-                    <img src="{{ asset('') }}assets/images/logo.png" alt="logo light" height="35" class="logo-light">
+                    <img src="{{ asset('') }}DEXA/assets/images/logo-dark.png" alt="dark logo" height="35" class="logo-dark">
+                    <img src="{{ asset('') }}DEXA/assets/images/logo.png" alt="logo light" height="35" class="logo-light">
                 </a>
 
                 <h4 class="fw-semibold mb-2">Admin OTP Verification</h4>
@@ -185,8 +185,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- Vendor js -->
-<script src="{{ asset('') }}assets/js/vendor.min.js"></script>
-<script src="{{ asset('') }}assets/js/app.js"></script>
+<script src="{{ asset('') }}DEXA/assets/js/vendor.min.js"></script>
+<script src="{{ asset('') }}DEXA/assets/js/app.js"></script>
 
 </body>
 </html>

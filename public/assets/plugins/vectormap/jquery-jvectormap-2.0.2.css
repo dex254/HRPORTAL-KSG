@@ -21,7 +21,7 @@
     position: absolute;
     left: 10px;
     border-radius: 2px;
-    background: rgb(70 73 76);
+    background: rgba(255, 255, 255, 0.28);
     padding: 5px;
     color: #ffffff;
     cursor: pointer;

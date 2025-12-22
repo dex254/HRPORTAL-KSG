@@ -10,7 +10,7 @@ $(function () {
 		color: '#009efb',
 		regionStyle: {
 			initial: {
-				fill: '#673ab7'
+				fill: '#fff'
 			}
 		},
 		markerStyle: {
@@ -46,7 +46,7 @@ $(function () {
 		zoomOnScroll: false,
 		regionStyle: {
 			initial: {
-				fill: '#32ab13'
+				fill: '#fff'
 			}
 		}
 	});
@@ -56,7 +56,7 @@ $(function () {
 		zoomOnScroll: false,
 		regionStyle: {
 			initial: {
-				fill: '#f02769'
+				fill: '#fff'
 			}
 		}
 	});
@@ -66,7 +66,7 @@ $(function () {
 		zoomOnScroll: false,
 		regionStyle: {
 			initial: {
-				fill: '#ffc107'
+				fill: '#fff'
 			}
 		}
 	});
@@ -76,7 +76,7 @@ $(function () {
 		zoomOnScroll: false,
 		regionStyle: {
 			initial: {
-				fill: '#198fed'
+				fill: '#fff'
 			}
 		}
 	});

@@ -9,19 +9,19 @@
     <meta content="KSG" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo-dark.png') }}">
+    <link rel="shortcut icon" href="{{ asset('DEXA/assets/images/logo-dark.png') }}">
 
     <!-- Theme Config Js -->
-    <script src="{{ asset('assets/js/config.js') }}"></script>
+    <script src="{{ asset('DEXA/assets/js/config.js') }}"></script>
 
     <!-- Vendor css -->
-    <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('DEXA/assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
-    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset('DEXA/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('DEXA/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -36,7 +36,7 @@
                 <div class="card overflow-hidden text-center h-100 p-4 mb-0">
                     
                     <a href="{{ route('admin') }}" class="auth-brand mb-3">
-                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" height="24">
+                        <img src="{{ asset('DEXA/assets/images/logo-dark.png') }}" alt="dark logo" height="24">
                     </a>
 
                     <h4 class="fw-semibold mb-2">Set Your Admin Password</h4>
@@ -49,6 +49,19 @@
                     <p class="text-danger fw-semibold mb-4">
                         Use a strong password containing uppercase, lowercase, numbers, and symbols.
                     </p>
+                    <div class="alert alert-info text-start mb-3">
+    <h6 class="fw-semibold mb-2">
+        <i class="fa fa-shield-alt me-1"></i> Password Requirements
+    </h6>
+    <ul class="mb-0 small">
+        <li>Minimum <strong>8 characters</strong></li>
+        <li>At least <strong>one uppercase letter (A–Z)</strong></li>
+        <li>At least <strong>one lowercase letter (a–z)</strong></li>
+        <li>At least <strong>one number (0–9)</strong></li>
+        <li>At least <strong>one special character</strong> (@ $ ! % * ? & #)</li>
+    </ul>
+</div>
+
 
                     <form action="{{ route('admin.password.update') }}" method="POST" class="text-start mb-3">
                         @csrf
@@ -125,10 +138,10 @@
     </div>
 
     <!-- Vendor js -->
-    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('DEXA/assets/js/vendor.min.js') }}"></script>
 
     <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('DEXA/assets/js/app.js') }}"></script>
 
     <script>
     // Toggle Password

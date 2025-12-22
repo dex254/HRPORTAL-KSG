@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Middleware\HRMiddleware;
+use App\Http\Middleware\EXTMiddleware;
 use Illuminate\Foundation\Application;
+
+use App\Http\Middleware\HRPUMiddleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\HandleAppearance;
-use App\Http\Middleware\InventMiddleware;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,8 +27,12 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
         $middleware->alias([
-            'Invent.auth' => InventMiddleware::class,
-             'Admin.auth' => AdminMiddleware::class,
+            
+             
+             'HR.auth'  =>  HRMiddleware::class,
+             'admin.auth' => AdminMiddleware::class,
+             'hrpu.auth'  => HRPUMiddleware::class,
+             'EXT.auth'  => EXTMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

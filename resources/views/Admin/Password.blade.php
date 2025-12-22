@@ -3,22 +3,22 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Admin Reset Password | KSG AI Innovations</title>
+    <title>Admin Reset Password |HR KSG</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Innovation management system" name="description" />
     <meta content="KSG AI" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo-dark.png') }}">
+    <link rel="shortcut icon" href="{{ asset('DEXA/assets/images/logo-dark.png') }}">
 
     <!-- Vendor css -->
-    <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('DEXA/assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
-    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset('DEXA/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('DEXA/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="h-100">
@@ -28,9 +28,9 @@
             <div class="col-xl-4 col-lg-5 col-md-6">
                 <div class="card overflow-hidden text-center h-100 p-3 p-xxl-4 mb-0 shadow-sm">
 
-                    <a href="{{ route('Admin.Dashboard') }}" class="auth-brand mb-3">
-                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" height="24" class="logo-dark">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="logo light" height="24" class="logo-light">
+                    <a href="{{ route('admin.dashboard') }}" class="auth-brand mb-3">
+                        <img src="{{ asset('DEXA/assets/images/logo-dark.png') }}" alt="dark logo" height="24" class="logo-dark">
+                        <img src="{{ asset('DEXA/assets/images/logo.png') }}" alt="logo light" height="24" class="logo-light">
                     </a>
 
                     <h4 class="fw-semibold mb-2">Admin Password Reset</h4>
@@ -85,10 +85,14 @@
                         </script>
                     @endif
 
-                    <p class="mt-auto mb-0 text-muted">
-                        <script>document.write(new Date().getFullYear())</script> © Dexa - By
-                        <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Dexasolutions.ltd</span>
-                    </p>
+                   <p class="mt-auto mb-0 text-muted">
+    <script>document.write(new Date().getFullYear())</script> © Dexa –
+    <span class="developer-name"
+          data-hover="Denis Kiplagat">
+        Developed by KSG Software Engineering Team
+    </span>
+</p>
+
 
                 </div>
             </div>
@@ -96,9 +100,9 @@
     </div>
 
     <!-- Vendor js -->
-    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('DEXA/assets/js/vendor.min.js') }}"></script>
 
     <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('DEXA/assets/js/app.js') }}"></script>
 </body>
 </html>

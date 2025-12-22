@@ -31,7 +31,7 @@
    BACKGROUND + OVERLAY
 ========================================= */
 body {
-    background: url('{{ asset("assets/images/users/avatar-10.jpg") }}')
+    background: url('{{ asset("assets/images/logo-dark.png") }}')
                 no-repeat center center fixed;
     background-size: cover;
     position: relative;

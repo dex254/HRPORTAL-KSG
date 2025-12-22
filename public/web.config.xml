@@ -1,0 +1,97 @@
+<configuration>
+  <system.webServer>
+    <!-- Deny access to web.config -->
+    <security>
+      <requestFiltering>
+        <hiddenSegments>
+          <add segment="web.config" />
+          <add segment="web.config" />
+  <add segment=".env" />
+  <add segment="storage" />
+          <configuration>
+  <system.webServer>
+    <!-- Deny access to web.config -->
+    <security>
+      <requestFiltering>
+        <hiddenSegments>
+          <add segment="web.config" />
+        </hiddenSegments>
+      </requestFiltering>
+    </security>
+
+    <!-- Existing rules for URL rewriting and PHP handling -->
+    <rewrite>
+      <rules>
+        <!-- Redirect trailing slashes to non-trailing slashes -->
+        <rule name="Imported Rule 1" stopProcessing="true">
+          <match url="^(.*)/$" ignoreCase="false" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
+          </conditions>
+          <action type="Redirect" redirectType="Permanent" url="/{R:1}" />
+        </rule>
+
+        <!-- Rewrite all requests to index.php unless the file exists -->
+        <rule name="Imported Rule 2" stopProcessing="true">
+          <match url="^" ignoreCase="false" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="index.php" />
+        </rule>
+      </rules>
+    </rewrite>
+
+    <!-- Handle PHP files -->
+    <handlers>
+      <add name="PHP_via_FastCGI" path="*.php" verb="*" modules="FastCgiModule" scriptProcessor="C:\Path\To\PHP\php-cgi.exe" resourceType="Either" requireAccess="Script" />
+    </handlers>
+
+    <!-- Set default documents -->
+    <defaultDocument>
+      <files>
+        <add value="index.php" />
+      </files>
+    </defaultDocument>
+  </system.webServer>
+</configuration>
+        </hiddenSegments>
+      </requestFiltering>
+    </security>
+
+    <!-- Existing rules for URL rewriting and PHP handling -->
+    <rewrite>
+      <rules>
+        <!-- Redirect trailing slashes to non-trailing slashes -->
+        <rule name="Imported Rule 1" stopProcessing="true">
+          <match url="^(.*)/$" ignoreCase="false" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
+          </conditions>
+          <action type="Redirect" redirectType="Permanent" url="/{R:1}" />
+        </rule>
+
+        <!-- Rewrite all requests to index.php unless the file exists -->
+        <rule name="Imported Rule 2" stopProcessing="true">
+          <match url="^" ignoreCase="false" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="index.php" />
+        </rule>
+      </rules>
+    </rewrite>
+
+    <!-- Handle PHP files -->
+    <handlers>
+      <add name="PHP_via_FastCGI" path="*.php" verb="*" modules="FastCgiModule" scriptProcessor="C:\Path\To\PHP\php-cgi.exe" resourceType="Either" requireAccess="Script" />
+    </handlers>
+
+    <!-- Set default documents -->
+    <defaultDocument>
+      <files>
+        <add value="index.php" />
+      </files>
+    </defaultDocument>
+  </system.webServer>
+</configuration>
