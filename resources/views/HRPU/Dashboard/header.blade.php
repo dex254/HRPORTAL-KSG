@@ -244,7 +244,42 @@
 				</nav>
 			</div>
 		</header>
-       
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success') || session('status'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: '{{ session('success') ?? session('status') }}',
+    confirmButtonColor: '#3085d6',
+});
+</script>
+@endif
+
+<!-- Error Message -->
+@if(session('error'))
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: '{{ session('error') }}',
+    confirmButtonColor: '#d33',
+});
+</script>
+@endif
+
+<!-- Validation Errors -->
+@if ($errors->any())
+<script>
+Swal.fire({
+    icon: 'warning',
+    title: 'Validation Error',
+    html: `{!! implode('<br>', $errors->all()) !!}`,
+    confirmButtonColor: '#f39c12',
+});
+</script>
+@endif
    
     <br>
     <br>

@@ -358,6 +358,17 @@ Route::get('/Experince_online', [NewController::class, 'extExperinceext'])->name
    Route::get('/My_applications_online', [EXTjobsController::class, 'EXTEXTMY'])->name('EXT.Application.MY');
     Route::get('/My_applications_details_online/{id}', [EXTjobsController::class, 'EXTApplicationdetailsext'])->name('EXT.Application.Details');
   Route::delete('/job/application_online/delete/{id}', [EXTjobsController::class, 'extabortApplicationext'])->name('MY.Delete');
+
+  //teaching  area  experence  
+  Route::get('/Teaching', [TeachingController::class, 'teaching'])->name('Experience.Teaching.Ext');
+  Route::post('/Teaching', [TeachingController::class, 'teachingpost'])->name('Experince.Teaching.EXT');
+  Route::delete('/teaching/{id}/delete-ext', [TeachingController::class, 'teachingdestroyext'])
+    ->name('Experience.Teachingdestroyext.EXT');
+ 
+  Route::get('/Experince_Consultancy_&_Research', [OtherController::class, 'other'])->name('Experience.Other');
+Route::post('/other/save', [OtherController::class, 'otherpost'])->name('Other.post.save');
+  Route::post('/Experince_Other', [OtherController::class, 'otherspost'])->name('Other.others');
+  Route::delete('/Experince_KSG/{id}', [OtherController::class, 'destroyother'])->name('Experience.destroyother');
   
   
   });

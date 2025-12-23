@@ -1,3 +1,4 @@
+
 <footer class="page-footer"  id="footer">
 	<p class="mb-0">Copyright © <span id="year"></span>. All rights reserved. <span id="datetime"></span></p>
 

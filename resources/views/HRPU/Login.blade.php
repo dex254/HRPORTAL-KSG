@@ -21,6 +21,7 @@
     <link href="{{asset('') }}dex/css/app.css" rel="stylesheet">
     <link href="{{asset('') }}dex/css/icons.css" rel="stylesheet">
     <title>KSG Career Portal</title>
+    <body>
    <style>
     body, html {
         height: 100%;

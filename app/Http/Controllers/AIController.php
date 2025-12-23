@@ -35,63 +35,74 @@ class AIController extends Controller
      * Handle AJAX request to generate a new AI chart
      */
     public function generate(Request $request)
-    {
-        $request->validate([
-            'question' => 'required|string|max:2000',
-        ]);
+{
+    $request->validate([
+        'question' => 'required|string|max:2000',
+    ]);
 
-        $ip = $request->ip();
-        $userQuestion = $request->input('question');
+    $ip = $request->ip();
+    $userQuestion = strtolower(trim($request->input('question')));
 
-        // Build the initial AI prompt
-        $prompt = "Welcome to KSG Career Portal Assistant!\n";
-        $prompt .= "Hello! I am your Career Portal Assistant. Please tell me which type of advertised jobs you want to know about:\n";
-        $prompt .= "1. Internal\n2. External\n3. Adjunct\n\n";
-        $prompt .= "User asked: {$userQuestion}\n\n";
+    // Base AI prompt
+    $prompt = "Welcome to the KSG Career Portal Assistant.\n\n";
+    $prompt .= "I provide guidance on how to apply for jobs at KSG.\n\n";
 
-        // Determine user choice
-        $choice = strtolower(trim($userQuestion));
+    // Internal Staff Instructions
+    if (strpos($userQuestion, 'internal') !== false || $userQuestion === '1') {
 
-        $jobData = [];
-        $links = [];
+        $prompt .= "INTERNAL STAFF APPLICATION INSTRUCTIONS:\n";
+        $prompt .= "1. Internal staff must apply using their Unified Payroll Number (UPN).\n";
+        $prompt .= "2. Enter your UPN number on the Internal Staff login page.\n";
+        $prompt .= "3. If you experience any difficulty, kindly contact the KSG HR Team for assistance.\n";
+        $prompt .= "4. After entering your UPN, an OTP will be sent to your registered contact details.\n";
+        $prompt .= "5. Enter the OTP to verify your identity.\n";
+        $prompt .= "6. You will receive an email verification link — please check your email and verify every login.\n";
+        $prompt .= "7. Once logged in, update your profile fully before applying for any job.\n";
+        $prompt .= "8. Review the Career Guide carefully to understand the requirements for each advertised job.\n\n";
+        $prompt .= "Internal Application Portal: " . route('HR.Login') . "\n";
 
-        if (strpos($choice, 'internal') !== false || $choice === '1') {
-            $jobData = JOB::all()->toArray();
-            $links['internal'] = route('HR.Login');
-        } elseif (strpos($choice, 'external') !== false || $choice === '2') {
-            $jobData = EXTJOB::all()->toArray();
-            $links['external'] = route('EXT.Register');
-        } elseif (strpos($choice, 'adjunct') !== false || $choice === '3') {
-            $jobData = JOBExt::all()->toArray();
-            $links['adjunct'] = route('HRPU.Login');
-        } else {
-            $prompt .= "Please specify 1 for Internal, 2 for External, or 3 for Adjunct jobs.\n";
-        }
-
-        // Append job data to the prompt
-        if (!empty($jobData)) {
-            $prompt .= "Here are the available jobs:\n";
-            foreach ($jobData as $job) {
-                $designation = $job['Designation'] ?? $job['Specialization'] ?? 'N/A';
-                $positions = $job['Proposed_No_of_Positions'] ?? 'N/A';
-                $deadline = $job['deadline'] ?? 'N/A';
-                $prompt .= "- Designation: {$designation}, Positions: {$positions}, Deadline: {$deadline}\n";
-            }
-
-            $prompt .= "\nYou can apply through these links:\n";
-            foreach ($links as $type => $link) {
-                $prompt .= ucfirst($type) . " Application: {$link}\n";
-            }
-        }
-
-        // Send prompt to OpenAIService and save
-        $aiResponse = $this->aiService->askChart($ip, $prompt);
-
-        return response()->json([
-            'success' => true,
-            'ai_response' => $aiResponse
-        ]);
     }
+    // External Applicant Instructions
+    elseif (strpos($userQuestion, 'external') !== false || $userQuestion === '2') {
+
+        $prompt .= "EXTERNAL APPLICANT INSTRUCTIONS:\n";
+        $prompt .= "1. External applicants must first register on the portal.\n";
+        $prompt .= "2. Use a valid email address during registration.\n";
+        $prompt .= "3. A random system-generated password will be sent to your email.\n";
+        $prompt .= "4. Log in using the provided credentials.\n";
+        $prompt .= "5. IMPORTANT: Update your profile completely before starting any job application.\n";
+        $prompt .= "6. This helps prevent challenges or delays during the application process.\n";
+        $prompt .= "7. Carefully read the job requirements to ensure you meet the minimum qualifications before applying.\n\n";
+        $prompt .= "External Application Portal: " . route('EXT.Register') . "\n";
+
+    }
+    // Adjunct / HRPU Instructions
+    elseif (strpos($userQuestion, 'adjunct') !== false || $userQuestion === '3') {
+
+        $prompt .= "ADJUNCT / HRPU APPLICATION INSTRUCTIONS:\n";
+        $prompt .= "1. Adjunct applicants should log in through the HRPU portal.\n";
+        $prompt .= "2. Ensure your profile is updated with accurate academic and professional details.\n";
+        $prompt .= "3. Review the specific job requirements carefully before applying.\n\n";
+        $prompt .= "Adjunct Application Portal: " . route('HRPU.Login') . "\n";
+
+    }
+    // Invalid option
+    else {
+        $prompt .= "Please specify the type of job application you want guidance on:\n";
+        $prompt .= "1. Internal Staff\n";
+        $prompt .= "2. External Applicant\n";
+        $prompt .= "3. Adjunct / HRPU\n";
+    }
+
+    // Send prompt to AI service
+    $aiResponse = $this->aiService->askChart($ip, $prompt);
+
+    return response()->json([
+        'success' => true,
+        'ai_response' => $aiResponse
+    ]);
+}
+
 
     /**
      * Retrieve AI chart conversation history as JSON
