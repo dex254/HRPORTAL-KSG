@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Mpdf\Mpdf;
+use App\Models\Other;
 use App\Models\Licence;
 use App\Models\Academic;
 use App\Models\Referees;
@@ -109,9 +110,23 @@ class NewController extends Controller
        $licence = Licence::where('upn_no', $upn_no)->get();
        
        $referees= Referees::where('upn_no', $upn_no)->get();
+       $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get();
+
+// Fetch training records (Education_type = 'Training'), ordered by most recent start date
+$others = Other::where('upn_no', $upn_no)
+     ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get();
+        $publications = Other::where('upn_no', $upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
        
 
-        return view('EXT.Report.User', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies'));
+        return view('EXT.Report.User', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications'));
     }
     public function extgenerateUserReportext()
 {
@@ -129,8 +144,22 @@ class NewController extends Controller
        $licence = Licence::where('upn_no', $upn_no)->get();
        
        $referees= Referees::where('upn_no', $upn_no)->get();
+        $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get();
+
+// Fetch training records (Education_type = 'Training'), ordered by most recent start date
+$others = Other::where('upn_no', $upn_no)
+     ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get();
+        $publications = Other::where('upn_no', $upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
     // Load the Blade template as HTML
-    $html = view('pdf.user_Ext', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies'))->render();
+    $html = view('pdf.user_Ext', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications'))->render();
 
     // Initialize mPDF
     $mpdf = new Mpdf();

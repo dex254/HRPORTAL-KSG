@@ -337,234 +337,316 @@
         </script>
 
             <!-- Academic Qualifications -->
-            <h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;"><i class="bi bi-mortarboard"></i> Academic Qualifications</h5>
-            <div class="table-responsive">
-                <table id="example" class="table mb-0">
-                    
-                    <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Education Type</th>
-                            <th>Institution</th>
-                            <th>Course</th>
-                            <th>Level</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Grade</th>
-                            <th>Certificate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($academics as $index => $academic)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $academic->Education_type }}</td>
-                            <td>{{ $academic->institution }}</td>
-                            <td>{{ $academic->course }}</td>
-                            <td>{{ $academic->level }}</td>
-                            <td>{{ date('d M Y', strtotime($academic->stdate)) }}</td>
-                            <td>{{ date('d M Y', strtotime($academic->enddate)) }}</td>
-                            <td>{{ $academic->grade }}</td>
-                            <td>
-                                @if($academic->document_name)
-    <a href="{{ asset('uploads/Academic/' . $academic->document_name) }}" 
-       target="_blank" 
-       class="btn btn-sm btn-success">
-       <i class="bi bi-book"></i> View
-    </a>
-@else
-    <span class="text-danger">No Document</span>
-@endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">No academic records found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            
+         <!-- ACADEMIC QUALIFICATIONS -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-mortarboard"></i> Academic Qualifications
+</h5>
+<div class="table-responsive">
+    <table id="academicsTable" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Education Type</th>
+                <th>Institution</th>
+                <th>Course</th>
+                <th>Level</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Grade</th>
+                <th>Certificate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($academics as $index => $academic)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $academic->Education_type }}</td>
+                <td>{{ $academic->institution }}</td>
+                <td>{{ $academic->course }}</td>
+                <td>{{ $academic->level }}</td>
+                <td>{{ date('d M Y', strtotime($academic->stdate)) }}</td>
+                <td>{{ date('d M Y', strtotime($academic->enddate)) }}</td>
+                <td>{{ $academic->grade }}</td>
+                <td>
+                    @if($academic->document_name)
+                        <a href="{{ asset('uploads/Academic/' . $academic->document_name) }}" target="_blank" class="btn btn-sm btn-success">
+                            <i class="bi bi-book"></i> View
+                        </a>
+                    @else
+                        <span class="text-danger">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="9" class="text-center text-muted">No academic records found.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
-            <!-- Work Experience -->
-            <h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;"><i class="bi bi-briefcase"></i> Work Experience</h5>
-            <div class="table-responsive">
-                <table id="example" class="table mb-0">
-                    
-                    <thead class="table-light">
-                        <tr>
-                            
-                            <th>Employer</th>
-                            <th>Job Title</th>
-                            <th>Country</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Location</th>
-                            <th>Job Description</th>
-                            <th>Duties  and  Responsibilities</th>
-                            <th>Special Activity Under Undertaken</th>
-                            <th>Action</th>
+<!-- WORK EXPERIENCE -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-briefcase"></i> Work Experience
+</h5>
+<div class="table-responsive">
+    <table id="workExperienceTable" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Employer</th>
+                <th>Job Title</th>
+                <th>Country</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Job Description</th>
+                <th>Duties and Responsibilities</th>
+                <th>Special Activity Undertaken</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($experiences as $experience)
+            <tr>
+                <td>{{ $experience->employer }}</td>
+                <td>{{ $experience->job_title }}</td>
+                <td>{{ $experience->country }}</td>
+                <td>{{ date('d M Y', strtotime($experience->stdate)) }}</td>
+                <td>{{ date('d M Y', strtotime($experience->enddate)) }}</td>
+                <td>{{ $experience->location }}</td>
+                <td>{{ $experience->expartise }}</td>
+                <td>{{ $experience->duties }}</td>
+                <td>{{ $experience->special }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="9" class="text-center text-muted">No work experience records found.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($experiences as $experience)
-                        <tr>
-                            <td>{{ $experience->employer }}</td>
-                            <td>{{ $experience->job_title }}</td>
-                            <td>{{ $experience->country }}</td>
-                            <td>{{ date('d M Y', strtotime($experience->stdate)) }}</td>
-                            <td>{{ date('d M Y', strtotime($experience->enddate)) }}</td>
-                            <td>{{ $experience->location }}</td>
-                            <td>{{ $experience->expartise }}</td>
-                            <td>{{ $experience->duties }}</td>
-                        <td>{{ $experience->special }}</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-muted">No work experience records found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                <div class="container mt-5">
-                    <!-- Core Mandate Section -->
-                    <div class="mb-5">
-                        <h2 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">professional Experience.</h2>
-                        <p class="text-muted">Profession.</p>
-                        <div class="table-responsive">
-                            <table id="example" class="table mb-0">
-                                
-                               <thead class="table-light">
-    <tr>
-                                        <th>ID</th>
-                                        
-                                        <th>I  have  a  license</th>
-                                        <th>Issuing Body</th>
-                                        <th>License Date</th>
-                                        <th>Document</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($licence as $licence)
-                                        <tr>
-                                            <td>{{ $licence->id }}</td>
-                                           
-                                            <td>{{ $licence->has_license ?? 'N/A' }}</td>
-                                            <td>{{ $licence->license_name ?? 'N/A' }}</td>
-                                            <td>{{ $licence->license_date ?? 'N/A' }}</td>
-                                            <td>
-                                                @if($licence->document_name)
-                                                <a href="{{ asset('uploads/Licence/' . $licence->document_name) }}" target="_blank" class="btn btn-primary btn-sm">
-                                                    View Document
-                                                </a>
-                                            @else
-                                                No Document
-                                            @endif
-                                        
-                                            </td>
-                                            <td>
-                                            <form action="{{ route('EXT.licence.destroy', $licence->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-</tbody>
-                        </table>
-                    </div>
-                <div class="container mt-5">
-                    <!-- Core Mandate Section -->
-                    <div class="mb-5">
-                        <h2 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">Referees.</h2>
-                        <p class="text-muted">Referees.</p>
-                        <div class="table-responsive">
-                            <table id="example" class="table mb-0">
-                                
-                               <thead class="table-light">
-    <tr>
-        <th>Employer</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Position</th>
-        <th>Action</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach($referees as $referee)
-    <tr>
-        <td>{{ $referee->employer }}</td>
-        <td>{{ $referee->refname }}</td>
-        <td>{{ $referee->refphone }}</td>
-        <td>{{ $referee->refemail }}</td>
-        <td>{{ $referee->Position }}</td>
-        <td>
-            <form action="{{ route('EXT.delete', $referee->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</tbody>
-                        </table>
-                    </div>
-            
-                    <!-- Licenses Section -->
-                   
-            
-                    <!-- Professional Body Section -->
-                    <div class="mb-5">
-                        <h2  class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">Professional Body</h2>
-                        <p class="text-muted">This is your professional body data.</p>
-                        <div class="table-responsive">
-                        <table id="example1" class="table mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>I am a member</th>
-                                    <th>Professional Body Name</th>
-                                    <th>Regulating Law/Statute</th>
-                                    <th>Status</th>
-                                    <th>Certificate</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($profecionalbodies as $data)
-                                    <tr>
-                                        <td>{{ $data->id }}</td>
-                                        <td>{{ $data->is_member }}</td>
-                                        <td>{{ $data->professional_body }}</td>
-                                        <td>{{ $data->law }}</td>
-                                        <td>{{ $data->status }}</td>
-                                        <td>
-                                            @if($data->document_name)
-                                                <a href="{{ asset('uploads/Profecionalbody/' . $data->document_name) }}" target="_blank" class="btn btn-primary btn-sm">
-                                                    View Document
-                                                </a>
-                                            @else
-                                                No Document
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <form action="{{ route('Profecionalbody.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this entry?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+<!-- PROFESSIONAL EXPERIENCE / LICENSES -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-file-earmark-text"></i> Professional Experience (Licenses)
+</h5>
+<div class="table-responsive">
+    <table id="licensesTable" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>I have a license</th>
+                <th>Issuing Body</th>
+                <th>License Date</th>
+                <th>Document</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($licence as $licence)
+            <tr>
+                <td>{{ $licence->id }}</td>
+                <td>{{ $licence->has_license ?? 'N/A' }}</td>
+                <td>{{ $licence->license_name ?? 'N/A' }}</td>
+                <td>{{ $licence->license_date ?? 'N/A' }}</td>
+                <td>
+                    @if($licence->document_name)
+                        <a href="{{ asset('uploads/Licence/' . $licence->document_name) }}" target="_blank" class="btn btn-sm btn-primary">
+                            View Document
+                        </a>
+                    @else
+                        <span class="text-muted">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+<!-- CONSULTANCY ASSIGNMENTS -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-briefcase-fill"></i> Consultancy Assignments
+</h5>
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Sector</th>
+                <th>Completed</th>
+                <th>Completion Date</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($other as $index => $record)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $record->Client }}</td>
+                <td>{{ $record->Sector }}</td>
+                <td>{{ $record->completed }}</td>
+                <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                <td>
+                    @if($record->document_name)
+                        <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                    @else
+                        <span class="text-muted">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @empty
+            <tr><td colspan="6" class="text-center text-muted">No records found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<!-- RESEARCH ASSIGNMENTS -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-journal-text"></i> Research Assignments
+</h5>
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Sector</th>
+                <th>Completed</th>
+                <th>Completion Date</th>
+                <th>Amount</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($others as $index => $record)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $record->Client }}</td>
+                <td>{{ $record->Sector }}</td>
+                <td>{{ $record->completed }}</td>
+                <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                <td>{{ $record->Amount ?? 'N/A' }}</td>
+                <td>
+                    @if($record->document_name)
+                        <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                    @else
+                        <span class="text-muted">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @empty
+            <tr><td colspan="7" class="text-center text-muted">No records found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<!-- PUBLICATIONS -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-book"></i> Publications
+</h5>
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Journal / Publisher</th>
+                <th>Type / Title</th>
+                <th>Publication Date</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($publications as $index => $pub)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $pub->Client }}</td>
+                <td>{{ $pub->completed }}</td>
+                <td>{{ \Carbon\Carbon::parse($pub->compedate)->format('d M Y') }}</td>
+                <td>
+                    @if($pub->document_name)
+                        <a href="{{ asset('uploads/Other/' . $pub->document_name) }}" target="_blank">View</a>
+                    @else
+                        <span class="text-muted">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @empty
+            <tr><td colspan="5" class="text-center text-muted">No publications found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+<!-- REFEREES -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-people"></i> Referees
+</h5>
+<div class="table-responsive">
+    <table class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Employer</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($referees as $referee)
+            <tr>
+                <td>{{ $referee->employer }}</td>
+                <td>{{ $referee->refname }}</td>
+                <td>{{ $referee->refphone }}</td>
+                <td>{{ $referee->refemail }}</td>
+                <td>{{ $referee->Position }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+<!-- PROFESSIONAL BODY -->
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-award"></i> Professional Body
+</h5>
+<div class="table-responsive">
+    <table id="professionalBodyTable" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>I am a member</th>
+                <th>Professional Body Name</th>
+                <th>Regulating Law/Statute</th>
+                <th>Status</th>
+                <th>Certificate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($profecionalbodies as $data)
+            <tr>
+                <td>{{ $data->id }}</td>
+                <td>{{ $data->is_member }}</td>
+                <td>{{ $data->professional_body }}</td>
+                <td>{{ $data->law }}</td>
+                <td>{{ $data->status }}</td>
+                <td>
+                    @if($data->document_name)
+                        <a href="{{ asset('uploads/Profecionalbody/' . $data->document_name) }}" target="_blank">View Document</a>
+                    @else
+                        <span class="text-muted">No Document</span>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
             
                     <!-- Medical Section -->
                     

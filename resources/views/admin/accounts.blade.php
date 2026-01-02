@@ -125,7 +125,7 @@
                                                 <label for="inputEmailAddress" class="form-label">Email Address</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class='bx bxs-message'></i></span>
-                                                    <input type="email" class="form-control" name="email" id="email" value="{{ $admin->email }}" readonly>
+                                                    <input type="email" class="form-control" name="email" id="email" value="{{ $admin->email }}" >
                                                 </div>
                                             </div>
 
@@ -153,9 +153,18 @@
         @endphp
         @foreach($roles as $role)
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="role" value="{{ $role }}" id="{{ Str::slug($role) }}Radio" 
-                {{ $admin->role === $role ? 'checked' : '' }}>
-            <label class="form-check-label" for="{{ Str::slug($role) }}Radio">{{ $role }}</label>
+           <input class="form-check-input"
+       type="radio"
+       name="role"
+       value="{{ $role }}"
+       id="{{ \Illuminate\Support\Str::slug($role) }}Radio"
+       {{ $admin->role === $role ? 'checked' : '' }}>
+
+<label class="form-check-label"
+       for="{{ \Illuminate\Support\Str::slug($role) }}Radio">
+    {{ $role }}
+</label>
+
         </div>
         @endforeach
     </div>
@@ -237,21 +246,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                           
                                             <br/>
                                             <br/>
+                                           <div class="col-12 mt-4">
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">
+            <i class="bx bx-save me-1"></i> Update
+        </button>
+    </div>
+</div>
+
                                             <div class="col-12">
-                                                <div class="d-grid">
-                                                    <button type="submit" class="btn btn-light">Update</button>
-                                                </div>
-                                               
-                                            </div>
-                                            <div class="col-12">
-                                            <div class="d-grid">
+                                            {{-- <div class="d-grid">
                                                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $admin->email }}&su=Your%20Account%20Profile%20Credentials%20Updated&body=Dear%20{{ $admin->fnamel }}%20{{ $admin->sname }},%0A%0AWe%20would%20like%20to%20inform%20you%20that%20your%20account%20profile%20credentials%20have%20been%20successfully%20updated.%20Please%20find%20the%20details%20below:%0A%0AName:%20{{ $admin->fnamel }}%20{{ $admin->sname }}%20{{ $admin->mname }}%0AID%20Number:%20{{ $admin->iden }}%0ADepartment:%20{{ $admin->dept }}%0APhone%20Number:%20{{ $admin->phone }}%0A%0AYour%20new%20password%20is:%20KSG@2024%0A%0APlease%20ensure%20to%20keep%20this%20information%20confidential.%0A%0AIf%20you%20have%20any%20questions%20or%20need%20further%20assistance,%20feel%20free%20to%20contact%20our%20support%20team.%0A%0ARegards,%0AKenya%20School%20of%20Government%20ICT%20Support%20Team" 
                                                     class="ms-3" 
                                                     data-bs-toggle="tooltip" 
                                                     data-bs-placement="top" 
                                                     title="Update"> <button type="button" class="btn btn-primary"><i class="bx bxs-message"></i>Click  to informthe user  before  updating </button>  </a>
-                                            </div></div>
-                                            <script>
+                                            </div></div> --}}
+                                            {{-- <script>
                                                 document.addEventListener("DOMContentLoaded", function () {
                                                     // Get the elements
                                                     const updateButton = document.querySelector('button[type="submit"]');
@@ -266,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                         updateButton.style.display = "block";
                                                     });
                                                 });
-                                            </script>
+                                            </script> --}}
                                             
 
                                             </div>

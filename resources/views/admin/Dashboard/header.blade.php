@@ -163,206 +163,220 @@
 				</nav>
 			</div>
 		</header>
-		<div class="primary-menu">
-            <nav class="navbar navbar-expand-lg align-items-center">
-             
+        @php
+    $role = Auth::guard('admin')->user()->role;
 
-               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                 <div class="offcanvas-header border-bottom">
-                     <div class="d-flex align-items-center">
-                         
-                         <div class="">
-                             
-                         </div>
-                     </div>
-                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                 </div>
-                 <div class="offcanvas-body">
-                  <ul class="navbar-nav align-items-center flex-grow-1">
-                    <!-- Home -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/dashboard">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-home-alt'></i></div>
-                                <div class="menu-title ms-2">Home</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-cube'></i></div>
-                                <div class="menu-title ms-2">Adjunct Faculty Jobs</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/List_of_jobs_advatised_ext"><i class='bx bx-briefcase-alt'></i>Advatised   Jobs</a></li>
-                            
-                            <li><a class="dropdown-item" href="/Adjunct_Faculty_applications"><i class='bx bx-briefcase-alt'></i>Applications</a></li>
-                            <li><a class="dropdown-item" href="/Adjunct_Faculty"><i class='bx bx-envelope'></i>Adjunct_Faculty  Users</a></li>
-                        </ul>
-                    </li>
-                    
-                
-                    <!-- Jobs -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-cube'></i></div>
-                                <div class="menu-title ms-2">Jobs</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Jobs_applied_to"><i class='bx bx-briefcase-alt'></i>Jobs Applied To</a></li>
-                            <li><a class="dropdown-item" href="/List_of_jobs_advatised"><i class='bx bx-envelope'></i>Jobs Advertised</a></li>
-                        </ul>
-                    </li>
-                
-                    <!-- Applicants -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-user-circle'></i></div>
-                                <div class="menu-title ms-2">External Applications</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/List_of_jobs_External"><i class='bx bx-briefcase-alt'></i>Advatised External   Jobs</a></li>
-                            
-                            <li><a class="dropdown-item" href="/External_applications"><i class='bx bx-briefcase-alt'></i>External Applications</a></li>
-                            <li><a class="dropdown-item" href="/External_Users"><i class='bx bx-envelope'></i>External  Users</a></li>
-                        </ul>
-                    </li>
-                
-                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-user-circle'></i></div>
-                                <div class="menu-title ms-2">Applicants</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/All_the_staff_to_apply"><i class='bx bx-radio-circle'></i>Applicants Data</a></li>
-                            <li><a class="dropdown-item" href="/Qualified_Canidates"><i class='bx bx-radio-circle'></i>Qualified Candidates</a></li>
-                            <li><a class="dropdown-item" href="/NotQualified_Canidates"><i class='bx bx-radio-circle'></i>Not Qualified Candidates</a></li>
-                        </ul>
-                    </li>
-                    <!-- Account Management -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-lock'></i></div>
-                                <div class="menu-title ms-2">Account Management</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/Datatable/admin"><i class='bx bx-radio-circle'></i>Admins Data</a></li>
-                           
-                            <li><a class="dropdown-item" href="/Upload_profesionalbodies"><i class='bx bx-radio-circle'></i>Upload Professional Bodies</a></li>
-                        </ul>
-                    </li>
-                
-                    <!-- Profile -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="d-flex align-items-center">
-                                <div class="parent-icon"><i class='bx bx-user'></i></div>
-                                <div class="menu-title ms-2">Profile</div>
-                                <div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/profile"><i class='bx bx-wine'></i>My Profile</a></li>
-                            <li><a class="dropdown-item" href="/admin/profile/edit"><i class='bx bx-cog'></i>Update Profile</a></li>
-                            <li><a class="dropdown-item" href="/Provide_proffecional_info"><i class='bx bx-cog'></i>Compiled  Documents  with  user  guide</a></li>
-                            
-                        </ul>
-                    </li>
-                
-                    <!-- Logout -->
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('admin.logout') }}">
-                            @csrf
-                            <button type="submit" class="btn btn-danger border border-primary rounded-pill px-4 py-2 d-flex align-items-center">
-                                <i class="bx bx-log-out-circle me-2 text-white"></i>
-                                <span class="text-white">Logout</span>
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-                <style>
-                  .navbar-nav {
-                      display: flex;
-                      align-items: center;
-                      gap: 1rem;
-                  }
-              
-                  .nav-item {
-                      position: relative;
-                  }
-              
-                  .nav-link {
-                      display: flex;
-                      align-items: center;
-                      padding: 0.5rem 1rem;
-                      color: #000000; /* Black color */
-                      font-weight: bold; /* Bold text */
-                      text-decoration: none;
-                      transition: background-color 0.3s ease;
-                  }
-              
-                  .nav-link:hover {
-                      background-color: #f8f9fa;
-                      border-radius: 4px;
-                  }
-              
-                  .dropdown-menu {
-                      display: none;
-                      position: absolute;
-                      top: 100%;
-                      left: 0;
-                      background-color: #318fa9;
-                      border: 1px solid #ddd;
-                      border-radius: 4px;
-                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                      z-index: 1000;
-                  }
-              
-                  .dropdown-menu.show {
-                      display: block;
-                  }
-              
-                  .dropdown-item {
-                      display: flex;
-                      align-items: center;
-                      padding: 0.5rem 1rem;
-                      color: #333;
-                      text-decoration: none;
-                      transition: background-color 0.3s ease;
-                  }
-              
-                  .dropdown-item:hover {
-                      background-color: #1179E1FF;
-                  }
-              
-                  .btn-danger {
-                      background-color: #dc3545;
-                      border-color: #dc3545;
-                  }
-              
-                  .btn-danger:hover {
-                      background-color: #c82333;
-                      border-color: #bd2130;
-                  }
-              </style>
-                 </div>
-               </div>
-           </nav>
+    /*
+    |--------------------------------------------------------------------------
+    | PER-LINK ROLE VISIBILITY (EDIT ROLES HERE ONLY)
+    |--------------------------------------------------------------------------
+    */
+    $can = [
+        // Home
+        'home' => ['Dex','Super Admin','Admin','Root','HRM','Data','Viewer'],
+
+        // Adjunct Faculty
+        'adj_jobs'   => ['Dex','Super Admin','Admin','HRM','Data'],
+        'adj_apps'   => ['Dex','Super Admin','Admin','HRM','Data'],
+        'adj_users'  => ['Dex','Super Admin'],
+
+        // Internal Applications
+        'int_applicants' => ['Dex','Super Admin','Admin'],
+        'int_applied'    => ['Dex','Super Admin','Admin','HRM','Data'],
+        'int_jobs'       => ['Dex','Super Admin','Admin','HRM','Data'],
+        'int_qualified'  => ['Dex','Super Admin','Admin','HRM'],
+        'int_not_qual'   => ['Dex','Super Admin','Admin','HRM'],
+
+        // External Applications
+        'ext_users' => ['Dex','Super Admin','Admin'],
+        'ext_jobs'  => ['Dex','Super Admin','Admin','HRM','Data'],
+        'ext_apps'  => ['Dex','Super Admin','Admin','HRM','Data'],
+
+        // Account Management
+        'admins' => ['Dex','Super Admin','Admin'],
+        'pro_bodies' => ['Dex','Super Admin'],
+
+        // Profile
+        'profile_view' => ['Dex','Super Admin','Admin','Root','HRM','Data','Viewer'],
+        'profile_edit' => ['Dex','Super Admin','Admin','Root','HRM','Data','Viewer'],
+    ];
+@endphp
+		<div class="primary-menu">
+           <nav class="navbar navbar-expand-lg align-items-center">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
+<div class="offcanvas-body">
+
+<ul class="navbar-nav align-items-center flex-grow-1">
+
+{{-- ================= HOME ================= --}}
+@if(in_array($role, $can['home']))
+<li class="nav-item">
+    <a class="nav-link" href="/admin/dashboard">
+        <i class='bx bx-home-alt'></i> Home
+    </a>
+</li>
+@endif
+
+
+{{-- ============ ADJUNCT FACULTY JOBS ============ --}}
+@if(
+    in_array($role, $can['adj_jobs']) ||
+    in_array($role, $can['adj_apps']) ||
+    in_array($role, $can['adj_users'])
+)
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class='bx bx-cube'></i> Adjunct Faculty Jobs
+    </a>
+    <ul class="dropdown-menu">
+
+        @if(in_array($role, $can['adj_jobs']))
+        <li><a class="dropdown-item" href="/List_of_jobs_advatised_ext">Advertised Jobs</a></li>
+        @endif
+
+        @if(in_array($role, $can['adj_apps']))
+        <li><a class="dropdown-item" href="/Adjunct_Faculty_applications">Applications</a></li>
+        @endif
+
+        @if(in_array($role, $can['adj_users']))
+        <li><a class="dropdown-item" href="/Adjunct_Faculty">Adjunct Users</a></li>
+        @endif
+
+    </ul>
+</li>
+@endif
+
+
+{{-- ============ INTERNAL APPLICATIONS ============ --}}
+@if(
+    in_array($role, $can['int_applicants']) ||
+    in_array($role, $can['int_applied']) ||
+    in_array($role, $can['int_jobs']) ||
+    in_array($role, $can['int_qualified']) ||
+    in_array($role, $can['int_not_qual'])
+)
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class='bx bx-cube'></i> Internal Applications
+    </a>
+    <ul class="dropdown-menu">
+
+        @if(in_array($role, $can['int_applicants']))
+        <li><a class="dropdown-item" href="/All_the_staff_to_apply">Applicants Data</a></li>
+        @endif
+
+        @if(in_array($role, $can['int_applied']))
+        <li><a class="dropdown-item" href="/Jobs_applied_to">Jobs Applied To</a></li>
+        @endif
+
+        @if(in_array($role, $can['int_jobs']))
+        <li><a class="dropdown-item" href="/List_of_jobs_advatised">Jobs Advertised</a></li>
+        @endif
+
+        @if(in_array($role, $can['int_qualified']))
+        <li><a class="dropdown-item" href="/Qualified_Canidates">Qualified Candidates</a></li>
+        @endif
+
+        @if(in_array($role, $can['int_not_qual']))
+        <li><a class="dropdown-item" href="/NotQualified_Canidates">Not Qualified Candidates</a></li>
+        @endif
+
+    </ul>
+</li>
+@endif
+
+
+{{-- ============ EXTERNAL APPLICATIONS ============ --}}
+@if(
+    in_array($role, $can['ext_users']) ||
+    in_array($role, $can['ext_jobs']) ||
+    in_array($role, $can['ext_apps'])
+)
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class='bx bx-user-circle'></i> External Applications
+    </a>
+    <ul class="dropdown-menu">
+
+        @if(in_array($role, $can['ext_users']))
+        <li><a class="dropdown-item" href="/External_Users">External Users</a></li>
+        @endif
+
+        @if(in_array($role, $can['ext_jobs']))
+        <li><a class="dropdown-item" href="/List_of_jobs_External">Advertised External Jobs</a></li>
+        @endif
+
+        @if(in_array($role, $can['ext_apps']))
+        <li><a class="dropdown-item" href="/External_applications">External Applications</a></li>
+        @endif
+
+    </ul>
+</li>
+@endif
+
+
+{{-- ============ ACCOUNT MANAGEMENT ============ --}}
+@if(
+    in_array($role, $can['admins']) ||
+    in_array($role, $can['pro_bodies'])
+)
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class='bx bx-lock'></i> Account Management
+    </a>
+    <ul class="dropdown-menu">
+
+        @if(in_array($role, $can['admins']))
+        <li><a class="dropdown-item" href="/Datatable/admin">Admins Data</a></li>
+        @endif
+
+        @if(in_array($role, $can['pro_bodies']))
+        <li><a class="dropdown-item" href="/Upload_profesionalbodies">Upload Professional Bodies</a></li>
+        @endif
+
+    </ul>
+</li>
+@endif
+
+
+{{-- ================= PROFILE ================= --}}
+@if(
+    in_array($role, $can['profile_view']) ||
+    in_array($role, $can['profile_edit'])
+)
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class='bx bx-user'></i> Profile
+    </a>
+    <ul class="dropdown-menu">
+
+        @if(in_array($role, $can['profile_view']))
+        <li><a class="dropdown-item" href="/admin/profile">My Profile</a></li>
+        @endif
+
+        @if(in_array($role, $can['profile_edit']))
+        <li><a class="dropdown-item" href="/admin/profile/edit">Update Profile</a></li>
+        @endif
+
+    </ul>
+</li>
+@endif
+
+
+{{-- ================= LOGOUT ================= --}}
+<li class="nav-item">
+    <form method="POST" action="{{ route('admin.logout') }}">
+        @csrf
+        <button class="btn btn-danger px-4">
+            <i class="bx bx-log-out-circle"></i> Logout
+        </button>
+    </form>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
      </div>
      <!--end navigation-->
     </div>

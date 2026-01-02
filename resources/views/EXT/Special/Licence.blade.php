@@ -25,7 +25,7 @@
                 <div class="d-flex justify-content-start mt-4">
                     <a href="{{ route('EXT.Experince.New') }}" class="btn previous-button px-4 py-2 me-3">Previous</a>
 
-                    <button onclick="location.href='{{ route('EXT.Ref.User') }}'" class="btn next-button px-4 py-2">
+                    <button onclick="location.href='{{ route('Research.EXT.Home') }}'" class="btn next-button px-4 py-2">
                         Next
                     </button>
                     

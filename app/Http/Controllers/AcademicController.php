@@ -24,6 +24,7 @@ $trainning = Academic::where('upn_no', $userUpnNo)
     ->where('Education_type', 'Training')
     ->orderBy('stdate', 'desc')
     ->get();
+    
 
         return view('Academic.data', compact('academics','trainning'));
     }
@@ -133,22 +134,31 @@ $trainning = Academic::where('upn_no', $userUpnNo)
     //ext
 
      public function Academicext()
-    {
-        $userUpnNo = Auth::guard('HRPU')->user()->upn_no;
+{
+    $userUpnNo = Auth::guard('HRPU')->user()->upn_no;
 
-        // Fetch academic records where `upn_no` matches the logged-in user
-       $academics = Academic::where('upn_no', $userUpnNo)
-    ->where('Education_type', 'Academic')
-    ->orderBy('stdate', 'desc')
-    ->get();
+    // Fetch Academic records
+    $academics = Academic::where('upn_no', $userUpnNo)
+        ->where('Education_type', 'Academic')
+        ->orderBy('stdate', 'desc')
+        ->get();
 
-// Fetch training records (Education_type = 'Training'), ordered by most recent start date
-$trainning = Academic::where('upn_no', $userUpnNo)
-    ->where('Education_type', 'Training')
-    ->orderBy('stdate', 'desc')
-    ->get();
-        return view('Academic.Ext', compact('academics','trainning'));
-    }
+    // Fetch Training records
+    $trainning = Academic::where('upn_no', $userUpnNo)
+        ->where('Education_type', 'Training')
+        ->orderBy('stdate', 'desc')
+        ->get();
+
+    // Fetch Professional Qualifications (6 months or longer courses)
+    $professionals = Academic::where('upn_no', $userUpnNo)
+        ->where('Education_type', 'Professional')
+        ->orderBy('stdate', 'desc')
+        ->get();
+
+    // Pass all to the view
+    return view('Academic.Ext', compact('academics', 'trainning', 'professionals'));
+}
+
     public function Academicpostext(Request $request)
     {
           

@@ -34,7 +34,7 @@ use App\Http\Controllers\EventevaluationController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/nullnot', function () {
     return view('HRPU.web');
 });
 
@@ -99,7 +99,7 @@ Route::post('/admin/set-password', [TempController::class, 'setNewPasswordadmin'
     //the  ai  inetrephase
   
 
-Route::get('/ai', [AIController::class, 'index'])->name('ai.chart');         // Blade interface
+Route::get('/', [AIController::class, 'index'])->name('ai.chart');         // Blade interface
 Route::post('/ai/generate', [AIController::class, 'generate'])->name('ai.generate'); // AJAX call
 Route::get('/ai/history', [AIController::class, 'history'])->name('ai.history');     // JSON history
 //admin  security 

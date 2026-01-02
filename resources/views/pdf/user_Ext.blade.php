@@ -302,7 +302,7 @@ td {
                 <thead class="table-light">
                     <thead class="table-light">
     <tr>
-        th>ID</th>
+        <th>ID</th>
                                         
                                         <th>I  have  a  license</th>
                                         <th>Issuing Body</th>
@@ -328,6 +328,130 @@ td {
                 </tbody>
             </table>
         </div>
+        <div class="card mt-4">
+    <div class="card-body">
+        <h2 class="fw-bold mb-3">Consultancy Assignments</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th>Sector</th>
+                        <th>Completed</th>
+                        <th>Completion Date</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($other as $index => $record)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $record->Client }}</td>
+                            <td>{{ $record->Sector }}</td>
+                            <td>{{ $record->completed }}</td>
+                            <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                            <td>
+                                @if($record->document_name)
+                                    <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" class="text-center text-muted">No records found.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- RESEARCH ASSIGNMENTS -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="fw-bold mb-3">Research Assignments</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th>Sector</th>
+                        <th>Completed</th>
+                        <th>Completion Date</th>
+                        <th>Amount</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($others as $index => $record)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $record->Client }}</td>
+                            <td>{{ $record->Sector }}</td>
+                            <td>{{ $record->completed }}</td>
+                            <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                            <td>{{ $record->Amount ?? 'N/A' }}</td>
+                            <td>
+                                @if($record->document_name)
+                                    <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="7" class="text-center text-muted">No records found.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- PUBLICATIONS -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h2 class="fw-bold mb-3">Publications</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Journal / Publisher</th>
+                        <th>Type / Title</th>
+                        <th>Publication Date</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($publications as $index => $pub)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $pub->Client }}</td>
+                            <td>{{ $pub->completed }}</td>
+                            <td>{{ \Carbon\Carbon::parse($pub->compedate)->format('d M Y') }}</td>
+                            <td>
+                                @if($pub->document_name)
+                                    <a href="{{ asset('uploads/Other/' . $pub->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="5" class="text-center text-muted">No publications found.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
         <div class="section-title">Referees</div>
         <table id="coreMandateTable" class="table mb-0">
             <thead class="table-light">

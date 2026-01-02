@@ -81,7 +81,8 @@
             Sector: {{ $o->Sector }}<br>
             Completed: {{ $o->completed }} on {{ \Carbon\Carbon::parse($o->compedate)->format('d M Y') }}<br>
             Client: {{ $o->Client }}<br>
-            Amount: KES {{ number_format($o->Amount, 2) }}<br>
+            Amount: KES {{ number_format((float) $o->Amount, 2) }}<br>
+
             Type: {{ $o->type }}
         </div>
     @empty

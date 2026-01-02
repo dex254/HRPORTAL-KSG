@@ -44,6 +44,7 @@ use App\Http\Controllers\DatatableController;
 use App\Http\Controllers\ExperinceController;
 
 use App\Http\Controllers\MyprofileController;
+use App\Http\Controllers\ResearchPublication;
 use App\Http\Controllers\CarriculumController;
 use App\Http\Controllers\ComingsoonController;
 use App\Http\Controllers\PracticingController;
@@ -327,6 +328,7 @@ Route::middleware('EXT.auth')->group(function () {
       Route::get('/Academic_Qualifications_registration', [ExternalController::class, 'extAcademicext'])->name('EXT.Academic.Home');
   Route::post('/Academic_Qualifications_registration_', [ExternalController::class, 'extAcademicpostext'])->name('EXT.Academic.Ext');
   Route::post('/Academic_Qualifications_short', [ExternalController::class, 'extTrainingext'])->name('EXT.Academic.Trainingext');
+  Route::post('/Professional_Qualification', [ExternalController::class, 'Professionalexp'])->name('EXT.Academic.Professional');
   Route::delete('/academic_registration/{id}', [ExternalController::class, 'extdestroyext'])->name('EXT.academic.destroyext');
   //profecionall
   Route::get('/Member_of_a_Professional_Body_online', [BodyController::class, 'extprofessionalbodyext'])->name('EXT.Proffecional.Body');
@@ -369,6 +371,13 @@ Route::get('/Experince_online', [NewController::class, 'extExperinceext'])->name
 Route::post('/other/save', [OtherController::class, 'otherpost'])->name('Other.post.save');
   Route::post('/Experince_Other', [OtherController::class, 'otherspost'])->name('Other.others');
   Route::delete('/Experince_KSG/{id}', [OtherController::class, 'destroyother'])->name('Experience.destroyother');
+  //reserch  and  consotlatcy  
+  Route::get('/Research_and_Publications_&_Consultancy_in_the_Public_Service', [ResearchPublication::class, 'ResearchHomeext'])->name('Research.EXT.Home');
+  Route::post('Consultancy_in_the_Public_Service', [ResearchPublication::class, 'Researchotherpostext'])->name('Other.post.Researchsaveext');
+  Route::post('/Research_for_External', [ResearchPublication::class, 'Researchotherspostext'])->name('Other.Researchext');
+   Route::post('/Publications', [ResearchPublication::class, 'ResearchotherspostPublication'])->name('Other.Researchext.Publication');
+  
+  Route::delete('/Experince_Research_clear/{id}', [ResearchPublication::class, 'Researchdestroyotherext'])->name('Experience.Researchdestroyotherext');
   
   
   });
