@@ -242,44 +242,10 @@ td {
             @endforeach
         </table>
     </div>
-    <div class="container mt-5">
-        <!-- Core Mandate Section -->
-        <div class="mb-5">
-            <h2>Consultancy and Research</h2>
-            
-            <table id="coreMandateTable" class="table mb-0">
-                <thead class="table-light">
-                    <tr>
-                         <th>#</th>
-       
-        <th>Client</th>
-        <th>Sector</th>
-        <th>Completed</th>
-        <th>Completion Date</th>
-        <th>Amount</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                   @forelse($others as $index => $other)
-        <tr>
-            <td>{{ $index + 1 }}</td>
-           
-            <td>{{ $other->Client }}</td>
-            <td>{{ $other->Sector }}</td>
-            <td>{{ $other->completed }}</td>
-            <td>{{ \Carbon\Carbon::parse($other->compedate)->format('d M Y') }}</td>
-            <td>{{ $other->Amount ?? 'N/A' }}</td>
-                            
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
+   
         <!-- Licenses Section -->
         <div class="mb-5">
-            <h2>Practising Licences</h2>
+            <div class="section-title">Practising Licences</div>
            
             <table id="licensesTable" class="table mb-0">
                 <thead class="table-light">
@@ -321,7 +287,7 @@ td {
 
         <!-- Professional Body Section -->
         <div class="mb-5">
-            <h2>Professional Body</h2>
+            <div class="section-title">Professional Body</div>
             
             <table id="professionalBodyTable" class="table mb-0">
                 <thead class="table-light">
@@ -363,7 +329,7 @@ td {
 
         <!-- Medical Section -->
         <div class="mb-5">
-            <h2>Food handler  Certificates</h2>
+            <div class="section-title">Food handler  Certificates</div>
            
             <table id="medicalTable" class="table mb-0">
                 <thead class="table-light">
@@ -405,10 +371,185 @@ td {
                 </tbody>
             </table>
         </div>
+  {{-- ================= CONSULTANCY ASSIGNMENTS ================= --}}
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="section-title">Consultancy Assignments</div>
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th>Sector</th>
+                        <th>Completed</th>
+                        <th>Completion Date</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($other as $index => $record)
+                        @if(is_object($record))
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $record->Client ?? 'N/A' }}</td>
+                            <td>{{ $record->Sector ?? 'N/A' }}</td>
+                            <td>{{ $record->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
+                            <td>
+                                @if(!empty($record->document_name))
+                                    <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No records found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{-- ================= RESEARCH ASSIGNMENTS ================= --}}
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="section-title">Research Assignments</div>
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th>Sector</th>
+                        <th>Completed</th>
+                        <th>Completion Date</th>
+                        <th>Amount</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($others as $index => $record)
+                        @if(is_object($record))
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $record->Client ?? 'N/A' }}</td>
+                            <td>{{ $record->Sector ?? 'N/A' }}</td>
+                            <td>{{ $record->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
+                            <td>{{ $record->Amount ?? 'N/A' }}</td>
+                            <td>
+                                @if(!empty($record->document_name))
+                                    <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No records found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{-- ================= PUBLICATIONS ================= --}}
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="section-title">Publications</div>
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Journal / Publisher</th>
+                        <th>Type / Title</th>
+                        <th>Publication Date</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($publications as $index => $pub)
+                        @if(is_object($pub))
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $pub->Client ?? 'N/A' }}</td>
+                            <td>{{ $pub->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($pub->compedate) ? \Carbon\Carbon::parse($pub->compedate)->format('d M Y') : 'N/A' }}</td>
+                            <td>
+                                @if(!empty($pub->document_name))
+                                    <a href="{{ asset('uploads/Other/' . $pub->document_name) }}" target="_blank">View</a>
+                                @else
+                                    <span class="text-muted">No Document</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endif
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No publications found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="section-title">Teaching Experience</div>
+<div class="table-responsive">
+    <table id="example" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Teaching</th>
+                <th>Employer</th>
+                <th>Designation</th>
+                <th>Country</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Job Description</th>
+                <th>Duties and Responsibilities</th>
+                
+               
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($teachings as $experience)
+            <tr>
+                <td>{{ $experience->teaching_areas }}</td>
+                <td>{{ $experience->employer }}</td>
+                <td>{{ $experience->job_title }}</td>
+                <td>{{ $experience->country }}</td>
+                <td>{{ $experience->stdate }}</td>
+                <td>{{ $experience->enddate }}</td>
+                <td>{{ $experience->location }}</td>
+                <td>{{ $experience->duties }}</td>
+                <td>{{ $experience->achievements }}</td>
+
+                
+
+              
+            </tr>
+            @endforeach
+        </tbody>
+
+       
+    </table>
 
         <!-- Association Section -->
         <div class="mb-5">
-            <h2>Association</h2>
+            <div class="section-title">Association</div>
            
             <table id="associationTable" class="table mb-0">
                 <thead class="table-light">

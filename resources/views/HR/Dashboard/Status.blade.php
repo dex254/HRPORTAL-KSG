@@ -142,22 +142,27 @@
         <div class="hexagon">7</div>
         <span class="step-label">Experience</span>
     </div>
-    <div class="step" data-step="8" onclick="navigateToRoute('{{ route('Research.Home') }}')">
+     <div class="step" data-step="8" onclick="navigateToRoute('{{ route('Experience.Teaching.HR') }}')">
         <div class="hexagon">8</div>
-        <span class="step-label">Consultancy and Research</span>
+        <span class="step-label">Teaching<br>Experience</span>
+    </div>
+    
+    <div class="step" data-step="9" onclick="navigateToRoute('{{ route('Research.Home') }}')">
+        <div class="hexagon">9</div>
+        <span class="step-label">Research & Publications<br>& Consultancy</span>
     </div>
    
-    <div class="step" data-step="9" onclick="navigateToRoute('{{ route('Report.Complete') }}')">
-        <div class="hexagon">9</div>
+    <div class="step" data-step="10" onclick="navigateToRoute('{{ route('Report.Complete') }}')">
+        <div class="hexagon">10</div>
         <span class="step-label">Overview & Release</span>
     </div>
     
-    <div class="step" data-step="10" onclick="navigateToRoute('{{ route('JOB.applicants') }}')">
-        <div class="hexagon">10</div>
+    <div class="step" data-step="11" onclick="navigateToRoute('{{ route('JOB.applicants') }}')">
+        <div class="hexagon">11</div>
         <span class="step-label">Jobs</span>
     </div>
-    <div class="step" data-step="11" onclick="navigateToRoute('{{ route('JOB.Myapplicants') }}')">
-        <div class="hexagon">11</div>
+    <div class="step" data-step="12" onclick="navigateToRoute('{{ route('JOB.Myapplicants') }}')">
+        <div class="hexagon">12</div>
         <span class="step-label">Complete</span>
     </div>
 </div>
@@ -176,12 +181,13 @@
             "Special.Licence": 5,
             "Special.Medical": 6,
             "Experience.data": 7,
-            "Research.Home": 8,
+            "experience.Teaching.HR": 8,
+            "Research.Home": 9,
            
-            "Report.Complete": 9,
-            "JOB.applicants": 10,
-            "JOB.Myapplicants": 11, // Mark all steps as complete for this route
-            "JOB.Apply": 12 // Mark all steps as complete for this route as well
+            "Report.Complete": 10,
+            "JOB.applicants": 11,
+            "JOB.Myapplicants": 12, // Mark all steps as complete for this route
+            "JOB.Apply": 13 // Mark all steps as complete for this route as well
         };
 
         // Get the current route name from Laravel

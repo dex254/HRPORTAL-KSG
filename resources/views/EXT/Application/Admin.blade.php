@@ -163,112 +163,157 @@ if (document.getElementById('error-message')) {
         <input type="date" class="form-control" name="deadline" required>
     </div>
     <div class="col-12 mt-3">
-                                            <h6 class="text-primary">Qualifications & Requirements</h6>
-                                        </div>
-                                                 <div class="col-md-2">
-                                            <label class="form-label">Academic</label>
-                                            <select id="academic" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="O level">O level</option>
-                                                <option value="A level">A level</option>
-                                                <option value="Certificate">Certificate</option>
-                                                <option value="Diploma">Diploma</option>
-                                                <option value="Bachelor's Degree">Bachelor's Degree</option>
-                                                <option value="Master's Degree">Master's Degree</option>
-                                                <option value="Doctorate">Doctorate (PhD)</option>
-                                                <option value="All">All</option>
-                                            </select>
-                                        </div>
+                                           <h6 class="text-primary">Qualifications & Requirements</h6>
 
-                                        <div class="col-md-2">
-                                            <label class="form-label">Professional Bodies</label>
-                                            <select id="professional_bodies" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+<div class="row g-3">
 
-                                        <div class="col-md-2">
-                                            <label class="form-label">Association</label>
-                                            <select id="association" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+    <div class="col-md-2">
+        <label class="form-label">Academic</label>
+        <select id="academic" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="O level">O level</option>
+            <option value="A level">A level</option>
+            <option value="Certificate">Certificate</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Master's Degree">Master's Degree</option>
+            <option value="Doctorate">Doctorate (PhD)</option>
+            <option value="All">All</option>
+        </select>
+    </div>
 
-                                        <div class="col-md-2">
-                                            <label class="form-label">Practising License</label>
-                                            <select id="practising_license" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+    <div class="col-md-2">
+        <label class="form-label">Professional Bodies</label>
+        <select id="professional_bodies" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
 
-                                        <div class="col-md-2">
-                                            <label class="form-label">Food Handlers Certificate</label>
-                                            <select id="food_handlers" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+    <div class="col-md-2">
+        <label class="form-label">Association</label>
+        <select id="association" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
 
-                                        <div class="col-md-2">
-                                            <label class="form-label">Experience</label>
-                                            <select id="experience" class="form-select rounded-3">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                        </div>
+    <div class="col-md-2">
+        <label class="form-label">Practising License</label>
+        <select id="practising_license" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
 
-                                        <div class="col-md-12">
-                                            <label class="form-label">Qualifications (Auto-fill)</label>
-                                            <input type="text" id="qualifications" name="qualifications" class="form-control rounded-3" readonly placeholder="Qualifications will autofill here">
-                                        </div>
+    <div class="col-md-2">
+        <label class="form-label">Food Handlers Certificate</label>
+        <select id="food_handlers" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Experience</label>
+        <select id="experience" class="form-select rounded-3">
+            <option value="">-- Select --</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
+
+    <!-- Years of Experience (Shown only if Yes) -->
+    <div class="col-md-2 d-none" id="experienceYearsWrapper">
+        <label class="form-label">Years</label>
+        <input type="number"
+               id="experience_years"
+               class="form-control rounded-3"
+               min="0"
+               placeholder="Years">
+    </div>
+
+    <div class="col-md-12">
+        <label class="form-label">Qualifications (Auto-fill)</label>
+        <input type="text"
+               id="qualifications"
+               name="qualifications"
+               class="form-control rounded-3"
+               readonly
+               placeholder="Qualifications will autofill here">
+    </div>
 
     <div class="col-12">
         <button type="submit" class="btn btn-light px-5">Upload</button>
     </div>
-</form>
 
-                                    
-                                   
-                                    
-                                    
-                                    
-                                    
-                                   <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            const academic = document.getElementById('academic');
-                                            const professional = document.getElementById('professional_bodies');
-                                            const association = document.getElementById('association');
-                                            const license = document.getElementById('practising_license');
-                                            const food = document.getElementById('food_handlers');
-                                            const experience = document.getElementById('experience');
-                                            const qualifications = document.getElementById('qualifications');
+</div>
 
-                                            function updateQualifications() {
-                                                let parts = [];
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-                                                if(academic.value) parts.push(`Academic[${academic.value}]`);
-                                                if(professional.value) parts.push(`Professional Bodies[${professional.value}]`);
-                                                if(association.value) parts.push(`Association[${association.value}]`);
-                                                if(license.value) parts.push(`Practising License[${license.value}]`);
-                                                if(food.value) parts.push(`Food Handlers Certificate[${food.value}]`);
-                                                if(experience.value) parts.push(`Experience[${experience.value}]`);
+    const academic = document.getElementById('academic');
+    const professional = document.getElementById('professional_bodies');
+    const association = document.getElementById('association');
+    const license = document.getElementById('practising_license');
+    const food = document.getElementById('food_handlers');
+    const experience = document.getElementById('experience');
+    const experienceYears = document.getElementById('experience_years');
+    const experienceYearsWrapper = document.getElementById('experienceYearsWrapper');
+    const qualifications = document.getElementById('qualifications');
 
-                                                qualifications.value = parts.join(', ');
-                                            }
+    function updateQualifications() {
+        let parts = [];
 
-                                            [academic, professional, association, license, food, experience].forEach(el => {
-                                                el.addEventListener('change', updateQualifications);
-                                            });
-                                        });
-                                    </script>
+        if (academic.value)
+            parts.push(`Academic[${academic.value}]`);
+
+        if (professional.value !== "")
+            parts.push(`Professional Bodies[${professional.value}]`);
+
+        if (association.value !== "")
+            parts.push(`Association[${association.value}]`);
+
+        if (license.value !== "")
+            parts.push(`Practising License[${license.value}]`);
+
+        if (food.value !== "")
+            parts.push(`Food Handlers Certificate[${food.value}]`);
+
+        if (experience.value === "1") {
+            const years = experienceYears.value || 0;
+            parts.push(`Experience[1][${years} Years]`);
+        } 
+        else if (experience.value === "0") {
+            parts.push(`Experience[0]`);
+        }
+
+        qualifications.value = parts.join(', ');
+    }
+
+    experience.addEventListener('change', function () {
+        if (this.value === "1") {
+            experienceYearsWrapper.classList.remove('d-none');
+        } else {
+            experienceYearsWrapper.classList.add('d-none');
+            experienceYears.value = '';
+        }
+        updateQualifications();
+    });
+
+    experienceYears.addEventListener('input', updateQualifications);
+
+    [academic, professional, association, license, food].forEach(el => {
+        el.addEventListener('change', updateQualifications);
+    });
+
+});
+</script>
+
                                     
                                     
                                     

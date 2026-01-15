@@ -251,7 +251,8 @@ td {
 
         <!-- Professional Body Section -->
         <div class="mb-5">
-            <h2>Professional Body</h2>
+            
+            <div class="section-title">Professional Body</div>
             
             <table id="professionalBodyTable" class="table mb-0">
                 <thead class="table-light">
@@ -296,8 +297,8 @@ td {
 
         <!-- Association Section -->
         <div class="mb-5">
-            <h2>Professional Experience</h2>
-           
+            
+            <div class="section-title">Professional Experience</div>
             <table id="associationTable" class="table mb-0">
                 <thead class="table-light">
                     <thead class="table-light">
@@ -330,7 +331,8 @@ td {
         </div>
         <div class="card mt-4">
     <div class="card-body">
-        <h2 class="fw-bold mb-3">Consultancy Assignments</h2>
+        
+        <div class="section-title">Consultancy Assignments</div>
 
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
@@ -372,7 +374,8 @@ td {
 <!-- RESEARCH ASSIGNMENTS -->
 <div class="card mt-4">
     <div class="card-body">
-        <h2 class="fw-bold mb-3">Research Assignments</h2>
+        
+        <div class="section-title">Research Assignments</div>
 
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
@@ -416,7 +419,8 @@ td {
 <!-- PUBLICATIONS -->
 <div class="card mt-4">
     <div class="card-body">
-        <h2 class="fw-bold mb-3">Publications</h2>
+        
+        <div class="section-title">Publications</div>
 
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
@@ -451,6 +455,58 @@ td {
             </table>
         </div>
     </div>
+</div>
+<div class="section-title">Teaching Experience</div>
+<div class="table-responsive">
+    <table id="example" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Teaching</th>
+                <th>Employer</th>
+                <th>Designation</th>
+                <th>Country</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Job Description</th>
+                <th>Duties and Responsibilities</th>
+                <th>File</th>
+               
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($teachings as $experience)
+            <tr>
+                <td>{{ $experience->teaching_areas }}</td>
+                <td>{{ $experience->employer }}</td>
+                <td>{{ $experience->job_title }}</td>
+                <td>{{ $experience->country }}</td>
+                <td>{{ $experience->stdate }}</td>
+                <td>{{ $experience->enddate }}</td>
+                <td>{{ $experience->location }}</td>
+                <td>{{ $experience->duties }}</td>
+                <td>{{ $experience->achievements }}</td>
+
+                <td>
+                    @if($experience->teaching_path)
+                        <a href="{{ asset('/' . $experience->teaching_path) }}"
+                           class="btn btn-outline-primary btn-sm animate-download"
+                           download>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    @else
+                        <span class="text-muted">No file</span>
+                    @endif
+                </td>
+
+              
+            </tr>
+            @endforeach
+        </tbody>
+
+       
+    </table>
 </div>
         <div class="section-title">Referees</div>
         <table id="coreMandateTable" class="table mb-0">

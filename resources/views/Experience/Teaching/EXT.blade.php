@@ -16,15 +16,19 @@
                     </nav>
                 </div>
                 <div class="alert alert-info mt-3" role="alert">
-                    <i class="bx bx-info-circle"></i>
-                    Please provide your teaching experience starting with the most recent.
-                </div>
+    <i class="bx bx-info-circle"></i>
+    Please provide details of your <strong>professional teaching experience</strong> only. 
+    This section applies to roles where you taught in a formal or professional capacity 
+    (e.g. universities, colleges, training institutions, or accredited programs).  
+    List your experience starting with the <strong>most recent</strong>.
+</div>
+
             </div> <!--end breadcrumb-->
             <div class="ms-auto">
                 <div class="d-flex justify-content-start mt-4">
-                    <a href="{{ route('Experience.Ext') }}" class="btn previous-button px-4 py-2 me-3">Previous</a>
+                    <a href="{{ route('EXT.Special.Licence') }}" class="btn previous-button px-4 py-2 me-3">Previous</a>
 
-                    <button onclick="location.href='{{ route('Experience.Other') }}'" class="btn next-button px-4 py-2">
+                    <button onclick="location.href='{{ route('Research.EXT.Home') }}'" class="btn next-button px-4 py-2">
                         Next
                     </button>
                     
@@ -249,7 +253,7 @@
                         
                         <td>
                             <!-- Delete Button -->
-                            <form action="{{ route('Experience.Teachingdestroyext', $experience->id) }}" method="POST">
+                            <form action="{{ route('Experience.Teachingdestroyext.EXT', $experience->id) }}" method="POST">
     @csrf
     @method('DELETE')
     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -285,7 +289,7 @@
                         <h3 class="modal-title">Add Experience</h3>
                        
                 
-                        <form action="{{ route('Experience.Teaching') }}"   method="POST" enctype="multipart/form-data" >
+                        <form action="{{ route('Experince.Teaching.EXT') }}"   method="POST" enctype="multipart/form-data" >
                             @csrf
                             
                             

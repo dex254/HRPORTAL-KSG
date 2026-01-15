@@ -6,6 +6,7 @@ use App\Models\Other;
 use App\Models\Licence;
 use App\Models\Academic;
 use App\Models\Referees;
+use App\Models\Teaching;
 use App\Models\Experience;
 use App\Models\Proffecional;
 use Illuminate\Http\Request;
@@ -82,14 +83,34 @@ class NewController extends Controller
     }
     public function extepdestroyext($id)
     {
-        $experiences = Experience::findOrFail($id);
+         $experience = Experience::findOrFail($id);
 
-        // Delete the certificate file if it exists
-      
-        // Delete record
-        $experiences->delete();
+    // 2️⃣ Calculate the duration of this experience in years
+    $start = Carbon::parse($experience->stdate);
+    $end   = Carbon::parse($experience->enddate);
 
-        return redirect()->back()->with('success', 'Experince record deleted successfully.');
+    $months = $start->diffInMonths($end);
+    $years = round($months / 12, 2);
+
+    // 3️⃣ Update the user's total experience in years_of_experence table
+    $totalExperience = YearsOfExperence::where('upn_no', $experience->upn_no)->first();
+
+    if ($totalExperience) {
+        // Subtract the years of the deleted experience
+        $totalExperience->years -= $years;
+
+        // Make sure total years don't go below 0
+        $totalExperience->years = max(0, $totalExperience->years);
+
+        $totalExperience->save();
+    }
+
+    // 4️⃣ Delete the experience record
+    $experience->delete();
+
+    // 5️⃣ Redirect back with success message
+    return redirect()->back()->with('success', 'Experience record deleted and total years updated successfully.');
+
     }
 
 
@@ -124,9 +145,10 @@ $others = Other::where('upn_no', $upn_no)
         ->where('type', 'Publication')
         ->orderBy('compedate', 'desc')
         ->get();
+         $teachings = Teaching::where('upn_no', $upn_no)->get();
        
 
-        return view('EXT.Report.User', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications'));
+        return view('EXT.Report.User', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications','teachings'));
     }
     public function extgenerateUserReportext()
 {
@@ -158,8 +180,9 @@ $others = Other::where('upn_no', $upn_no)
         ->where('type', 'Publication')
         ->orderBy('compedate', 'desc')
         ->get();
+         $teachings = Teaching::where('upn_no', $upn_no)->get();
     // Load the Blade template as HTML
-    $html = view('pdf.user_Ext', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications'))->render();
+    $html = view('pdf.user_Ext', compact('academics','licence','referees','experiences', 'proffecional','profecionalbodies','other','others','publications','teachings'))->render();
 
     // Initialize mPDF
     $mpdf = new Mpdf();

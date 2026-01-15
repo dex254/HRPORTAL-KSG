@@ -8,7 +8,7 @@
         <div class="page-content">
             <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                <div class="breadcrumb-title pe-3">Work   Experience</div>
+                <div class="breadcrumb-title pe-3">Teaching Experience</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         
@@ -17,14 +17,14 @@
                 </div>
                 <div class="alert alert-info mt-3" role="alert">
                     <i class="bx bx-info-circle"></i>
-                    Please provide your work experience starting with the most recent.
+                    Please provide your teaching experience starting with the most recent.
                 </div>
             </div> <!--end breadcrumb-->
             <div class="ms-auto">
                 <div class="d-flex justify-content-start mt-4">
-                    <a href="{{ route('Academic.data') }}" class="btn previous-button px-4 py-2 me-3">Previous</a>
+                    <a href="{{ route('Experience.Ext') }}" class="btn previous-button px-4 py-2 me-3">Previous</a>
 
-                    <button onclick="location.href='{{ route('Experience.Teaching.HR') }}'" class="btn next-button px-4 py-2">
+                    <button onclick="location.href='{{ route('Experience.Other') }}'" class="btn next-button px-4 py-2">
                         Next
                     </button>
                     
@@ -76,7 +76,7 @@
                             <div class="d-flex justify-content-start mt-4">
                                
                                 <button class="custom-btn" onclick="openModal()">
-                                    Add an Experience
+                                    Add a Teaching Experience
                                 </button>
                                 
                                 <style>
@@ -189,6 +189,7 @@
                         <table id="example" class="table mb-0">
                             <thead class="table-light">
                                 <tr>
+                                    <th>Teaching </th>
                                     <th>Employer</th>
                                     <th>Designation</th>
                                     <th>Country</th>
@@ -197,31 +198,63 @@
                                     <th>Location</th>
                                     <th>Job Description</th>
                                     <th>Duties  and  Responsibilities</th>
-                                   
+                                   <th>File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($experiences as $experience)
+                                @foreach($teachings as $experience)
                     <tr>
+                        <td>{{ $experience->teaching_areas }}</td>
                         <td>{{ $experience->employer }}</td>
                         <td>{{ $experience->job_title }}</td>
                         <td>{{ $experience->country }}</td>
                         <td>{{ $experience->stdate }}</td>
                         <td>{{ $experience->enddate }}</td>
                         <td>{{ $experience->location }}</td>
-                        <td>{{ $experience->expartise }}</td>
-                        <td>{{ $experience->duties }}</td>
+                        <td>{{ $experience->duties}}</td>
+                        
+                        <td>{{ $experience->achievements }}</td>
+                        
+                       <td>
+    @if($experience->teaching_path)
+        <a href="{{ asset('/' . $experience->teaching_path) }}" 
+           class="btn btn-outline-primary btn-sm animate-download" 
+           download>
+            <i class="fas fa-download"></i> 
+        </a>
+    @else
+        <span class="text-muted">No file</span>
+    @endif
+</td>
+
+<style>
+    .animate-download {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .animate-download:hover {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+        transform: scale(1.05);
+    }
+
+    .animate-download i {
+        margin-right: 5px;
+    }
+</style>
+
                         
                         <td>
                             <!-- Delete Button -->
-                            <form action="{{ route('Experince.destroy', $experience->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this record?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
+                            <form action="{{ route('teaching.destroy', $experience->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form>
+
                         </td>
                         
                     </tr>
@@ -229,6 +262,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                   <th>Teaching </th>
                                     <th>Employer</th>
                                     <th>Designation</th>
                                     <th>Country</th>
@@ -237,7 +271,7 @@
                                     <th>Location</th>
                                     <th>Job Description</th>
                                     <th>Duties  and  Responsibilities</th>
-                                    
+                                   <th>File</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
@@ -251,7 +285,7 @@
                         <h3 class="modal-title">Add Experience</h3>
                        
                 
-                        <form action="{{ route('Experience.data') }}"   method="POST"  >
+                        <form action="{{ route('Experience.Teaching.HR') }}"   method="POST" enctype="multipart/form-data" >
                             @csrf
                             
                             
@@ -259,13 +293,281 @@
                             <!-- Hidden Fields -->
                             <input type="hidden" name="upn_no" value="{{ Auth::guard('HR')->user()->upn_no }}">
                             <input type="hidden" name="email" value="{{ Auth::guard('HR')->user()->email }}">
-                            <input type="hidden" name="phone" value="{{ Auth::guard('HR')->user()->phone }}">
+                            <input type="hidden" name="phone" value="{{ Auth::guard('HR')->user()->upn_no }}">
                             <input type="hidden" name="name" value="{{ Auth::guard('HR')->user()->name }}">
                             <!-- Input Fields -->
-                            <div class="form-group">
-                                <label>Employer</label>
-                                <input type="text" name="employer" class="form-control" required>
-                            </div>
+                            <!-- Include Bootstrap (for modal) -->
+
+
+<div class="form-group">
+    <label><strong>Area of Specialization</strong></label>
+    <select id="areaDropdown" class="form-select">
+    <option value="">-- Select Area --</option>
+    <option value="Public Sector Management">Public Sector Management</option>
+    <option value="Public Health Management">Public Health Management</option>
+    <option value="Ethics, Values and Integrity">Ethics, Values and Integrity</option>
+    <option value="Procurement Management">Procurement Management</option>
+    <option value="Human Resource Management">Human Resource Management</option>
+    <option value="Security">Security</option>
+    <option value="Information Technology">Information Technology</option>
+    <option value="Data Management">Data Management</option>
+    <option value="Law">Law</option>
+    <option value="Life Skills">Life Skills</option>
+    <option value="Environment">Environment</option>
+    <option value="Corporate Governance">Corporate Governance</option>
+    <option value="Project Management">Project Management</option>
+    <option value="Education">Education</option>
+    <option value="Communication Management">Communication Management</option>
+    <option value="International Relations">International Relations</option>
+    <option value="Hospitality Management">Hospitality Management</option>
+    <option value="Research">Research</option>
+    <option value="Records Management">Records Management</option>
+    <option value="Consultancy Management">Consultancy Management</option>
+    <option value="Innovation and Creativity">Innovation and Creativity</option>
+  </select>
+</div>
+
+<div class="form-group mt-3" id="topicsWrapper" style="display:none;">
+    <label><strong>Select Relevant Topics</strong></label>
+    <div id="topicsContainer"></div>
+</div>
+
+<div class="form-group">
+    <label for="topicsTextarea">Teaching Areas</label>
+    <textarea id="topicsTextarea" name="Teachingareas" class="form-control" rows="6" readonly></textarea>
+</div>
+<script>
+    const areaTopics = {
+  "Public Sector Management": [
+    "Public Sector Leadership",
+    "Public Human Resource Information Systems",
+    "Management of Public Enterprises",
+    "Public Sector Performance Management & Productivity",
+    "Public Policy Formulation, Implementation & Analysis",
+    "Public Finance Management",
+    "Devolution Affairs",
+    "Public Administration",
+    "Public Sector Reform",
+    "Parliamentary/County Assembly Standing orders and committee engagement",
+    "Government Protocol & Etiquette"
+  ],
+  "Public Health Management": [
+    "Public Health Systems",
+    "Global Health Management",
+    "Health Economics and Financing",
+    "Community Health Management and Education",
+    "Electronic Health Records Management",
+    "Emergency Preparedness and Disaster Management"
+  ],
+  "Ethics, Values and Integrity": [
+    "Professional Ethics, Values and Integrity",
+    "Human Rights and Justice"
+  ],
+  "Procurement Management": [
+    "Public Procurement and Asset Disposal"
+  ],
+  "Human Resource Management": [
+    "Strategic Planning & Balanced Score Card",
+    "Counselling and Staff Wellness",
+    "Psychometrics Assessment Tools",
+    "Organization Change and Development",
+    "Talent Management",
+    "Workload Analysis",
+    "Competency development",
+    "Job Evaluation",
+    "Occupational Health and Safety"
+  ],
+  "Security": [
+    "Conflict management and Peace Building",
+    "Fraud Management",
+    "Emergency preparedness and Disaster Management",
+    "Global and regional Security Studies",
+    "Human Security",
+    "Criminology",
+    "Security risk assessments"
+  ],
+  "Information Technology": [
+    "Information Communication & Technology",
+    "Cyber Security and Computer Forensics",
+    "IFMIS",
+    "Management Information Systems",
+    "Artificial Intelligence",
+    "Digital Transformation",
+    "Information Science"
+  ],
+  "Data Management": [
+    "Data Management and Governance",
+    "Data Science",
+    "Data Security",
+    "Big Data Analytics"
+  ],
+  "Law": [
+    "Public Law",
+    "Negotiation, Mediation and Arbitration Skills",
+    "Public Prosecution",
+    "Social Work Social Science Research"
+  ],
+  "Life Skills": [
+    "Executive Coaching & Mentoring",
+    "Civic Education and Public Participation",
+    "Social Accountability",
+    "Gender and Development",
+    "Development Studies",
+    "Youth Empowerment",
+    "Community Health and Safety Management",
+    "SDGs and Regional Integration"
+  ],
+  "Environment": [
+    "Environmental Governance and Management",
+    "Climate Change",
+    "Climate Finance",
+    "Green Growth & Circular Economy",
+    "Waste Management",
+    "Environmental and Social Impact Assessments",
+    "Disaster Management"
+  ],
+  "Corporate Governance": [
+    "Ethics and Integrity Management",
+    "Corporate Strategy and Governance",
+    "Corporate Communication",
+    "Compliance and Risk Management",
+    "Financial Reporting and Analysis"
+  ],
+  "Project Management": [
+    "Project Management",
+    "Project Monitoring, Evaluation and Reporting",
+    "Risk and Quality Management",
+    "Strategic Management"
+  ],
+  "Education": [
+    "Knowledge Management",
+    "Educational Technology/eLearning",
+    "Curriculum Development",
+    "Educational Leadership and Administration",
+    "Special Education",
+    "Advanced Facilitation Skills"
+  ],
+  "Communication Management": [
+    "Speech Writing",
+    "Development of Cabinet Memoranda",
+    "Report Writing",
+    "Conduct of meetings and minute writing",
+    "Internal & external communication",
+    "Government Communication",
+    "Public Speaking & Presentation",
+    "Corporate Branding",
+    "Public Relations",
+    "Marketing",
+    "Graphics & Multi-Media Design"
+  ],
+  "International Relations": [
+    "Diplomacy and International Relations",
+    "International Law and Human Rights",
+    "Foreign Policy Analysis",
+    "International Peace and Conflict studies",
+    "National Interest & Statecraft"
+  ],
+  "Hospitality Management": [
+    "Food and Beverage operations",
+    "Housekeeping and Laundry techniques",
+    "Front Office and Customer care operations",
+    "Event, Conferencing and banqueting",
+    "Cost Management for Hospitality Managers",
+    "Efficient Strategies for managing hospitality operations",
+    "Efficient management for hospitality teams",
+    "Dining etiquette",
+    "Basic interior design for hospitality facilities",
+    "Events Managements"
+  ],
+  "Research": [
+    "Data Collection",
+    "Quantitative and Qualitative Research",
+    "Data Analytics",
+    "Grant Proposal Writing",
+    "Academic writing in economics: Policy briefs, research papers and reports"
+  ],
+  "Records Management": [
+    "Physical Records Management",
+    "Electronic Document Management Systems (EDMS)",
+    "Archiving and disposal of records"
+  ],
+  "Consultancy Management": [
+    "Planning, Executing and Reporting on Consultancy",
+    "Editing, Proof reading & Documentation",
+    "Global & Regional Consultancy Bidding",
+    "Advisory, outreach & community service"
+  ],
+  "Innovation and Creativity": [
+    "Innovation and Creativity",
+    "Creative and Lateral Thinking",
+    "Organizational Growth and Excellence"
+  ]
+};
+
+
+    const selectedTopicsByArea = {};
+
+    const areaDropdown = document.getElementById("areaDropdown");
+    const topicsWrapper = document.getElementById("topicsWrapper");
+    const topicsContainer = document.getElementById("topicsContainer");
+    const topicsTextarea = document.getElementById("topicsTextarea");
+
+    areaDropdown.addEventListener("change", function () {
+        const selectedArea = this.value;
+        topicsContainer.innerHTML = "";
+        if (!selectedArea || !areaTopics[selectedArea]) {
+            topicsWrapper.style.display = "none";
+            return;
+        }
+
+        areaTopics[selectedArea].forEach(topic => {
+            const topicId = `${selectedArea}-${topic}`.replace(/\s+/g, "_");
+            const radioDiv = document.createElement("div");
+            radioDiv.innerHTML = `
+                <input type="checkbox" id="${topicId}" name="topics" value="${topic}">
+                <label for="${topicId}">${topic}</label>
+            `;
+            topicsContainer.appendChild(radioDiv);
+        });
+
+        topicsWrapper.style.display = "block";
+    });
+
+    topicsContainer.addEventListener("change", function () {
+        const selectedArea = areaDropdown.value;
+        if (!selectedArea) return;
+
+        const selectedTopics = Array.from(
+            topicsContainer.querySelectorAll("input[name='topics']:checked")
+        ).map(el => el.value);
+
+        if (selectedTopics.length > 0) {
+            selectedTopicsByArea[selectedArea] = selectedTopics;
+        } else {
+            delete selectedTopicsByArea[selectedArea];
+        }
+
+        updateTextarea();
+    });
+
+    function updateTextarea() {
+        let result = "";
+        for (const area in selectedTopicsByArea) {
+            const topics = selectedTopicsByArea[area];
+            if (topics.length) {
+                result += `${area} - [${topics.join(", ")}]\n`;
+            }
+        }
+        topicsTextarea.value = result.trim();
+    }
+</script>
+
+
+
+  <div class="form-group mb-3">
+    <label for="employer">Employer</label>
+    <input type="text"  name="employer" class="form-control"  required>
+</div>
                 
                             <div class="form-group">
                                 <label>Designations</label>
@@ -413,7 +715,7 @@
                                 <input type="date" name="enddate" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Location  or Campus</label>
+                                <label>Location  </label>
                                 <input type="text" name="location" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -422,12 +724,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="achievements" class="form-label">Achievements in the Organization</label>
-                                <textarea class="form-control" id="inputAddress2" name="expartise" placeholder="Describe your key achievements in the organization, starting with the most recent. For example: 
-                                - Successfully led a team of 10 to complete a project 2 weeks ahead of schedule.
-                                - Increased sales by 20% through the implementation of a new marketing strategy.
-                                - Streamlined internal processes, reducing operational costs by 15%." rows="5"></textarea>
+                                <textarea class="form-control" id="inputAddress2" name="expartise" placeholder="Describe your key achievements in the organization, starting with the most recent. For example:
+- Successfully led a team of 10 to complete a project 2 weeks ahead of schedule.
+- Increased sales by 20% through the implementation of a new marketing strategy.
+- Streamlined internal processes, reducing operational costs by 15%." rows="5"></textarea>
                                     
                             </div>
+                            <div class="form-group">
+    <label>Provide a valid recommendation certificate or recommendation letter to justify your teaching in the organization</label>
+    <input type="file" name="recommendation_document" class="form-control-file" 
+           accept=".jpg,.jpeg,.png,.gif,.zip,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.rtf" required>
+</div>
+
                             
                             
                             

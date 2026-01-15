@@ -144,6 +144,7 @@ Route::middleware('HR.auth')->group(function () {
   Route::get('/Academic_Qualifications', [AcademicController::class, 'Academic'])->name('Academic.data');
   Route::post('/Academic_Qualifications', [AcademicController::class, 'Academicpost'])->name('Academic.data');
   Route::post('/Academic_Qualifications', [AcademicController::class, 'Training'])->name('Academic.Training');
+  Route::post('/Professional_Qualification_internal', [AcademicController::class, 'Professionalinternal'])->name('Academic.Professional');
   Route::delete('/academic/{id}', [AcademicController::class, 'destroy'])->name('academic.destroy');
   Route::get('/Experince', [ExperinceController::class, 'Experince'])->name('Experience.data');
   Route::post('/Experince', [ExperinceController::class, 'Experincepost'])->name('Experince.data');
@@ -180,7 +181,12 @@ Route::delete('/Association/{id}', [AssociationController::class, 'destroyassoci
 Route::get('/Experince_Consultancy_&_Research_hr_staff', [ResearchController::class, 'ResearchHome'])->name('Research.Home');
 Route::post('/Research/save', [ResearchController::class, 'Researchotherpost'])->name('Other.post.Researchsave');
   Route::post('/Experince_Research_staff', [ResearchController::class, 'Researchotherspost'])->name('Other.Research');
+   Route::post('/Publications_internal', [ResearchController::class, 'ResearchotherspostPublicationHR'])->name('Researchext.Publication');
   Route::delete('/Experince_Research_KSG/{id}', [ResearchController::class, 'Researchdestroyother'])->name('Experience.Researchdestroyother');
+  //post
+  Route::get('/Teaching_internal', [TeachingController::class, 'teachinghr'])->name('Experience.Teaching.HR');
+  Route::post('/teaching', [TeachingController::class, 'teachingposthr'])->name('teaching.store');
+Route::delete('/teaching/{id}', [TeachingController::class, 'teachingdestroyextHR'])->name('teaching.destroy');
 
 
 });
@@ -271,6 +277,8 @@ Route::get('/Create_a_new_jod_advart_ext', [JobsextController::class, 'createjob
  Route::get('/External_applications', [EXTjobsController::class, 'extapplicatinsadj'])->name('EXT.Admin.Ext');
  Route::get('/External_Users', [EXTjobsController::class, 'extmailupdate'])->name('EXT.Admin.Users');
  Route::put('/External/update-email/{id}', [EXTjobsController::class, 'extupdateEmail'])->name('ext.updateEmail');
+ //teaching  
+  
  
 
 

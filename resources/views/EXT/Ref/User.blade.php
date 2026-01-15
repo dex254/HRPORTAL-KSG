@@ -15,10 +15,12 @@
                        
                     </nav>
                 </div>
-                <div class="alert alert-info mt-3" role="alert">
-                    <i class="bx bx-info-circle"></i>
-                    Provide referees who can attest to your qualifications and experience.
-                </div>
+               <div class="alert alert-info mt-3" role="alert">
+    <i class="bx bx-info-circle"></i>
+    Please provide details of referees who can professionally attest to your
+    <strong>qualifications, experience, and character</strong>.
+</div>
+
             </div> <!--end breadcrumb-->
             <div class="ms-auto">
                 <div class="d-flex justify-content-start mt-4">
@@ -76,7 +78,8 @@
                             <div class="d-flex justify-content-start mt-4">
                                
                                 <button class="custom-btn" onclick="openModal()">
-                                    Add an Experience
+                                   Add Your Referee
+
                                 </button>
                                 
                                 <style>

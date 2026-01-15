@@ -24,8 +24,12 @@ $others = Other::where('upn_no', $userUpnNo)
      ->where('type', 'Research')
     ->orderBy('compedate', 'desc')
     ->get();
+     $publications = Other::where('upn_no', $userUpnNo)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
 
-        return view('Research.Home', compact('other','others'));
+        return view('Research.Home', compact('other','others','publications'));
     }
     public function Researchotherpost(Request $request)
     {
@@ -115,6 +119,53 @@ $others = Other::where('upn_no', $userUpnNo)
 
         return redirect()->back()->with('success', 'Research record added successfully.');
     }
+    public function ResearchotherspostPublicationHR(Request $request)
+{
+    // Validate the input data
+    $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|string',
+        'phone' => 'required|string',
+        'upn_no' => 'required|string',
+        'type' => 'required|string',
+        'Client' => 'required|string', // Dropdown value
+        'customClient' => 'nullable|string', // Optional custom input
+        'completed' => 'required|string',
+        'compedate' => 'required|date',
+        'document' => 'nullable|file', // Optional file upload
+    ]);
+
+    // Handle file upload
+    $documentName = null;
+    if ($request->hasFile('document')) {
+        $documentName = time() . '.' . $request->document->getClientOriginalExtension();
+        $request->document->move(public_path('uploads/Other'), $documentName);
+    }
+
+    // Use customClient if Client is "Other"
+    $clientValue = $request->Client;
+    if ($clientValue === 'Other' && $request->filled('customClient')) {
+        $clientValue = $request->customClient;
+    }
+
+    // Save record in the database
+    Other::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'upn_no' => $request->upn_no,
+        'type' => $request->type,
+        'Client' => $clientValue,
+        'Sector' => 'N/A', // Default for missing field
+        'Amount' => 'N/A', // Default for missing field
+        'completed' => $request->completed,
+        'compedate' => $request->compedate,
+        'document_name' => $documentName,
+    ]);
+
+    return redirect()->back()->with('success', 'Publication record added successfully.');
+}
+
     public function Researchdestroyother($id)
     {
         $other = Other::findOrFail($id);

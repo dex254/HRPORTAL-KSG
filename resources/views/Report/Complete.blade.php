@@ -377,6 +377,86 @@
                         @endforelse
                     </tbody>
                 </table>
+                 <h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;"><i class="bi bi-briefcase"></i> Teaching  Experience</h5>
+                 <div class="table-responsive">
+                        <table id="example" class="table mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Teaching </th>
+                                    <th>Employer</th>
+                                    <th>Designation</th>
+                                    <th>Country</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Location</th>
+                                    <th>Job Description</th>
+                                    <th>Duties  and  Responsibilities</th>
+                                   <th>File</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($teachings as $experience)
+                    <tr>
+                        <td>{{ $experience->teaching_areas }}</td>
+                        <td>{{ $experience->employer }}</td>
+                        <td>{{ $experience->job_title }}</td>
+                        <td>{{ $experience->country }}</td>
+                        <td>{{ $experience->stdate }}</td>
+                        <td>{{ $experience->enddate }}</td>
+                        <td>{{ $experience->location }}</td>
+                        <td>{{ $experience->duties}}</td>
+                        
+                        <td>{{ $experience->achievements }}</td>
+                        
+                       <td>
+    @if($experience->teaching_path)
+        <a href="{{ asset('/' . $experience->teaching_path) }}" 
+           class="btn btn-outline-primary btn-sm animate-download" 
+           download>
+            <i class="fas fa-download"></i> 
+        </a>
+    @else
+        <span class="text-muted">No file</span>
+    @endif
+</td>
+
+<style>
+    .animate-download {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .animate-download:hover {
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+        transform: scale(1.05);
+    }
+
+    .animate-download i {
+        margin-right: 5px;
+    }
+</style>
+
+                        
+                        <td>
+                            <!-- Delete Button -->
+                            <form action="{{ route('teaching.destroy', $experience->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form>
+
+                        </td>
+                        
+                    </tr>
+                @endforeach
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                   
                 <div class="container mt-5">
                     <!-- Core Mandate Section -->
                     <div class="mb-5">
@@ -471,7 +551,7 @@
                                 <thead class="table-light">
                                 <tr>
                                     <th>ID</th>
-                                    <th>UPN No</th>
+                                   
                                     <th>Name</th>
                                     <th>I have a licence</th>
                                     <th>License Name</th>
@@ -484,7 +564,7 @@
                                 @foreach($licence as $licence)
                                     <tr>
                                         <td>{{ $licence->id }}</td>
-                                        <td>{{ $licence->upn_no }}</td>
+                                        
                                         <td>{{ $licence->name }}</td>
                                         <td>{{ $licence->has_license ?? 'N/A' }}</td>
                                         <td>{{ $licence->license_name ?? 'N/A' }}</td>
@@ -656,6 +736,138 @@
                         </div>
                     </div>
                 </div>
+                {{-- ================= CONSULTANCY ASSIGNMENTS ================= --}}
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-briefcase-fill"></i> Consultancy Assignments
+</h5>
+
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Sector</th>
+                <th>Completed</th>
+                <th>Completion Date</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($other as $index => $record)
+                @if(is_object($record))
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $record->Client ?? 'N/A' }}</td>
+                    <td>{{ $record->Sector ?? 'N/A' }}</td>
+                    <td>{{ $record->completed ?? 'N/A' }}</td>
+                    <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
+                    <td>
+                        @if(!empty($record->document_name))
+                            <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                        @else
+                            <span class="text-muted">No Document</span>
+                        @endif
+                    </td>
+                </tr>
+                @endif
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+{{-- ================= RESEARCH ASSIGNMENTS ================= --}}
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-journal-text"></i> Research Assignments
+</h5>
+
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Sector</th>
+                <th>Completed</th>
+                <th>Completion Date</th>
+                <th>Amount</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($others as $index => $record)
+                @if(is_object($record))
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $record->Client ?? 'N/A' }}</td>
+                    <td>{{ $record->Sector ?? 'N/A' }}</td>
+                    <td>{{ $record->completed ?? 'N/A' }}</td>
+                    <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
+                    <td>{{ $record->Amount ?? 'N/A' }}</td>
+                    <td>
+                        @if(!empty($record->document_name))
+                            <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
+                        @else
+                            <span class="text-muted">No Document</span>
+                        @endif
+                    </td>
+                </tr>
+                @endif
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No records found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+{{-- ================= PUBLICATIONS ================= --}}
+<h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">
+    <i class="bi bi-book"></i> Publications
+</h5>
+
+<div class="table-responsive">
+    <table class="table table-bordered mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Journal / Publisher</th>
+                <th>Type / Title</th>
+                <th>Publication Date</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($publications as $index => $pub)
+                @if(is_object($pub))
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $pub->Client ?? 'N/A' }}</td>
+                    <td>{{ $pub->completed ?? 'N/A' }}</td>
+                    <td>{{ !empty($pub->compedate) ? \Carbon\Carbon::parse($pub->compedate)->format('d M Y') : 'N/A' }}</td>
+                    <td>
+                        @if(!empty($pub->document_name))
+                            <a href="{{ asset('uploads/Other/' . $pub->document_name) }}" target="_blank">View</a>
+                        @else
+                            <span class="text-muted">No Document</span>
+                        @endif
+                    </td>
+                </tr>
+                @endif
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No publications found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
                 <div class="container mt-4">
                     <h4  class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">User Report</h4>
                 

@@ -15,7 +15,7 @@
         position: relative;
         text-align: center;
         flex-grow: 1;
-        cursor: pointer; /* Add pointer cursor */
+        cursor: pointer;
         transition: all 0.3s ease;
     }
 
@@ -53,7 +53,6 @@
         border-top: 8px solid rgb(127, 98, 44);
     }
 
-    /* Step label */
     .step-label {
         display: block;
         margin-top: 5px;
@@ -62,7 +61,6 @@
         line-height: 1.2;
     }
 
-    /* Full-width connecting line */
     .progress-tracker::before {
         content: "";
         position: absolute;
@@ -75,7 +73,6 @@
         transform: translateY(-50%);
     }
 
-    /* Active step colors */
     .step.active .hexagon {
         background-color: rgb(203, 211, 0);
     }
@@ -88,26 +85,13 @@
         border-top-color: rgb(203, 211, 0);
     }
 
-    /* Line behind completed steps */
-    .step.active ~ .step::before {
-        background-color: rgb(203, 211, 0);
-    }
-
-    .step:first-child::before {
-        display: none;
-    }
-
-    /* Hover effect */
     .step:hover .hexagon {
         transform: scale(1.2);
         transition: transform 0.2s ease;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-        .step-label {
-            font-size: 10px;
-        }
+        .step-label { font-size: 10px; }
         .hexagon {
             width: 22px;
             height: 12px;
@@ -118,71 +102,89 @@
             border-left: 11px solid transparent;
             border-right: 11px solid transparent;
         }
-        .hexagon::before {
-            border-bottom: 6px solid rgb(127, 98, 44);
-        }
-        .hexagon::after {
-            border-top: 6px solid rgb(127, 98, 44);
-        }
+        .hexagon::before { border-bottom: 6px solid rgb(127, 98, 44); }
+        .hexagon::after { border-top: 6px solid rgb(127, 98, 44); }
     }
 </style>
 
 <div class="progress-tracker">
+
     <div class="step" data-step="1" onclick="navigateToRoute('{{ route('EXT.Dashboard') }}')">
         <div class="hexagon">1</div>
         <span class="step-label">Bio Data</span>
     </div>
+
     <div class="step" data-step="2" onclick="navigateToRoute('{{ route('EXT.Academic.Home') }}')">
         <div class="hexagon">2</div>
         <span class="step-label">Academic</span>
     </div>
+
     <div class="step" data-step="3" onclick="navigateToRoute('{{ route('EXT.Proffecional.Body') }}')">
         <div class="hexagon">3</div>
         <span class="step-label">Professional Body</span>
     </div>
+
     <div class="step" data-step="4" onclick="navigateToRoute('{{ route('EXT.Experince.New') }}')">
         <div class="hexagon">4</div>
         <span class="step-label">Experience</span>
     </div>
+
     <div class="step" data-step="5" onclick="navigateToRoute('{{ route('EXT.Special.Licence') }}')">
         <div class="hexagon">5</div>
         <span class="step-label">Professional Experience</span>
     </div>
-    <div class="step" data-step="6" onclick="navigateToRoute('{{ route('Research.EXT.Home') }}')">
+
+    <!-- NEW STEP 6 -->
+    <div class="step" data-step="6" onclick="navigateToRoute('{{ route('Experience.Teaching.Ext') }}')">
         <div class="hexagon">6</div>
-        <span class="step-label">Research & Publications <br> & Consultancy</span>
+        <span class="step-label">Teaching<br>Experience</span>
     </div>
-    <div class="step" data-step="7" onclick="navigateToRoute('{{ route('EXT.Ref.User') }}')">
+
+    <div class="step" data-step="7" onclick="navigateToRoute('{{ route('Research.EXT.Home') }}')">
         <div class="hexagon">7</div>
+        <span class="step-label">Research & Publications<br>& Consultancy</span>
+    </div>
+
+    <div class="step" data-step="8" onclick="navigateToRoute('{{ route('EXT.Ref.User') }}')">
+        <div class="hexagon">8</div>
         <span class="step-label">Referees</span>
     </div>
-    <div class="step" data-step="8" onclick="navigateToRoute('{{ route('EXT.Report.User') }}')">
-        <div class="hexagon">8</div>
+
+    <div class="step" data-step="9" onclick="navigateToRoute('{{ route('EXT.Report.User') }}')">
+        <div class="hexagon">9</div>
         <span class="step-label">Report</span>
     </div>
-    <div class="step" data-step="9" onclick="navigateToRoute('{{ route('EXT.Application.Jobs') }}')">
-        <div class="hexagon">9</div>
+
+    <div class="step" data-step="10" onclick="navigateToRoute('{{ route('EXT.Application.Jobs') }}')">
+        <div class="hexagon">10</div>
         <span class="step-label">Jobs</span>
     </div>
-    <div class="step" data-step="10" onclick="navigateToRoute('{{ route('EXT.Application.MY') }}')">
-        <div class="hexagon">10</div>
+
+    <div class="step" data-step="11" onclick="navigateToRoute('{{ route('EXT.Application.MY') }}')">
+        <div class="hexagon">11</div>
         <span class="step-label">Complete</span>
     </div>
+
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const stageMapping = {
         "EXT.Dashboard": 1,
         "EXT.Academic.Home": 2,
         "EXT.Proffecional.Body": 3,
         "EXT.Experince.New": 4,
         "EXT.Special.Licence": 5,
-        "Research.EXT.Home": 6,
-        "EXT.Ref.User": 7,
-        "EXT.Report.User": 8,
-        "EXT.Application.Jobs": 9,
-        "EXT.Application.MY": 10,
+
+        "Experience.Teaching.Ext": 6,
+
+        "Research.EXT.Home": 7,
+        "EXT.Ref.User": 8,
+        "EXT.Report.User": 9,
+        "EXT.Application.Jobs": 10,
+        "EXT.Application.MY": 11,
+
         "JOB.Applyext": 11
     };
 
@@ -190,16 +192,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const activeStep = stageMapping[currentRoute] || 1;
 
     document.querySelectorAll(".step").forEach(step => {
-        const stepNumber = parseFloat(step.getAttribute("data-step"));
+        const stepNumber = Number(step.dataset.step);
         if (stepNumber <= activeStep) {
             step.classList.add("active");
         }
     });
 
-    // Mark all steps complete for specific routes
     if (["EXT.Myapplicants", "JOB.Applyext", "JOB.Applicationdetailsext"].includes(currentRoute)) {
         document.querySelectorAll(".step").forEach(step => step.classList.add("active"));
-        localStorage.setItem("progressComplete", "true");
     }
 });
 

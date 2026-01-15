@@ -580,6 +580,86 @@
         </tbody>
     </table>
 </div>
+<div class="mt-5 mb-3">
+    <h5 class="fw-bold text-uppercase">
+        Teaching Experience
+    </h5>
+    <hr>
+</div>
+<div class="table-responsive">
+    <table id="example" class="table mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Teaching</th>
+                <th>Employer</th>
+                <th>Designation</th>
+                <th>Country</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Job Description</th>
+                <th>Duties and Responsibilities</th>
+                <th>File</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($teachings as $experience)
+            <tr>
+                <td>{{ $experience->teaching_areas }}</td>
+                <td>{{ $experience->employer }}</td>
+                <td>{{ $experience->job_title }}</td>
+                <td>{{ $experience->country }}</td>
+                <td>{{ $experience->stdate }}</td>
+                <td>{{ $experience->enddate }}</td>
+                <td>{{ $experience->location }}</td>
+                <td>{{ $experience->duties }}</td>
+                <td>{{ $experience->achievements }}</td>
+
+                <td>
+                    @if($experience->teaching_path)
+                        <a href="{{ asset('/' . $experience->teaching_path) }}"
+                           class="btn btn-outline-primary btn-sm animate-download"
+                           download>
+                            <i class="fas fa-download"></i>
+                        </a>
+                    @else
+                        <span class="text-muted">No file</span>
+                    @endif
+                </td>
+
+                <td>
+                    <form action="{{ route('Experience.Teachingdestroyext.EXT', $experience->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <th>Teaching</th>
+                <th>Employer</th>
+                <th>Designation</th>
+                <th>Country</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+                <th>Job Description</th>
+                <th>Duties and Responsibilities</th>
+                <th>File</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
 
 <!-- REFEREES -->
 <h5 class="mt-4" style="color: rgb(127, 98, 44); font-weight: bold;">

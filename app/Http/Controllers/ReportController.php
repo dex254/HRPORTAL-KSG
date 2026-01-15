@@ -38,14 +38,33 @@ class ReportController extends Controller
         // Fetch work experience records related to the user
         $experiences = Experience::where('upn_no', $upn_no)->get();
         //$coremandate = Coremandate::where('upn_no', $upn_no)->get();
-        $others = Other::where('upn_no', $upn_no)->get();
+        
         $licence = Licence::where('upn_no', $upn_no)->get();
         $proffecional = Proffecional::all();
        $profecionalbodies= Profecionalbody::where('upn_no', $upn_no)->get();
        $medical= Medical::where('upn_no', $upn_no)->get();
        $associations= Association::where('upn_no', $upn_no)->get();
+        $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get()
+    ->values(); // 👈 reset keys
 
-        return view('Report.Complete', compact('academics','others','experiences', 'licence', 'proffecional','profecionalbodies','medical','associations'));
+$others = Other::where('upn_no', $upn_no)
+    ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get()
+    ->values();
+
+$publications = Other::where('upn_no', $upn_no)
+    ->where('type', 'Publication')
+    ->orderBy('compedate', 'desc')
+    ->get()
+    ->values();
+     $teachings = Teaching::where('upn_no', $upn_no)->get();
+
+
+        return view('Report.Complete', compact('academics','experiences', 'licence', 'proffecional','profecionalbodies','medical','associations','other','others','publications','teachings'));
     }
     public function generateUserReport()
 {
@@ -53,14 +72,29 @@ class ReportController extends Controller
     $academics = Academic::where('upn_no', $upn_no)->get();
     $experiences = Experience::where('upn_no', $upn_no)->get();
     //$coremandate = Coremandate::where('upn_no', $upn_no)->get();
-    $others = Other::where('upn_no', $upn_no)->get();
+    // $others = Other::where('upn_no', $upn_no)->get();
     $licence = Licence::where('upn_no', $upn_no)->get();
     $proffecional = Proffecional::all();
    $profecionalbodies= Profecionalbody::where('upn_no', $upn_no)->get();
    $medical= Medical::where('upn_no', $upn_no)->get();
    $associations= Association::where('upn_no', $upn_no)->get();
+    $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get();
+
+// Fetch training records (Education_type = 'Training'), ordered by most recent start date
+$others = Other::where('upn_no', $upn_no)
+     ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get();
+    $publications = Other::where('upn_no', $upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
+        $teachings = Teaching::where('upn_no', $upn_no)->get();
     // Load the Blade template as HTML
-    $html = view('pdf.user_report', compact('academics', 'experiences','others', 'licence', 'proffecional','profecionalbodies','medical','associations'))->render();
+    $html = view('pdf.user_report', compact('academics', 'experiences','licence', 'proffecional','profecionalbodies','medical','associations','other','others','publications','teachings'))->render();
 
     // Initialize mPDF
     $mpdf = new Mpdf();

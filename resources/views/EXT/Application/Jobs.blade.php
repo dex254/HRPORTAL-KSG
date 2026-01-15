@@ -186,7 +186,7 @@
                                     
                                     <td>{{ $record->datefrom }}</td>
                                     <td>{{ $record->deadline }}</td>
-                                    <td>
+                                <td>
     @php
         $output = [];
 
@@ -194,173 +194,187 @@
         $items = explode(',', $record->qualifications);
 
         foreach ($items as $item) {
-            // Extract key and value inside brackets
-            if (preg_match('/(.*?)\[(.*?)\]/', trim($item), $matches)) {
+            // Extract key and value inside brackets, supports Experience[1][X Years]
+            if (preg_match('/(.*?)\[(.*?)\](?:\[(.*?)\])?/', trim($item), $matches)) {
                 $key = trim($matches[1]);
                 $value = trim($matches[2]);
+                $extra = $matches[3] ?? null;
 
                 // Academic qualification (always show)
                 if (stripos($key, 'Academic') !== false && $value !== '') {
-                    $output[] = "<strong>Minimum Academic Qualification:</strong> {$value}";
+                    $output[] = "<strong>Academic Qualification Required:</strong> {$value}. Please ensure you have this level or higher.";
                 }
 
                 // Professional Bodies
                 if ($key === 'Professional Bodies' && $value == 1) {
-                    $output[] = "Membership to a professional body is required";
+                    $output[] = "You must be a member of a relevant professional body.";
                 }
 
                 // Association
                 if ($key === 'Association' && $value == 1) {
-                    $output[] = "Membership to a relevant association is required";
+                    $output[] = "You must belong to a relevant association related to your field.";
                 }
 
                 // Practising License
                 if ($key === 'Practising License' && $value == 1) {
-                    $output[] = "Valid practising license is required";
+                    $output[] = "A valid practising license is required.";
                 }
 
                 // Food Handlers Certificate
                 if ($key === 'Food Handlers Certificate' && $value == 1) {
-                    $output[] = "Food Handlers Certificate is required";
+                    $output[] = "A valid Food Handlers Certificate is required.";
                 }
 
                 // Experience
                 if ($key === 'Experience' && $value == 1) {
-                    $output[] = "Relevant work experience is required";
+                    $requiredYears = (int)$extra ?? 0;
+
+                    // Fetch user's total experience from years_of_experence table
+                    $userExp = \App\Models\YearsOfExperence::where('upn_no', Auth::guard('EXT')->user()->upn_no)->sum('years');
+
+                    $output[] = "Minimum <strong>{$requiredYears} year(s)</strong> of relevant work experience required. You currently have <strong>{$userExp} year(s)</strong>.";
                 }
             }
         }
     @endphp
 
-    {!! implode('<br>', $output) !!}
+    {!! implode('<br>• ', $output) !!}
 </td>
 
-                                    
-                                    <td>{{ $record->status }}</td>
-                                    <td>{{ $record->Proposed_No_of_Positions }}</td>
-                                    <td>
-    @php
-        $user = Auth::guard('EXT')->user();
+<td>{{ $record->status }}</td>
+<td>{{ $record->Proposed_No_of_Positions }}</td>
+<td>
+@php
+    $user = Auth::guard('EXT')->user();
 
-        /* ------------------ 1. ALREADY APPLIED CHECK ------------------ */
-        $existingApplication = \App\Models\Application::where('Ref_No', $record->Ref_NO)
-            ->where('upn_no', $user->upn_no)
-            ->whereIn('status', ['Applied', 'Not Qualified', 'Qualified'])
-            ->first();
+    /* ------------------ 1. Already Applied ------------------ */
+    $existingApplication = \App\Models\Application::where('Ref_No', $record->Ref_NO)
+        ->where('upn_no', $user->upn_no)
+        ->whereIn('status', ['Applied', 'Not Qualified', 'Qualified'])
+        ->first();
 
-        /* ------------------ 2. PRIORITY CHECK ------------------ */
-        $hasPriority = ($user->job_code === $record->Ref_NO);
+    /* ------------------ 2. Parse Qualifications ------------------ */
+    $qualString = $record->qualifications ?? '';
+    $requirements = [];
 
-        /* ------------------ 3. PARSE QUALIFICATIONS STRING ------------------ */
-        $qualString = $record->qualifications ?? '';
-        $requirements = [];
+    foreach (explode(',', $qualString) as $part) {
+        if (preg_match('/(.*?)\[(.*?)\](?:\[(.*?)\])?/', trim($part), $matches)) {
+            $key = trim($matches[1]);
+            $value = trim($matches[2]);
+            $extra = $matches[3] ?? null;
 
-        foreach (explode(',', $qualString) as $part) {
-            if (preg_match('/(.*?)\[(.*?)\]/', trim($part), $matches)) {
-                $requirements[trim($matches[1])] = trim($matches[2]);
-            }
-        }
-
-        /* ------------------ 4. ACADEMIC RANKING ------------------ */
-        $ranks = [
-            'All' => 0,
-            'O level' => 1,
-            'A level' => 2,
-            'Certificate' => 3,
-            'Diploma' => 4,
-            "Bachelor's Degree" => 5,
-            "Master's Degree" => 6,
-            "Doctorate" => 7,
-        ];
-
-        /* ------------------ 5. FETCH ALL USER RECORDS ------------------ */
-        $userAcademics = \App\Models\Academic::where('upn_no', $user->upn_no)->pluck('level')->toArray();
-        $userProfBodies = \App\Models\Profecionalbody::where('upn_no', $user->upn_no)->count();
-        $userAssociations = \App\Models\Association::where('upn_no', $user->upn_no)->count();
-        $userLicenses = \App\Models\Licence::where('upn_no', $user->upn_no)->count();
-        $userMedical = \App\Models\Medical::where('upn_no', $user->upn_no)->count();
-        $userExperience = \App\Models\Experience::where('upn_no', $user->upn_no)->count();
-
-        /* ------------------ 6. DEFAULT ------------------ */
-        $canApply = true;
-        $failMessages = [];
-
-        /* ------------------ 7. ACADEMIC CHECK ------------------ */
-        if (isset($requirements['Academic']) && $requirements['Academic'] !== "All") {
-            $requiredLevel = $requirements['Academic'];
-            $reqRank = $ranks[$requiredLevel] ?? 999;
-
-            if (empty($userAcademics)) {
-                $canApply = false;
-                $failMessages[] = "Minimum Academic Qualification required: <b>$requiredLevel</b>. No academic record found.";
+            if ($key === 'Experience') {
+                $requirements['Experience'] = [
+                    'required' => $value,  // 1 = Yes, 0 = No
+                    'years' => (int)$extra, // Required years
+                ];
             } else {
-                $qualified = false;
-                foreach ($userAcademics as $lvl) {
-                    if (($ranks[$lvl] ?? -1) >= $reqRank) {
-                        $qualified = true;
-                        break;
-                    }
-                }
-                if (!$qualified) {
-                    $canApply = false;
-                    $failMessages[] = "Academic requirement not met. Required: <b>$requiredLevel</b>. Your levels: <i>" . implode(', ', $userAcademics) . "</i>";
-                }
+                $requirements[$key] = $value;
             }
         }
+    }
 
-        /* ------------------ 8. PROFESSIONAL BODY CHECK ------------------ */
-        if (($requirements['Professional Bodies'] ?? 0) == 1 && $userProfBodies == 0) {
+    /* ------------------ 3. Fetch User Records ------------------ */
+    $userAcademics = \App\Models\Academic::where('upn_no', $user->upn_no)->pluck('level')->toArray();
+    $userProfBodies = \App\Models\Profecionalbody::where('upn_no', $user->upn_no)->count();
+    $userAssociations = \App\Models\Association::where('upn_no', $user->upn_no)->count();
+    $userLicenses = \App\Models\Licence::where('upn_no', $user->upn_no)->count();
+    $userMedical = \App\Models\Medical::where('upn_no', $user->upn_no)->count();
+    $userExperienceYears = \App\Models\YearsOfExperence::where('upn_no', $user->upn_no)->sum('years');
+
+    $canApply = true;
+    $failMessages = [];
+
+    $ranks = [
+        'All' => 0,
+        'O level' => 1,
+        'A level' => 2,
+        'Certificate' => 3,
+        'Diploma' => 4,
+        "Bachelor's Degree" => 5,
+        "Master's Degree" => 6,
+        "Doctorate" => 7,
+    ];
+
+    /* ------------------ 4. Academic Check ------------------ */
+    if (isset($requirements['Academic']) && $requirements['Academic'] !== "All") {
+        $requiredLevel = $requirements['Academic'];
+        $reqRank = $ranks[$requiredLevel] ?? 999;
+
+        if (empty($userAcademics)) {
             $canApply = false;
-            $failMessages[] = "Membership to a professional body is required.";
+            $failMessages[] = "Academic requirement not met: <b>$requiredLevel</b> is required. No academic record found.";
+        } else {
+            $qualified = false;
+            foreach ($userAcademics as $lvl) {
+                if (($ranks[$lvl] ?? -1) >= $reqRank) {
+                    $qualified = true;
+                    break;
+                }
+            }
+            if (!$qualified) {
+                $canApply = false;
+                $failMessages[] = "Academic requirement not met: <b>$requiredLevel</b> required. Your levels: <i>" . implode(', ', $userAcademics) . "</i>.";
+            }
         }
+    }
 
-        /* ------------------ 9. ASSOCIATION CHECK ------------------ */
-        if (($requirements['Association'] ?? 0) == 1 && $userAssociations == 0) {
+    /* ------------------ 5. Professional Body Check ------------------ */
+    if (($requirements['Professional Bodies'] ?? 0) == 1 && $userProfBodies == 0) {
+        $canApply = false;
+        $failMessages[] = "Membership to a professional body is required.";
+    }
+
+    /* ------------------ 6. Association Check ------------------ */
+    if (($requirements['Association'] ?? 0) == 1 && $userAssociations == 0) {
+        $canApply = false;
+        $failMessages[] = "You must belong to a relevant professional association.";
+    }
+
+    /* ------------------ 7. Practising License Check ------------------ */
+    if (($requirements['Practising License'] ?? 0) == 1 && $userLicenses == 0) {
+        $canApply = false;
+        $failMessages[] = "A valid professional practicing license is required.";
+    }
+
+    /* ------------------ 8. Food Handlers Check ------------------ */
+    if (($requirements['Food Handlers Certificate'] ?? 0) == 1 && $userMedical == 0) {
+        $canApply = false;
+        $failMessages[] = "A valid Food Handlers Certificate is required.";
+    }
+
+    /* ------------------ 9. Experience Check ------------------ */
+    if (isset($requirements['Experience']) && $requirements['Experience']['required'] == 1) {
+        $requiredYears = $requirements['Experience']['years'];
+        if ($userExperienceYears < $requiredYears) {
             $canApply = false;
-            $failMessages[] = "You must belong to a relevant professional association.";
+            $failMessages[] = "Minimum <b>{$requiredYears} year(s)</b> of relevant work experience required. You currently have <b>{$userExperienceYears} year(s)</b>.";
         }
+    }
+@endphp
 
-        /* ------------------ 10. PRACTICING LICENSE CHECK ------------------ */
-        if (($requirements['Practising License'] ?? 0) == 1 && $userLicenses == 0) {
-            $canApply = false;
-            $failMessages[] = "A valid professional practicing license is required.";
-        }
+{{-- ------------------ 10. FINAL BUTTON OUTPUT ------------------ --}}
+@if ($existingApplication)
+    <button class="btn btn-sm" disabled style="background:#7f622c;color:#fff;">
+        <i class="fa fa-check"></i> Already Applied
+    </button>
 
-        /* ------------------ 11. FOOD HANDLERS CERTIFICATE CHECK ------------------ */
-        if (($requirements['Food Handlers Certificate'] ?? 0) == 1 && $userMedical == 0) {
-            $canApply = false;
-            $failMessages[] = "A valid Food Handlers Certificate is required.";
-        }
+@elseif(!$canApply)
+    <button class="btn btn-sm" disabled style="background:#a94442;color:white;text-align:left;max-width:250px;">
+        <i class="fa fa-info-circle"></i>
+        {!! implode('<br>• ', array_map(fn($msg) => "• $msg", $failMessages)) !!}
+    </button>
 
-        /* ------------------ 12. EXPERIENCE CHECK ------------------ */
-        if (($requirements['Experience'] ?? 0) == 1 && $userExperience == 0) {
-            $canApply = false;
-            $failMessages[] = "Relevant work experience is required.";
-        }
-
-    @endphp
-
-    {{-- ------------------ 13. FINAL BUTTON OUTPUT ------------------ --}}
-
-    @if ($existingApplication)
-        <button class="btn btn-sm" disabled style="background:#7f622c;color:#fff;">
-            <i class="fa fa-check"></i> Already Applied
-        </button>
-
-    @elseif(!$canApply)
-        <button class="btn btn-sm" disabled style="background:#a94442;color:white;text-align:left;max-width:250px;">
-            <i class="fa fa-info-circle"></i>
-            {!! implode('<br>• ', array_map(fn($msg) => "• $msg", $failMessages)) !!}
-        </button>
-
-    @else
-        <a href="{{ route('EXT.Application.Apply', ['id' => $record->id]) }}"
-           class="btn btn-sm"
-           style="background:rgb(203,211,0);color:black;">
-            <i class="fa fa-check"></i> Apply
-        </a>
-    @endif
+@else
+    <a href="{{ route('EXT.Application.Apply', ['id' => $record->id]) }}"
+       class="btn btn-sm"
+       style="background:rgb(203,211,0);color:black;">
+        <i class="fa fa-check"></i> Apply
+    </a>
+@endif
 </td>
+
+
                                     
                                    
 

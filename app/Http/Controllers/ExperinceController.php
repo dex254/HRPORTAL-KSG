@@ -71,16 +71,37 @@ class ExperinceController extends Controller
     return redirect()->back()->with('success', 'Experience added successfully!');
     }
     public function epdestroy($id)
-    {
-        $experiences = Experience::findOrFail($id);
+{
+    // Find the experience record
+    $experience = Experience::findOrFail($id);
 
-        // Delete the certificate file if it exists
-      
-        // Delete record
-        $experiences->delete();
+    // Calculate the years of this experience
+    $start = Carbon::parse($experience->stdate);
+    $end   = Carbon::parse($experience->enddate);
 
-        return redirect()->back()->with('success', 'Experince record deleted successfully.');
+    $months = $start->diffInMonths($end);
+    $years = round($months / 12, 2);
+
+    // Subtract years from total in years_of_experence table
+    $totalExperience = YearsOfExperence::where('upn_no', $experience->upn_no)->first();
+
+    if ($totalExperience) {
+        $totalExperience->years -= $years;
+
+        // Ensure it doesn't go below 0
+        if ($totalExperience->years < 0) {
+            $totalExperience->years = 0;
+        }
+
+        $totalExperience->save();
     }
+
+    // Delete the experience record
+    $experience->delete();
+
+    return redirect()->back()->with('success', 'Experience record deleted successfully and total years updated.');
+}
+
 
     //
 
@@ -147,15 +168,36 @@ class ExperinceController extends Controller
 
     return redirect()->back()->with('success', 'Experience added successfully!');
     }
-    public function epdestroyext($id)
-    {
-        $experiences = Experience::findOrFail($id);
+  public function epdestroyext($id)
+{
+    // 1️⃣ Fetch the experience record to delete
+    $experience = Experience::findOrFail($id);
 
-        // Delete the certificate file if it exists
-      
-        // Delete record
-        $experiences->delete();
+    // 2️⃣ Calculate the duration of this experience in years
+    $start = Carbon::parse($experience->stdate);
+    $end   = Carbon::parse($experience->enddate);
 
-        return redirect()->back()->with('success', 'Experince record deleted successfully.');
+    $months = $start->diffInMonths($end);
+    $years = round($months / 12, 2);
+
+    // 3️⃣ Update the user's total experience in years_of_experence table
+    $totalExperience = YearsOfExperence::where('upn_no', $experience->upn_no)->first();
+
+    if ($totalExperience) {
+        // Subtract the years of the deleted experience
+        $totalExperience->years -= $years;
+
+        // Make sure total years don't go below 0
+        $totalExperience->years = max(0, $totalExperience->years);
+
+        $totalExperience->save();
     }
+
+    // 4️⃣ Delete the experience record
+    $experience->delete();
+
+    // 5️⃣ Redirect back with success message
+    return redirect()->back()->with('success', 'Experience record deleted and total years updated successfully.');
+}
+
 }
