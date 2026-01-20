@@ -10,6 +10,7 @@
                         <input type="hidden" name="phone" value="{{ Auth::guard('HR')->user()->phone }}">
                         <input type="hidden" name="name" value="{{ Auth::guard('HR')->user()->name }}">
                         <input type="hidden" name="Education_type" value="Training">
+                        <input type="hidden" name="level" value="Short Course">
             
             <!-- Form Inputs -->
             <div class="form-group">

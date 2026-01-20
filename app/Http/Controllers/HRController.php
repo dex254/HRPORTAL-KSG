@@ -238,14 +238,14 @@ public function r(Request $request)
 {
     $admin = Auth::guard('admin')->user();
    
-    if (in_array($admin->role, ['Admin', 'dex', 'Admissions','AdminAssistant'])) {
+    if (in_array($admin->role, ['Admin','AdminAssistant','Dex','Super Admin'])) {
         // Fetch all programs for these roles
         return view('HR.exellupload');
 
    
     }
 
-    return redirect()->route('Admin.Dashboard')->with('error', 'You are not authorized to access this page.');
+    return redirect()->route('amin.dashboard')->with('error', 'You are not authorized to access this page.');
 }
 public function logout(Request $request)
     {
@@ -297,7 +297,7 @@ public function uploadExcel(Request $request)
     $admin = Auth::guard('admin')->user();
 
     // Define the allowed roles
-    $allowedRolesForAllCampuses = ['Admin', 'dex'];
+    $allowedRolesForAllCampuses = ['Admin','AdminAssistant','Dex','Super Admin'];
     $allowedRolesForSameCampus = ['AdminAssistant'];
 
     // Base query

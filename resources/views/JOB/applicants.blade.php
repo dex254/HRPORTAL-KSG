@@ -253,14 +253,26 @@
         $hasPriority = ($user->job_code === $record->Ref_NO);
 
         /* ------------------ 3. PARSE QUALIFICATIONS STRING ------------------ */
-        $qualString = $record->qualifications ?? '';
-        $requirements = [];
+         $qualString = $record->qualifications ?? '';
+    $requirements = [];
 
-        foreach (explode(',', $qualString) as $part) {
-            if (preg_match('/(.*?)\[(.*?)\]/', trim($part), $matches)) {
-                $requirements[trim($matches[1])] = trim($matches[2]);
+    foreach (explode(',', $qualString) as $part) {
+        if (preg_match('/(.*?)\[(.*?)\](?:\[(.*?)\])?/', trim($part), $matches)) {
+            $key = trim($matches[1]);
+            $value = trim($matches[2]);
+            $extra = $matches[3] ?? null;
+
+            if ($key === 'Experience') {
+                $requirements['Experience'] = [
+                    'required' => $value,  // 1 = Yes, 0 = No
+                    'years' => (int)$extra, // Required years
+                ];
+            } else {
+                $requirements[$key] = $value;
             }
         }
+    }
+
 
         /* ------------------ 4. ACADEMIC RANKING ------------------ */
         $ranks = [
@@ -281,6 +293,7 @@
         $userLicenses = \App\Models\Licence::where('upn_no', $user->upn_no)->count();
         $userMedical = \App\Models\Medical::where('upn_no', $user->upn_no)->count();
         $userExperience = \App\Models\Experience::where('upn_no', $user->upn_no)->count();
+        $userExperienceYears = \App\Models\YearsOfExperence::where('upn_no', $user->upn_no)->sum('years');
 
         /* ------------------ 6. DEFAULT ------------------ */
         $canApply = true;
@@ -338,6 +351,13 @@
             $canApply = false;
             $failMessages[] = "Relevant work experience is required.";
         }
+         if (isset($requirements['Experience']) && $requirements['Experience']['required'] == 1) {
+        $requiredYears = $requirements['Experience']['years'];
+        if ($userExperienceYears < $requiredYears) {
+            $canApply = false;
+            $failMessages[] = "Minimum <b>{$requiredYears} year(s)</b> of relevant work experience required. You currently have <b>{$userExperienceYears} year(s)</b>.";
+        }
+    }
 
     @endphp
 

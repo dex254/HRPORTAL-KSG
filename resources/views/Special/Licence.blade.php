@@ -250,7 +250,7 @@
                     <input type="hidden" name="email" value="{{ Auth::guard('HR')->user()->email }}">
                     <input type="hidden" name="phone" value="{{ Auth::guard('HR')->user()->phone }}">
                     <input type="hidden" name="name" value="{{ Auth::guard('HR')->user()->name }}">
-                    <input type="hidden" name="name" value="{{ Auth::guard('HR')->user()->job_group }}">
+                    <input type="hidden" name="job_group" value="{{ Auth::guard('HR')->user()->job_group }}">
                     <!-- Do you have a professional license? -->
                     <div class="mb-3">
                         <label class="form-label">Do you have any practising license?</label>

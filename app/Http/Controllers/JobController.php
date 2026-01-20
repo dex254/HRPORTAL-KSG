@@ -7,10 +7,14 @@ use Mpdf\Mpdf;
 use App\Models\HR;
 use Carbon\Carbon;
 use App\Models\JOB;
+use App\Models\Other;
 use App\Models\Licence;
 use App\Models\Medical;
 use App\Models\Academic;
+use App\Models\Referees;
+use App\Models\Teaching;
 use App\Models\Experience;
+use Carbon\CarbonInterval;
 use App\Models\Application;
 use App\Models\Association;
 use App\Models\Coremandate;
@@ -20,6 +24,7 @@ use App\Models\Profecionalbody;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\InterviewScheduled;
 use App\Mail\JobApplicationMail;
+use App\Models\YearsOfExperence;
 use App\Mail\ApplicationRejected;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -268,16 +273,34 @@ public function destroy($s_no)
     {
         // Fetch data for the bio report
         $academics = Academic::where('upn_no', $upn_no)->get();
-        $experiences = Experience::where('upn_no', $upn_no)->get();
-        $coremandate = Coremandate::where('upn_no', $upn_no)->get();
-        $licence = Licence::where('upn_no', $upn_no)->get();
-        $proffecional = Proffecional::all();
-        $profecionalbodies = Profecionalbody::where('upn_no', $upn_no)->get();
-        $medical = Medical::where('upn_no', $upn_no)->get();
-        $associations = Association::where('upn_no', $upn_no)->get();
+    $experiences = Experience::where('upn_no', $upn_no)->get();
+    //$coremandate = Coremandate::where('upn_no', $upn_no)->get();
+    // $others = Other::where('upn_no', $upn_no)->get();
+    $licence = Licence::where('upn_no', $upn_no)->get();
+    $proffecional = Proffecional::all();
+   $profecionalbodies= Profecionalbody::where('upn_no', $upn_no)->get();
+   $medical= Medical::where('upn_no', $upn_no)->get();
+   $associations= Association::where('upn_no', $upn_no)->get();
+    $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get();
+
+// Fetch training records (Education_type = 'Training'), ordered by most recent start date
+$others = Other::where('upn_no', $upn_no)
+     ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get();
+    $publications = Other::where('upn_no', $upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
+        $teachings = Teaching::where('upn_no', $upn_no)->get();
+        $yearsOfExperience = YearsOfExperence::where('upn_no', $upn_no)->first();
+
 
         // Load the Blade template and render as HTML
-        $html = view('pdf.user_apply', compact('academics', 'experiences', 'coremandate', 'licence', 'proffecional', 'profecionalbodies', 'medical', 'associations'))->render();
+        $html = view('pdf.user_apply', compact('yearsOfExperience','academics', 'experiences','licence', 'proffecional','profecionalbodies','medical','associations','other','others','publications','teachings'))->render();
 
         // Generate PDF using mPDF
         $mpdf = new Mpdf();
@@ -346,18 +369,104 @@ public function myApplications()
 {
     
     $admin = Auth::guard('admin')->user();
-        $allowedRoles = ['Admin', 'AdminAssistant','Dex','Super Admin','Data','HRM'];
+        $allowedRoles = ['Admin','AdminAssistant','Dex','Super Admin','Data','HRM'];
 
         if ($admin && in_array($admin->role, $allowedRoles)) {// Fetch all applications grouped by designation and Ref_No
-            $groupedApplicants = Application::select('upn_no', 'name')
-            ->groupBy('upn_no', 'name')
-            ->selectRaw('COUNT(*) as total_applications')
-            ->selectRaw('SUM(CASE WHEN status = "Applied" THEN 1 ELSE 0 END) as applied_count')
-            ->selectRaw('SUM(CASE WHEN status = "Qualified" THEN 1 ELSE 0 END) as qualified_count')
-            ->selectRaw('SUM(CASE WHEN status = "Not Qualified" THEN 1 ELSE 0 END) as not_qualified_count')
-            ->get();
+            $latestApplications = Application::whereDate('created_at', '>=', Carbon::parse('2026-01-20'))
+
+    // allow ONLY alphanumeric UPNs (no hyphens)
+    ->whereRaw('upn_no REGEXP "^[A-Za-z0-9]+$"')
+
+    // extra safety: explicitly exclude EXT- and ADJ-
+    ->where('upn_no', 'NOT LIKE', 'EXT-%')
+    ->where('upn_no', 'NOT LIKE', 'ADJ-%')
+
+    ->orderByDesc('datetime')
+    ->get()
+    ->groupBy('upn_no')
+    ->map(function ($group) {
+        return $group->first(); // most recent per UPN
+    });
+
+    // Step 2: Prepare dataset
+    $data = $latestApplications->map(function ($app) {
+      $experiences = Experience::where('upn_no', $app->upn_no)
+    ->orderBy('enddate', 'desc')
+    ->get();
+
+// Initialize total days counter
+$totalDays = 0;
+
+foreach ($experiences as $experience) {
+    if ($experience->stdate && $experience->enddate) {
+        $start = Carbon::parse($experience->stdate);
+        $end = Carbon::parse($experience->enddate);
+
+        // Only add if end is after start
+        if ($end->greaterThan($start)) {
+            $totalDays += $start->diffInDays($end);
+        }
+    }
+}
+
+// Convert total days into years, months, days using CarbonInterval
+$cumulativeExperience = 'N/A';
+if ($totalDays > 0) {
+    $interval = CarbonInterval::days($totalDays)->cascade();
+    $cumulativeExperience = "{$interval->y} years, {$interval->m} months, {$interval->d} days";
+}
+
+        return [
+            'application' => $app,
+            'hr' => HR::where('upn_no', $app->upn_no)->first(),
+           'education_academic' => Academic::where('upn_no', $app->upn_no)
+    ->where('Education_type', 'Academic')
+    ->orderBy('enddate', 'desc')
+    ->get(),
+    'experiences' => $experiences,
+
+'education_training' => Academic::where('upn_no', $app->upn_no)
+    ->where('Education_type', 'Training')
+    ->orderBy('enddate', 'desc')
+    ->get(),
+    'education_professional' => Academic::where('upn_no', $app->upn_no)
+    ->where('Education_type', 'Professional')
+    ->orderBy('enddate', 'desc')
+    ->get(),
+            
+           //'experiences' => Experience::where('upn_no', $app->upn_no)
+                           //->orderBy('enddate', 'desc')
+                           //->get(),
+                           'experiences' => $experiences,
+            'cumulative_experience' => $cumulativeExperience,
+
+            'profecionalbodies' => Profecionalbody::where('upn_no', $app->upn_no)->get(),
+             'applications' => Application::where('upn_no', $app->upn_no)
+                                     ->orderBy('datetime', 'desc')
+                                     ->get(),
+            'licence' => Licence::where('upn_no', $app->upn_no)->get(),
+             'referees' => Referees::where('upn_no', $app->upn_no)->get(),    
+              'years_of_experence' => YearsOfExperence::where('upn_no', $app->upn_no)->get(),   
+               'other_consultancy' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Consultancy')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'other_research' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Research')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'publications' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'teachings' => Teaching::where('upn_no', $app->upn_no)->get(),
+    'associations'=> Association::where('upn_no', $app->upn_no)->get(),
+     'medical'=> Medical::where('upn_no', $app->upn_no)->get(),
+                               
+        ];
+    });
     
-        return view('JOB.adminapplicatins', compact('groupedApplicants'));
+        return view('JOB.adminapplicatins', compact('data'));
         }
 
 return redirect()->route('admin.dashboard')->with('error', 'You are not authorized to access this page.');

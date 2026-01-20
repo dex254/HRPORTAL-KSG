@@ -192,9 +192,9 @@
         <input type="hidden" name="Ref_No" value="{{ $extjobs->Ref_NO }}">
         <input type="hidden" name="upn_no" value="{{ Auth::guard('EXT')->user()->upn_no }}">
         <input type="hidden" name="email" value="{{ Auth::guard('EXT')->user()->email }}">
-        <input type="hidden" name="phone" value="{{ Auth::guard('EXT')->user()->upn_no }}">
+        <input type="hidden" name="phone" value="{{ Auth::guard('EXT')->user()->mobile_no }}">
         <input type="hidden" name="idnumber" value="{{ Auth::guard('EXT')->user()->upn_no }}">
-        <input type="hidden" name="name" value="{{ Auth::guard('EXT')->user()->email }}">
+        <input type="hidden" name="name" value="{{ Auth::guard('EXT')->user()->name }}">
         <input type="hidden" name="job_group" value="{{ $extjobs->level }}">
         <input type="hidden" name="designation" value="{{ $extjobs->Designation }}">
         <input type="hidden" name="Expected" value="{{ $extjobs->level }}">

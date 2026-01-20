@@ -171,13 +171,25 @@ td {
         <td>{{ Auth::guard('EXT')->user()->disability }}</td>
         <th>Description</th>
         <td>{{ Auth::guard('EXT')->user()->disability_description }}</td>
+        
     </tr>
+    <tr>
+        <th>Years of Experience</th>
+        <td colspan="3">
+            @if($yearsOfExperience)
+                <strong>{{ $yearsOfExperience->years }}</strong> Years
+            @else
+                <em>Not provided</em>
+            @endif
+        </td>
+    </tr>
+     
     </thead>
 </table>
 
 
         <!-- Academic Qualifications -->
-        <div class="section-title">Academic Qualifications</div>
+         <div class="section-title">Academic Qualifications</div>
         <table id="example" class="table mb-0">
             <thead class="table-light">
             <tr>
@@ -241,17 +253,51 @@ td {
             @endforeach
         </table>
     </div>
-     
-    <div class="container mt-5">
-        <!-- Core Mandate Section -->
-       
-
+   
         <!-- Licenses Section -->
-        
+        <div class="mb-5">
+            <div class="section-title">Practising Licences</div>
+           
+            <table id="licensesTable" class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        
+                        <th>I have a licence</th>
+                        <th>License Name</th>
+                        <th>License Date</th>
+                        <th>Document</th>
+                        <th>Licance  Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($licence as $licence)
+                        <tr>
+                            <td>{{ $licence->id }}</td>
+                            
+                            <td>{{ $licence->has_license ?? 'N/A' }}</td>
+                            <td>{{ $licence->license_name ?? 'N/A' }}</td>
+                            <td>{{ $licence->license_date ?? 'N/A' }}</td>
+                            <td>
+                                @if($licence->document_name)
+                                    <a href="{{ asset('uploads/Licence/' . $licence->document_name) }}" target="_blank" class="btn btn-primary btn-sm">
+                                        View Document
+                                    </a>
+                                @else
+                                    No Document
+                                @endif
+                            </td>
+                            <td>
+                                {{ $licence->document_name }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <!-- Professional Body Section -->
         <div class="mb-5">
-            
             <div class="section-title">Professional Body</div>
             
             <table id="professionalBodyTable" class="table mb-0">
@@ -293,47 +339,53 @@ td {
         </div>
 
         <!-- Medical Section -->
-      
-
-        <!-- Association Section -->
         <div class="mb-5">
-            
-            <div class="section-title">Professional Experience</div>
-            <table id="associationTable" class="table mb-0">
+            <div class="section-title">Food handler  Certificates</div>
+           
+            <table id="medicalTable" class="table mb-0">
                 <thead class="table-light">
-                    <thead class="table-light">
-    <tr>
-        <th>ID</th>
-                                        
-                                        <th>I  have  a  license</th>
-                                        <th>Issuing Body</th>
-                                        <th>License Date</th>
-        
-      
-    </tr>
-</thead>
-<tbody>
-   @foreach($licence as $licence)
-                                        <tr>
-                                            <td>{{ $licence->id }}</td>
-                                           
-                                            <td>{{ $licence->has_license ?? 'N/A' }}</td>
-                                            <td>{{ $licence->license_name ?? 'N/A' }}</td>
-                                            <td>{{ $licence->license_date ?? 'N/A' }}</td>
-            
-            
-        </tr>
-   
-
+                    <tr>
+                        <th>ID</th>
+                       
+                        <th>Examination Name</th>
+                        <th>I have</th>
+                        
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Document</th>
+                        <th>Document Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($medical as $data)
+                        <tr>
+                            <td>{{ $data->id }}</td>
+                           
+                            <td>{{ $data->name_exam }}</td>
+                            <td>{{ $data->condition ?? 'N/A' }}</td>
+                            <td>{{ $data->date ?? 'N/A' }}</td>
+                            <td>{{ $data->status }}</td>
+                            <td>
+                                @if($data->document_name)
+                                    <a href="{{ asset('uploads/Medical/' . $data->document_name) }}" target="_blank" class="btn btn-primary btn-sm">
+                                        View Document
+                                    </a>
+                                @else
+                                    No Document
+                                @endif
+                            </td>
+                            
+                                <td>{{ $data->document_name }}</td>
+                            
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        <div class="card mt-4">
+  {{-- ================= CONSULTANCY ASSIGNMENTS ================= --}}
+<div class="card mt-4">
     <div class="card-body">
-        
         <div class="section-title">Consultancy Assignments</div>
-
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead class="table-light">
@@ -348,22 +400,26 @@ td {
                 </thead>
                 <tbody>
                     @forelse($other as $index => $record)
+                        @if(is_object($record))
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $record->Client }}</td>
-                            <td>{{ $record->Sector }}</td>
-                            <td>{{ $record->completed }}</td>
-                            <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                            <td>{{ $record->Client ?? 'N/A' }}</td>
+                            <td>{{ $record->Sector ?? 'N/A' }}</td>
+                            <td>{{ $record->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
                             <td>
-                                @if($record->document_name)
+                                @if(!empty($record->document_name))
                                     <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
                                 @else
                                     <span class="text-muted">No Document</span>
                                 @endif
                             </td>
                         </tr>
+                        @endif
                     @empty
-                        <tr><td colspan="6" class="text-center text-muted">No records found.</td></tr>
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No records found.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -371,12 +427,10 @@ td {
     </div>
 </div>
 
-<!-- RESEARCH ASSIGNMENTS -->
+{{-- ================= RESEARCH ASSIGNMENTS ================= --}}
 <div class="card mt-4">
     <div class="card-body">
-        
         <div class="section-title">Research Assignments</div>
-
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead class="table-light">
@@ -392,23 +446,27 @@ td {
                 </thead>
                 <tbody>
                     @forelse($others as $index => $record)
+                        @if(is_object($record))
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $record->Client }}</td>
-                            <td>{{ $record->Sector }}</td>
-                            <td>{{ $record->completed }}</td>
-                            <td>{{ \Carbon\Carbon::parse($record->compedate)->format('d M Y') }}</td>
+                            <td>{{ $record->Client ?? 'N/A' }}</td>
+                            <td>{{ $record->Sector ?? 'N/A' }}</td>
+                            <td>{{ $record->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($record->compedate) ? \Carbon\Carbon::parse($record->compedate)->format('d M Y') : 'N/A' }}</td>
                             <td>{{ $record->Amount ?? 'N/A' }}</td>
                             <td>
-                                @if($record->document_name)
+                                @if(!empty($record->document_name))
                                     <a href="{{ asset('uploads/Other/' . $record->document_name) }}" target="_blank">View</a>
                                 @else
                                     <span class="text-muted">No Document</span>
                                 @endif
                             </td>
                         </tr>
+                        @endif
                     @empty
-                        <tr><td colspan="7" class="text-center text-muted">No records found.</td></tr>
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No records found.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -416,12 +474,10 @@ td {
     </div>
 </div>
 
-<!-- PUBLICATIONS -->
+{{-- ================= PUBLICATIONS ================= --}}
 <div class="card mt-4">
     <div class="card-body">
-        
         <div class="section-title">Publications</div>
-
         <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead class="table-light">
@@ -435,21 +491,25 @@ td {
                 </thead>
                 <tbody>
                     @forelse($publications as $index => $pub)
+                        @if(is_object($pub))
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $pub->Client }}</td>
-                            <td>{{ $pub->completed }}</td>
-                            <td>{{ \Carbon\Carbon::parse($pub->compedate)->format('d M Y') }}</td>
+                            <td>{{ $pub->Client ?? 'N/A' }}</td>
+                            <td>{{ $pub->completed ?? 'N/A' }}</td>
+                            <td>{{ !empty($pub->compedate) ? \Carbon\Carbon::parse($pub->compedate)->format('d M Y') : 'N/A' }}</td>
                             <td>
-                                @if($pub->document_name)
+                                @if(!empty($pub->document_name))
                                     <a href="{{ asset('uploads/Other/' . $pub->document_name) }}" target="_blank">View</a>
                                 @else
                                     <span class="text-muted">No Document</span>
                                 @endif
                             </td>
                         </tr>
+                        @endif
                     @empty
-                        <tr><td colspan="5" class="text-center text-muted">No publications found.</td></tr>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No publications found.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -470,7 +530,7 @@ td {
                 <th>Location</th>
                 <th>Job Description</th>
                 <th>Duties and Responsibilities</th>
-                <th>File</th>
+                
                
             </tr>
         </thead>
@@ -488,17 +548,7 @@ td {
                 <td>{{ $experience->duties }}</td>
                 <td>{{ $experience->achievements }}</td>
 
-                <td>
-                    @if($experience->teaching_path)
-                        <a href="{{ asset('/' . $experience->teaching_path) }}"
-                           class="btn btn-outline-primary btn-sm animate-download"
-                           download>
-                            <i class="fas fa-download"></i>
-                        </a>
-                    @else
-                        <span class="text-muted">No file</span>
-                    @endif
-                </td>
+                
 
               
             </tr>
@@ -507,6 +557,47 @@ td {
 
        
     </table>
+
+        <!-- Association Section -->
+        <div class="mb-5">
+            <div class="section-title">Association</div>
+           
+            <table id="associationTable" class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        
+                        <th>Am I a member</th>
+                        <th>Association Name</th>
+                        <th>Membership Status</th>
+                        <th>Document</th>
+                        <th>Document Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($associations as $data)
+                        <tr>
+                            <td>{{ $data->id }}</td>
+                           
+                            <td>{{ $data->condition }}</td>
+                            <td>{{ $data->association_name }}</td>
+                            <td>{{ $data->status }}</td>
+                            <td>
+                                @if($data->document_name)
+                                    <a href="{{ asset('uploads/Association/' . $data->document_name) }}" target="_blank" class="btn btn-primary btn-sm">
+                                        View Document
+                                    </a>
+                                @else
+                                    No Document
+                                @endif
+                            </td>
+                            
+                                <td>{{ $data->document_name}}</td>
+                        
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 </div>
         <div class="section-title">Referees</div>
         <table id="coreMandateTable" class="table mb-0">

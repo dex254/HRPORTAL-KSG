@@ -18,7 +18,7 @@ class DatatableController extends Controller
         $admin = Auth::guard('admin')->user();
         
          // Use guard for admin
-        $allowedRoles = ['Admin', 'AdminAssistant','Dex','Super Admin'];
+        $allowedRoles = ['Admin','AdminAssistant','Dex','Super Admin'];
         
         $staff = Staff::all();
 

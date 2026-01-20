@@ -151,6 +151,109 @@ new PerfectScrollbar('.dashboard-top-countries');
 	  } );
   </script>
   <!--app JS-->
+  \
+  <!-- Include DataTables CSS -->
+
+
+<!-- Include jQuery and DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<script>
+$(document).ready(function() {
+    var table = $('#internalDataTable').DataTable({
+        dom: 'Bfrtip',
+        paging: true,
+        searching: true,
+        ordering: true,
+        scrollX: true,
+        responsive: true,
+        buttons: [
+            { extend: 'copy', text: 'Copy', className: 'btn-dark' },
+            { extend: 'csv', text: 'CSV', className: 'btn-dark', filename: 'InternalDataExport' },
+            { extend: 'excel', text: 'Excel', className: 'btn-dark', filename: 'InternalDataExport' },
+            { extend: 'pdf', text: 'PDF', className: 'btn-dark', filename: 'InternalDataExport', orientation: 'landscape', pageSize: 'A4' },
+            { extend: 'print', text: 'Print', className: 'btn-dark' },
+            {
+                extend: 'colvis',
+                text: 'Columns',
+                className: 'btn-dark',
+                postfixButtons: ['colvisRestore'],
+                collectionLayout: 'fixed two-column',
+                init: function(api, node, config) {
+                    $(node).on('click', function() {
+                        setTimeout(() => {
+                            $('.dt-button-collection .dt-button').each(function() {
+                                var idx = $(this).data('column');
+                                if (idx !== undefined) {
+                                    var col = table.column(idx);
+                                    if (!col.visible()) {
+                                        $(this).html('✅ ' + $(this).text().replace(/[✅\s]*/, ''));
+                                    } else {
+                                        $(this).html($(this).text().replace(/[✅\s]*/, ''));
+                                    }
+                                }
+                            });
+                        }, 50);
+                    });
+                }
+            }
+        ],
+        columnDefs: [
+            { targets: '_all', visible: true }
+        ]
+    });
+});
+</script>
+
+<!-- CSS -->
+<style>
+/* Table borders */
+#internalDataTable.table-bordered th,
+#internalDataTable.table-bordered td {
+    border: 1px solid #343a40 !important;
+}
+
+/* Dark styling for buttons and dropdown */
+.dt-button.btn-dark {
+    background-color: #343a40 !important;
+    color: #fff !important;
+    border: 1px solid #555;
+    margin-right: 2px;
+}
+.dt-button.btn-dark:hover {
+    background-color: #495057 !important;
+    color: #fff !important;
+}
+.dt-button-collection {
+    background-color: #343a40 !important;
+    color: #fff !important;
+    border: 1px solid #555;
+    min-width: 200px;
+}
+.dt-button-collection .dt-button {
+    color: #fff !important;
+    background-color: transparent !important;
+    text-align: left;
+}
+.dt-button-collection .dt-button:hover {
+    background-color: #495057 !important;
+    color: #fff !important;
+}
+.dt-button-collection .dt-button::before {
+    margin-right: 5px;
+}
+</style>
+
+
   <script src="{{asset('') }}assets/js/app.js"></script>
   <script src="{{asset('') }}assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 	<script src="{{asset('') }}assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>

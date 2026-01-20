@@ -23,6 +23,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 	<link href="{{asset('') }}assets/css/app.css" rel="stylesheet">
 	<link href="{{asset('') }}assets/css/icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 	
     <!-- Include jQuery (necessary for DataTables) -->
     <link href="{{asset('assets/css/dataTables.dataTables.min.css') }}" rel="stylesheet">

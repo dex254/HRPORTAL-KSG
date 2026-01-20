@@ -194,7 +194,7 @@
         <input type="hidden" name="phone" value="{{ Auth::guard('HR')->user()->phone }}">
         <input type="hidden" name="idnumber" value="{{ Auth::guard('HR')->user()->idnumber }}">
         <input type="hidden" name="name" value="{{ Auth::guard('HR')->user()->name }}">
-        <input type="hidden" name="job_group" value="{{ Auth::guard('HR')->user()->job_group }}">
+        <input type="hidden" name="job_group" value="{{ Auth::guard('HR')->user()->name}}">
         <input type="hidden" name="designation" value="{{ $jobs->Designation }}">
         <input type="hidden" name="Expected" value="{{ $jobs->Job_Group }}">
         <input type="hidden" name="my_bio" value="{{ old('my_bio', isset($application) ? $application->my_bio : '') }}">

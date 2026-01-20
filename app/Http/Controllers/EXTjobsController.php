@@ -4,20 +4,25 @@ namespace App\Http\Controllers;
 
 use Mpdf\Mpdf;
 use App\Models\EXT;
+use App\Models\Other;
 use App\Models\EXTJOB;
 use App\Models\Licence;
 use App\Models\Academic;
 use App\Models\Referees;
+use App\Models\Teaching;
 use App\Models\Experience;
 use Carbon\CarbonInterval;
 use App\Models\Application;
+use App\Models\Association;
 use App\Models\Proffecional;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Profecionalbody;
+use App\Models\YearsOfExperence;
 use App\Mail\EXTJobApplicationMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Medical;
 
 class EXTjobsController extends Controller
 {
@@ -249,20 +254,34 @@ public function extapplicationtsext()
     private function generateAndSaveBioReport($upn_no, $uploadPath)
     {
         // Fetch data for the bio report
-        $academics = Academic::where('upn_no', $upn_no)->get();
+     $academics = Academic::where('upn_no', $upn_no)->get();
+    $experiences = Experience::where('upn_no', $upn_no)->get();
+    //$coremandate = Coremandate::where('upn_no', $upn_no)->get();
+    // $others = Other::where('upn_no', $upn_no)->get();
+    $licence = Licence::where('upn_no', $upn_no)->get();
+    $proffecional = Proffecional::all();
+   $profecionalbodies= Profecionalbody::where('upn_no', $upn_no)->get();
+   $medical= Medical::where('upn_no', $upn_no)->get();
+   $associations= Association::where('upn_no', $upn_no)->get();
+    $other = Other::where('upn_no', $upn_no)
+    ->where('type', 'Consultancy')
+    ->orderBy('compedate', 'desc')
+    ->get();
 
-        // Fetch work experience records related to the user
-        $experiences = Experience::where('upn_no', $upn_no)->get();
-        
-        
-        $proffecional = Proffecional::all();
-       $profecionalbodies= Profecionalbody::where('upn_no', $upn_no)->get();
-      
-   $applications= Application::where('upn_no', $upn_no)->get();
-   $licence= Licence::where('upn_no', $upn_no)->get();
+// Fetch training records (Education_type = 'Training'), ordered by most recent start date
+$others = Other::where('upn_no', $upn_no)
+     ->where('type', 'Research')
+    ->orderBy('compedate', 'desc')
+    ->get();
+    $publications = Other::where('upn_no', $upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get();
+        $teachings = Teaching::where('upn_no', $upn_no)->get();
+        $yearsOfExperience = YearsOfExperence::where('upn_no', $upn_no)->first();
    $referees= Referees::where('upn_no', $upn_no)->get();
         // Load the Blade template and render as HTML
-        $html = view('pdf.user_Ext', compact('academics', 'experiences','referees', 'proffecional','profecionalbodies','licence','applications'))->render();
+        $html = view('pdf.user_Ext', compact('yearsOfExperience','academics', 'experiences','licence', 'proffecional','profecionalbodies','medical','associations','other','others','publications','teachings','referees'))->render();
 
         // Generate PDF using mPDF
         $mpdf = new Mpdf();
@@ -367,7 +386,7 @@ if ($totalDays > 0) {
         return [
             'application' => $app,
             'ext' => EXT::where('upn_no', $app->upn_no)->first(),
-           'education_academic' => Academic::where('upn_no', $app->upn_no)
+          'education_academic' => Academic::where('upn_no', $app->upn_no)
     ->where('Education_type', 'Academic')
     ->orderBy('enddate', 'desc')
     ->get(),
@@ -375,6 +394,10 @@ if ($totalDays > 0) {
 
 'education_training' => Academic::where('upn_no', $app->upn_no)
     ->where('Education_type', 'Training')
+    ->orderBy('enddate', 'desc')
+    ->get(),
+    'education_professional' => Academic::where('upn_no', $app->upn_no)
+    ->where('Education_type', 'Professional')
     ->orderBy('enddate', 'desc')
     ->get(),
             
@@ -389,6 +412,23 @@ if ($totalDays > 0) {
                                      ->orderBy('datetime', 'desc')
                                      ->get(),
             'licence' => Licence::where('upn_no', $app->upn_no)->get(),
+             'referees' => Referees::where('upn_no', $app->upn_no)->get(),    
+              'years_of_experence' => YearsOfExperence::where('upn_no', $app->upn_no)->get(),   
+               'other_consultancy' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Consultancy')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'other_research' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Research')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'publications' => Other::where('upn_no', $app->upn_no)
+        ->where('type', 'Publication')
+        ->orderBy('compedate', 'desc')
+        ->get(),
+    'teachings' => Teaching::where('upn_no', $app->upn_no)->get(),
+    'associations'=> Association::where('upn_no', $app->upn_no)->get(),
+     'medical'=> Medical::where('upn_no', $app->upn_no)->get(),
              'referees' => Referees::where('upn_no', $app->upn_no)->get(),                        
         ];
     });
